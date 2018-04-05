@@ -1,0 +1,13 @@
+The Dataset
+-----------
+search keywords in kaggle: "House Sales"
+ 
+https://www.kaggle.com/harlfoxem/housesalesprediction/data
+
+
+Related work
+------------
+
+https://web.stanford.edu/class/cs221/2017/restricted/p-final/ianjones/final.pdf
+
+https://www.kaggle.com/harrytran0801/house-sales
