@@ -13,13 +13,13 @@
 \subtitle{Project Proposal}
 \author{
   Badouh, Asaf\\
-  \texttt{asaf.badouh@gmail.com}
+  \texttt{Asaf.Badouh@gmail.com}
   \and
   Manubens, David\\
-  \texttt{davidmanubens89@gmail.com}
+  \texttt{DavidManubens89@gmail.com}
   \and
   Rodriguez, Pau\\
-  \texttt{rodriguez.pau@gmail.com}
+  \texttt{Rodriguez.Pau@gmail.com}
 }
 
 \date{April 2018}
@@ -42,15 +42,17 @@ According to the Prof. guidelines, this document should answer the following que
 
 
 \section{House Prices Prediction}
-Since forever, houses were the most desirable purchase in humans' lifetime. Prices of houses determined by many factors since houses differs in many aspects such as location, size, condition etc. In 2016, around 5.45 million of existing houses were sold in the U.S.\cite{statista} and there is a steady rise in sales after the "Subprime mortgage crisis" drop in sales in 2008 (Full statistics in Appendix:\ref{appendix:House sales}). With more 5.45 million transactions per year just in the U.S., without taking into account the new houses transactions, Predicting house prices is a hot and interesting topic.
+Since forever, houses have been the most desirable purchase in humans' lifetime. Prices of houses are determined by many factors since houses differ in many aspects such as location, size, condition etc. In 2016, around 5.45 million of existing houses were sold in the U.S.\cite{statista} and there is a steady rise in sales after the "Subprime mortgage crisis" drop in sales in 2008 (Full statistics in Appendix:\ref{appendix:House sales}). With more 5.45 million transactions per year just in the U.S., without taking into account the new houses transactions, predicting house prices is a hot and interesting topic.
 
 \section{The Dataset}
-The "House Sales in King County, USA" dataset published in Kaggle\cite{DB}. It contains 21613 observations with 19 house features and the predication attribute "Price".
-Aside of "Date" feature, all of the features are numeric. However, there are some features that we might need to pre-process. Latitude and Longitude, for example, are two features that we might consider pre-process them to one composed feature that will represent the distance from the city center.
+The "House Sales in King County, USA" dataset is published in Kaggle\cite{DB}. It contains 21613 observations with 19 house features and the predication attribute "Price".
+Aside of "Date" feature, all of the features are numeric. However, there are some features that we might need to pre-process. Latitude and Longitude, for example, are two features that we might consider to transform to one composed feature that will represent the distance from the city center.
 Full features table in Appendix:\ref{appendix:Features table}.
 
 \section{Goal}
-
+The goal of this project is make the most out of data on house prices to build a model that is able to predict the price.
+This includes pre-processing the data, performing feature engineering (feature selection and/or extraction) and training a linear regression model to predict prices of houses. \\
+An important part of our effort will be focused on the decision about what are the most important variables or features that we could extract upon them, as well as what are the best parameters of the model we will train. Different approaches to each phase will be considered and compared appropriately before choosing the final implementation.
 
 \newpage
 \begin{appendices}
