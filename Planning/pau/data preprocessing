@@ -1,0 +1,144 @@
+data preprocessing
+===================
+
+ok-inspection
+ok-types decision
+ok-missing data
+ok-dataframe
+	row.names id
+	rename individuals that appear multiple times
+outliers 
+	ok-visual
+    ok-mahalanobis
+		first outliers(how many?) -> 8 by the robustified distance plot
+		covariances?
+
+transformation
+	ranges
+		ok-for date? by quarters?
+			ok-buymonth
+			ok-buyquarter
+
+		for long tails
+			ok-bathrooms.range
+			ok-bedrooms
+			ok-sqft_living
+			ko-sqft_lot
+			sqft_lot15
+			sqft_basement
+			price (target! -> for classification?)
+	binarization
+		ok-is_renovated from yr_renovation
+	ratios
+		ok-bathroom/bedroom
+		ok-bathroom/sqft_living
+		ok-bedroom/sqft_living
+		ok-floors/sqft_living
+		ok-floors/sqft_lot
+		ok-floors/bathroom
+		ok-floors/bedroom
+	logs
+
+	city center distances or class for zipcode
+	
+	individuals that appear multiple times
+		resold
+			-> ignore
+			-> transform into a variable?
+			-> price increase?
+	price
+		discounting?
+
+*	plots
+		ok-plot & pair & boxplot
+
+		par(mfrow(n,m))
+		plot(xxx,price)
+
+		
+		ok-plot(log())
+
+		
+		hist
+		hist(log())
+		hist + normal
+
+		table(binaryvar, targetvar)
+		margin.table
+		prop.table
+
+		barplot
+
+
+
+statistical
+*	gaussianity
+		ok-logs
+		ok-long tails -> aggregate last bin? (range vars)
+		gaussianization (hist + normal, box-cox)
+		
+*	covariance
+		oneway.test
+		most highly correlated
+*	PCA
+
+Final dataset
+*	final dataframe/s
+		names(data)
+		data.new <- data.frame(
+			  data[,2:20],
+			  buymonth,
+			  buyquarter,
+			  bathrooms.range,
+			  bedrooms.range,
+			  is.renovated,
+			  bathrooms.bedrooms.ratio,
+			  bedrooms.sqft.living.ratio,
+			  bathroom.sqft.living.ratio,
+			  sqft.ratio,
+			  floor.sqft.living.ratio,
+			  floor.sqft.lot.ratio,
+			  floor.bedrooms.ratio,
+			  floor.bathrooms.ratio,
+			  sqft.living.floors.ratio,
+			  bedrooms.floors.ratio,
+			  log.bedrooms,
+			  log.bathrooms,
+			  log.sqft_living,
+			  log.sqft_lot,
+			  log.floors,
+			  log.condition,
+			  log.grade,
+			  log.sqft_above,
+			  log.sqft_basement,
+			  #log.lat,
+			  #log.long,
+			  log.sqft_living15,
+			  log.sqft_lot15,
+			  log.bathrooms.range,
+			  log.bedrooms.range,
+			  log.bathrooms.bedrooms.ratio,
+			  log.bedrooms.sqft.living.ratio,
+			  log.bathroom.sqft.living.ratio,
+			  log.sqft.ratio,
+			  log.floor.sqft.living.ratio,
+			  log.floor.sqft.lot.ratio,
+			  log.floor.bedrooms.ratio,
+			  log.floor.bathrooms.ratio,
+			  log.sqft.living.floors.ratio,
+			  log.bedrooms.floors.ratio
+			  
+			)
+
+Documentation
+*	bitacora, in Latex/Rmarkdown
+		->data preparation
+		->list new features
+		->feature selection
+		->questions
+			- zipcode?? for regression? we know it has no relation by its number 
+				-> distance to center ... 
+				-> binary variable for each zipcode
+			- 
+
+		->selected features table
