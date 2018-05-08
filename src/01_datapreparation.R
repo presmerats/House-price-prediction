@@ -211,7 +211,7 @@ for(i in 1:length(datelevels)){
 datelevels
 buymonth <- data$date
 levels(buymonth) <- datelevels
-buymonth
+buymonth <- as.numeric(buymonth)
 
 for(i in 1:length(datelevels)){
   if (datelevels[i] == "01" | datelevels[i]=="02" | datelevels[i]=="03"){
@@ -227,7 +227,7 @@ for(i in 1:length(datelevels)){
 datelevels
 buyquarter <- data$date
 levels(buyquarter) <- datelevels
-buyquarter
+buyquarter <- as.numeric(buyquarter)
 
 
 
@@ -290,6 +290,13 @@ is.renovated
 # ratios
 
 bathrooms.bedrooms.ratio <- bathrooms/bedrooms
+# infinite values appear
+table(bathrooms)
+table(bedrooms)
+# change inf to 0
+bathrooms.bedrooms.ratio[bedrooms==0] <- 0
+summary(bathrooms.bedrooms.ratio)
+
 bedrooms.sqft.living.ratio <- bedrooms/sqft_living
 bathroom.sqft.living.ratio <- bathrooms/sqft_living
 sqft.ratio <- sqft_lot/sqft_living
@@ -297,9 +304,14 @@ sqft.ratio <- sqft_lot/sqft_living
 floor.sqft.living.ratio <- floors/sqft_living
 sqft.living.floors.ratio <- sqft_living/floors
 floor.sqft.lot.ratio <- floors/sqft_lot
+
 floor.bedrooms.ratio <- floors/bedrooms
+floor.bedrooms.ratio[bedrooms==0] <- 0
+
 bedrooms.floors.ratio <- bedrooms/floors
 floor.bathrooms.ratio <- floors/bathrooms
+floor.bathrooms.ratio[bathrooms==0] <- 0
+
 
 
 # city center
@@ -312,33 +324,37 @@ floor.bathrooms.ratio <- floors/bathrooms
 # logarithms
 
 names(data.new)
-log.bedrooms <- log10(bedrooms)
-log.bathrooms <- log10(bathrooms)
+log.bedrooms <- log10(bedrooms+1)
+log.bathrooms <- log10(bathrooms+1)
 log.sqft_living <- log10(sqft_living)
 log.sqft_lot <- log10(sqft_lot)
 log.floors <- log10(floors)
 log.condition <- log10(condition)
 log.grade <- log10(grade)
 log.sqft_above <- log10(sqft_above)
-log.sqft_basement <- log10(sqft_basement)
+log.sqft_basement <- log10(sqft_basement+1)
 log.lat <- log10(lat)
 log.long <- log10(long)
 log.sqft_living15 <- log10(sqft_living15)
 log.sqft_lot15 <- log10(sqft_lot15)
 log.bathrooms.range <- log10(bathrooms.range)
 log.bedrooms.range <- log10(bedrooms.range)
-log.bathrooms.bedrooms.ratio <- log10(bathrooms.bedrooms.ratio)
-log.bedrooms.sqft.living.ratio <- log10(bedrooms.sqft.living.ratio)
-log.bathroom.sqft.living.ratio <- log10(bathroom.sqft.living.ratio)
+log.bathrooms.bedrooms.ratio <- log10(bathrooms.bedrooms.ratio+1)
+log.bedrooms.sqft.living.ratio <- log10(bedrooms.sqft.living.ratio+1)
+log.bathroom.sqft.living.ratio <- log10(bathroom.sqft.living.ratio+1)
 log.sqft.ratio <- log10(sqft.ratio)
-log.floor.sqft.living.ratio <- log10(floor.sqft.living.ratio)
+log.floor.sqft.living.ratio <- log10(floor.sqft.living.ratio+1)
 log.floor.sqft.lot.ratio <- log10(floor.sqft.lot.ratio)
-log.floor.bedrooms.ratio <- log10(floor.bedrooms.ratio)
-log.floor.bathrooms.ratio <- log10(floor.bathrooms.ratio)
+log.floor.bedrooms.ratio <- log10(floor.bedrooms.ratio+1)
+log.floor.bathrooms.ratio <- log10(floor.bathrooms.ratio+1)
 log.sqft.living.floors.ratio <- log10(sqft.living.floors.ratio)
-log.bedrooms.floors.ratio <- log10(bedrooms.floors.ratio)
+log.bedrooms.floors.ratio <- log10(bedrooms.floors.ratio+1)
 #log.sdft_lot <- log10(sqft_lot)
 
+
+for(i in 1:ncol(data.new)){
+  print(length(data.new[,i]))
+}
 
 # current features
 data.new <- data.frame(
@@ -384,7 +400,9 @@ data.new <- data.frame(
   log.sqft.living.floors.ratio,
   log.bedrooms.floors.ratio
   
+  
 )
+detach(data.new)
 detach(data)
 attach(data.new)
 
@@ -553,14 +571,98 @@ for (k in 48:59){
 # 5. statistical analysis--------------------------------------------------
 
 # Gaussianity
-# Gaussianization, logs, both, ..
 
-# histograms with normal overl
+#     histograms with normal overl
 
-# Covariance
+hist.with.normal <- function (x, main, xlabel=deparse(substitute(x)), ...)
+{
+  h <- hist(x,plot=F, ...)
+  s <- sd(x)
+  m <- mean(x)
+  ylim <- range(0,h$density,dnorm(0,sd=s))
+  hist(x,freq=FALSE,ylim=ylim,xlab=xlabel, main=main, ...)
+  curve(dnorm(x,m,s),add=T,col="red")
+}
+
+
+par(mfrow=c(3,2))
+for (k in c(2:24,26:30,33:34,37:42,44:48) ){
+  thelabel=paste(colnames(data.new)[k])
+  print(paste(k,thelabel,sep=" "))
+  hist.with.normal (data.new[,k], thelabel )
+}
+# selected for Gaussianization
+log.sqft_lot15
+log.grade
+log.sqft_lot
+bedrooms.floors.ratio
+bedrooms.ssqft.living.ratio
+badrooms.sqft.living.ratio
+floot.sqft.living.ratio
+sqft.living.floors.ratio
+sqft_living15
+grade
+sqft_lot
+bathrooms
+
+
+
+#     Gaussianization
+library(MASS)
+
+gaussianize <- function(x,y,df) {
+
+  
+  par(mfrow=c(1,3))
+  hist(x, main="Look at that ...")
+  
+  bx <- boxcox(I(x+1) ~ . - y, data = df,
+               lambda = seq(-0.25, 0.25, length = 10))
+  
+  lambda <- bx$x[which.max(bx$y)]
+  
+  x.BC <- (x^lambda - 1)/lambda
+  
+  hist(x.BC, main="Look at that now!")
+  
+  par (mfrow=c(1,1))
+  return(x.BC)
+}
+
+data.new2 <- data.new[,c(3:8,12,15,18:21)]
+gaussianize(bathrooms,price,data.new2)
+log.sqft_lot15.BC <- gaussianize(log.sqft_lot15,price,data.new2)  # maybe
+gaussianize(log.grade,price,data.new2)
+log.sqft_lot.BC <- gaussianize(log.sqft_lot,price,data.new2)   # maybe
+gaussianize(bedrooms.floors.ratio,price,data.new2)
+gaussianize(bedrooms.sqft.living.ratio,price,data.new2)
+bathroom.sqft.living.ratio.BC <- gaussianize(bathroom.sqft.living.ratio,price,data.new2) # maybe
+gaussianize(floor.sqft.living.ratio,price,data.new2)
+sqft.living.floors.ratio.BC <- gaussianize(sqft.living.floors.ratio,price,data.new2)  # maybe
+sqft_living15.BC <- gaussianize(sqft_living15,price,data.new2)  # maybe
+gaussianize(grade,price,data.new2)
+sqft_lot.BC <- gaussianize(sqft_lot,price,data.new2)  # better, but not gaussian
+gaussianize(bathrooms,price,data.new2)
+
+# adding selected Gaussianized variables
+data.new <- data.frame(
+          data.new,
+          log.sqft_lot15.BC,
+          log.sqft_lot.BC,
+          #bathroom.sqft.living.ratio.BC,  # contains an -Inf
+          sqft.living.floors.ratio.BC,
+          sqft_living15.BC,
+          sqft_lot.BC
+         )
 
 
 # PCA
+#library(FactoMineR)
+#pca <- PCA(data.new)
+
+# 6. saving data
 
 
-# 6.
+save(data.new, file = "data-preprocessed.Rdata")
+
+
