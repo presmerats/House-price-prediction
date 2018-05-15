@@ -1,0 +1,55 @@
+ideas
+	PCA before regression -> orthogonal and uncorrelated is best for the algo
+
+	outlier
+		-> test for multivariate gaussianity needed before mahalanobis distance
+
+	try everything
+		features selection
+			-w/o PCA
+			-manually select features (correlation)
+		-model 
+			-linear regression, polyn, ridge, lasso
+			-svm regression, random forest,
+			-Bayesina regre?, Splines?
+			-classification svm not svm regression?
+		- model selection
+			-ccv -> baseline will be our worst model 
+
+20180515
+========
+
+
+ok-manually selected the ones that shouldn't correlate
+	bedrooms.range - bedrooms.
+	bathrooms.range - bathrooms
+	log.bedrooms - bedrooms - bedrooms range
+	log.bathrooms
+	log.sqft_living
+	log.floors
+	log.condition
+	is_renovated - yr_renovated
+	bedrooms.floor.ratio
+	log.sqft_living - bedrooms.sqft.living.ratio
+	floor.sqft.living.ratio
+	floor.bedroom.ratio
+	bedrooms.floor.ratio
+	
+	->remove all that are obviously correlated
+
+
+corrplot with the others we don't know they are correlated
+	corrplot within each new featureset
+
+redo ridge and lasso
+	ok-encapsulate in a function
+	ok-avoid select features but uses them all
+	ok-encapsulate mean.square.error and norm.root.mse
+	
+	- NRMSE function from result of the model
+	-adapt to the new dataframes 
+		-lasso selection.. return all and then select outside
+	- why 1:9 for the lambdas? lasso1,2 models
+	- why in NRMSE lasso s param?
+
+pca with regression?
