@@ -1,0 +1,1 @@
+lm_fitting_continuous_original_variables_result: R-squared:0.56
