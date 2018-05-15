@@ -12,13 +12,17 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 rm(list = ls())
 load("data-preprocessed.Rdata")
+load("data-featureset-2.Rdata")
+load("data-featureset-3.Rdata")
+load("data-featureset-4.Rdata")
+load("data-featureset-5.Rdata")
 objects()
 summary(data.new)
 dim(data.new)
-
+dim(data2)
 
 names(data.new)
-
+names(data2)
 # 1. Test and Train sets-----------------------------------
 
 #shuffling the data
@@ -30,8 +34,33 @@ i <- round(nrow(data.new)*0.3)
 test <- data.new[1:i,]
 train <- data.new[(i+1):nrow(data.new),]
 
+train.test.set <- function(x){
+  #shuffling the data
+  set.seed (1714)
+  x <- x[sample.int(nrow(x)),]
+  
+  # 30% test, 70% train
+  i <- round(nrow(x)*0.3)
+  test <- x[1:i,]
+  train <- x[(i+1):nrow(x),]
+  
+  return(list(test,train))
+}
+
+df1 = train.test.set(data.new)
+df2 = train.test.set(data2)
+df3 = train.test.set(data3)
+df4 = train.test.set(data4)
+df5 = train.test.set(data5)
+df5[[1]]
+class(df5)
+class(df5[1])
+class(df5[[1]])
 
 # 2. Ridge regression -------------------------------------
+
+train = df1[[1]]
+test = df1[[2]]
 
 summary(train)
 names(train)
@@ -71,8 +100,11 @@ model.ridgereg.FINAL <- lm.ridge(price ~ ., data=train[,-60], lambda = lambda.ri
 
 library(lars)
 
+class(train)
+train
+dim(train)
 t <- as.numeric(train[,1])
-x <- as.matrix(train[,c(2:59,61:63)])
+x <- as.matrix(train[,c(2:59,61:62)])
 
 model.lasso <- lars(x, t, type="lasso")
 
@@ -106,7 +138,7 @@ library(glmnet)
 t <- train$price
 x <- as.matrix(train[,c(-1,-60)])
 # recommended setup
-x = model.matrix(price~.,train[,c(-1,-60)])[,-1]
+x = model.matrix(price~.,train[,c(-60)])[,-1]
 t = train$price
 # fit
 ridge.mod = glmnet(x,t, alpha=0, lambda=seq(0,10,0.1))

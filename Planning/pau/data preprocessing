@@ -61,7 +61,7 @@ transformation
 		
 		hist
 		hist(log())
-		hist + normal
+		ok-hist + normal
 
 		table(binaryvar, targetvar)
 		margin.table
@@ -72,15 +72,15 @@ transformation
 
 
 statistical
-*	gaussianity
+	gaussianity
 		ok-logs
 		ok-long tails -> aggregate last bin? (range vars)
-		gaussianization (hist + normal, box-cox)
+		ok-gaussianization (hist + normal, box-cox)
 		
-*	covariance
+	covariance
 		oneway.test
 		most highly correlated
-*	PCA
+	PCA
 
 Final dataset
 *	final dataframe/s
@@ -126,8 +126,13 @@ Final dataset
 			  log.floor.bedrooms.ratio,
 			  log.floor.bathrooms.ratio,
 			  log.sqft.living.floors.ratio,
-			  log.bedrooms.floors.ratio
-			  
+			  log.bedrooms.floors.ratio,
+			  log.sqft_lot15.BC,
+	          log.sqft_lot.BC,
+	          bathroom.sqft.living.ratio.BC,
+	          sqft.living.floors.ratio.BC,
+	          sqft_living15.BC,
+	          sqft_lot.BC
 			)
 
 Documentation
@@ -142,3 +147,5 @@ Documentation
 			- 
 
 		->selected features table
+
+
