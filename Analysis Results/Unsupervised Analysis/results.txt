@@ -1,0 +1,1 @@
+PCA_analysis result: several highly correlated variables, explaining the price. Recommended to identify latent factors and use them for prediction
