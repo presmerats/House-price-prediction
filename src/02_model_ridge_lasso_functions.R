@@ -314,3 +314,8 @@ lasso2.result.5 <- lasso2(df5)
 (nrmse.lasso2.fset5 <- compute.NRMSE(lasso2.result.5[[1]],df5[[2]],typemodel="lasso2"))
 
 
+RSS <- lasso2.result.1[[1]]$
+RSE <- sqrt(RSS/nrow(data)) # average error made on a prediction. 
+mean_price <- mean(data$price)
+TSS <- sum((data$price - mean_price)^2)
+R_sqared <- (TSS - RSS)/TSS 
