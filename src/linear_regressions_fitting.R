@@ -1,21 +1,20 @@
 
 linear_model_fitting_original_data <- function(data, output_results = "../Analysis Results/Linear Model Fitting/")
 {
-  # remove categorical vars
-  categorical_vars <- c("id", "date", "waterfront", "view", "yr_built", "yr_renovated", "zipcode", "lat", "long")
-  removed_vars <- names(data) %in% categorical_vars
-  data <- data[,!removed_vars]
   
-  lm_model <- lm(price ~ ., data=data)
+  
+  browser()
+
+  # remove categorical vars
+
+  
+  linear_regreesion.10x10.CV <- mean(replicate(10,MODEL.CV.OVER.Ks(data,10,"linear_regression")))
   
   
   RSS <- sum(residuals(lm_model)^2)
   RSE <- sqrt(RSS/nrow(data)) # average error made on a prediction. 
-  
   mean_price <- mean(data$price)
-  
   TSS <- sum((data$price - mean_price)^2)
-  
   R_sqared <- (TSS - RSS)/TSS 
   
   

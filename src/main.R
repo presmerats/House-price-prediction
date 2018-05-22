@@ -22,6 +22,7 @@ setwd(wd)
 # source scripts
 
 source("aux_functions.R")
+
 source_scripts()
 
 load_packages()
@@ -41,6 +42,8 @@ if (a[1] == "Linux"){
   data <- read.csv(file="../Dataset/kc_house_data.csv", header=TRUE, sep=",")
 }
 
+
+
 #### 3 - Unsupervised analysis of the data ####
 
 # test normality. 
@@ -50,12 +53,21 @@ if (a[1] == "Linux"){
 # perform PCA
 
 pca_analysis()
+pca_analysis_2()
+
+# PCA on asdjflasdjfalisdf
+
+
 
 # perform clustering
 
 
 
 
+
 #### 4 - Linear Models fitting ####
 
-linear_model_fitting_original_data()
+dataset_raw_continous_vars <- raw_continuous_vars_selection(data)
+
+linear_model_fitting_original_data(dataset_raw_continous_vars)
+
