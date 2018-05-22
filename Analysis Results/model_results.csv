@@ -1,1 +1,2 @@
-Function-Script;Comment;Input dataset;Model;R-squared;Cross validation error;NRMSE
+Script;Comment;Input;Model;Training error CV;Testing error CV
+"linear_regressions_fitting";"testing the workflow";"raw_continuous_vars";"simple linear regression";"222847.68";"199650.06"

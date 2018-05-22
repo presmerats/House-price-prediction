@@ -32,43 +32,37 @@ MODEL.CV <- function (data, k=10, method, prediction_method = "generic")
     if(method == "linear_regression")
     {
       my_lr_tr <- lm(target ~ ., data=data[-va,])
-      
-      # compute training error NRMSE
+      # predict on training set
       tr.pred <- predict(my_lr_tr, data = data[-va,])
-      tr.error <- sqrt(sum((tr.pred - data[-va,]$target)^2)/nrow(data[-va,]))
-      cv.results[j,"TR error"] <- tr.error
+      # predict on test set
+      va.pred <- predict.lm(my_lr_tr, newdata  = data[va,])
+    } else if (method == "regression_tree")
+    {
+      browser()
       
-      # compute testing error NRMSE
-      va.pred <- predict(my_lr_tr, newdata  = data[va,])
-      va.error <- sqrt(sum((va.pred - data[va,]$target)^2)/nrow(data[va,]))
-      cv.results[j,"VA error"] <- va.error
+      my_tree_tr <- tree(target ~., data=data[-va,])
+      # predict on training set. 
       
-      cv.results[j,"fold"] <- j
+      
     }
     
+    ## get training and valiation errors
     
-    # predict on the Training data and calculate the training error
-    # -------------------------------------------------------------
-    # change the next line only!
-    #pred.va <- modelPredict(my.da.TR)$class
-    # uncomment the next two lines if you wish to check the the training error
-    #tab <- table(data[-va,]$target, pred.va)
-    #cv.results[j,"TR error"] <- 1-sum(tab[row(tab)==col(tab)])/sum(tab)
+    # training error:
+    tr.se <- sum(((tr.pred - data[-va,]$target)^2))*0.5
+    tr.nrmse <- sqrt((2*tr.se)/nrow(data[-va,]))
+    cv.results[j,"TR error"] <- tr.nrmse
     
-    # predict VA data
-    # ------------------------------------------
-    # Change here if you wish to use diffenet predict function!
-    # pred.va <- predict(my.da.TR, newdata=data[va,])$class
-    # 
-    # tab <- table(data[va,]$target, pred.va)
-    # cv.results[j,"VA error"] <- 1-sum(tab[row(tab)==col(tab)])/sum(tab)
-    # 
-    # cv.results[j,"fold"] <- j
-  }
-  ## have a look at the results ...
-  # browser()
-  cv.results
-  apply(cv.results[,c("TR error", "VA error")], 2, mean)
+    # validation error
+    va.se <- sum(((va.pred - data[va,]$target)^2))*0.5
+    va.nrmse <- sqrt((2*va.se)/nrow(data[va,]))
+    cv.results[j,"VA error"] <- va.nrmse
+    
+    cv.results[j,"fold"] <- j
+    
+    }
+
+  return (apply(cv.results[,c("TR error", "VA error")], 2, mean))
 }
 
 
@@ -76,21 +70,28 @@ MODEL.CV <- function (data, k=10, method, prediction_method = "generic")
 ## MODEL.CV.OVER.Ks - will run MODEL.CV with diffenet values of partitions (k).
 ## NOTE: you must change the MODEL.CV to run your own model.
 ## The function will plot the average CV error vs. number of partitions (K).
-MODEL.CV.OVER.Ks <- function (data, kflod=10, method) {
+MODEL.CV.OVER.Ks <- function (data, kflod=10, method, plot=FALSE) {
   # browser()
   
   the.Ks <- 1:kflod
   res <- matrix(0, nrow = length(the.Ks)+1, ncol = 2)
-  for (k in the.Ks) 
+  res <- as.data.frame(res)
+  names(res) <- c("Training error", "Validation error")
+  for (k in the.Ks)
   {
     res[k,] <- MODEL.CV(data, kflod, method)
-    cat("Finishing", k, "iteration \n")
+    cat("Finishing", k, "CV iteration \n")
   }## let us see the results
+  
+  if(plot == TRUE)
+  {
   # plot(res,type="b",xlab="Value of k",ylab="average CV error", ylim=c(0.22,0.3), xaxt="n")
   # axis(1, at=1:kflod,labels=1:kflod, las=2)
   # grid()
-  
+  }
+
   result <- apply(res, 2, mean)
+
   return(result)
 }
 

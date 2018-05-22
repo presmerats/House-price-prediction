@@ -1,5 +1,6 @@
 
 
+
 load_packages <- function()
 {
   require("FactoMineR")
@@ -7,6 +8,7 @@ load_packages <- function()
   require("MVN")
   require("mvnormtest")
   require("TunePareto") # for generateCVRuns()
+  require("tree")
   
 }
 
