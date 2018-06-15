@@ -8,8 +8,7 @@ normality_tests <- function(data)
   
   # test multivariate normality
   mshapiro.test(as.matrix(data[1:5000,]))
-  
-  
+
 }
 
 ## 
