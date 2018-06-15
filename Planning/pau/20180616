@@ -1,0 +1,12 @@
+ML project
+==========
+
+- adapt to framework
+- train basic
+	 models: lin, poly, ridge, lasso
+	 features: pca, log, corr.
+- documentation
+- train advanced:
+	models: rvm, bayesian regression, neural network
+	features: clustering?
+- slides

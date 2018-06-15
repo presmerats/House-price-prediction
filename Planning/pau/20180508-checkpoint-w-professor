@@ -45,11 +45,21 @@ redo ridge and lasso
 	ok-encapsulate in a function
 	ok-avoid select features but uses them all
 	ok-encapsulate mean.square.error and norm.root.mse
+	ok- NRMSE function from result of the model
 	
-	- NRMSE function from result of the model
 	-adapt to the new dataframes 
 		-lasso selection.. return all and then select outside
 	- why 1:9 for the lambdas? lasso1,2 models
 	- why in NRMSE lasso s param?
 
 pca with regression?
+
+
+adapting to structure
+	- write to main you code
+	- encapsulate data creation inside a function
+	- encapsulate model training inside a function
+	- do a cross validation
+	- save results & comment
+	- write line in the model_results.csv
+	- write line in the ML project.xsl

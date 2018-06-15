@@ -248,11 +248,11 @@ compute.NRMSE <- function(model, test, typemodel="ridge"){
 # REMARK: we are kind of overfitting to the test data set!
 
 # loading the different datasets (feature subsets)
-load("data-preprocessed.Rdata")
-load("data-featureset-2.Rdata")
-load("data-featureset-3.Rdata")
-load("data-featureset-4.Rdata")
-load("data-featureset-5.Rdata")
+load("data/data-preprocessed.Rdata")
+load("data/data-featureset-2.Rdata")
+load("data/data-featureset-3.Rdata")
+load("data/data-featureset-4.Rdata")
+load("data/data-featureset-5.Rdata")
 objects()
 
 df1 = train.test.set(data.new)
