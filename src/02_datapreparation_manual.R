@@ -425,19 +425,14 @@ manual.load <- function(data){
   # debugging
   
   load(file="../Dataset/featureset_allmanual.Rda")
-  load(file="../Dataset/featureset_allmanual.Rda")
-  
-  load(file="../Dataset/featureset_allmanual.Rda")
-  
-  load(file="../Dataset/featureset_allmanual.Rda")
-  
-  load(file="../Dataset/featureset_allmanual.Rda")
-  
-  load(file="../Dataset/featureset_allmanual.Rda")
-  
-  load(file="../Dataset/featureset_allmanual.Rda")
-  load(file="../Dataset/featureset_allmanual.Rda")
-  load(file="../Dataset/featureset_allmanual.Rda")
-  load(file="../Dataset/featureset_allmanual.Rda")
+  load(file="../Dataset/featureset_logratios.Rda")
+  load(file="../Dataset/featureset_logs.Rda")
+  load(file="../Dataset/featureset_nocorrelation01.Rda")
+  load(file="../Dataset/featureset_nocorrelation02.Rda")
+  load(file="../Dataset/featureset_nocorrelation03_logs.Rda")
+  load(file="../Dataset/featureset_nocorrelation04_ratios.Rda")
+  load(file="../Dataset/featureset_original_nooutliers.Rda")
+  load(file="../Dataset/featureset_ratios.Rda")
+  load(file="../Dataset/raw_continuous_d.Rda")
   
   }

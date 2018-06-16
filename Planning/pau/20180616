@@ -13,7 +13,7 @@ ok- cross validation lab review
 	- adapt ridge and lasso 
 		ok- and add to aux_functions.R
 		ok- group scripts, 
-		- datapreparation
+		ok- datapreparation
 			ko- adapt the outputs to different calls to different files
 			ok- review datapreparation_short2
 				Inspection
@@ -44,13 +44,9 @@ ok- cross validation lab review
 				-logs
 				-logratios
 				-manual_no_correlation_selection
-
 			ok- test everything
-
-			- remove 02_datapreparation_short2.R
-
-
-		- adapt to single file input, single file output
+			ok- remove 02_datapreparation_short2.R
+->		- adapt to single file input, single file output
 			- modify model fitting + prediciton inside modle function to be called inside cv
 			single ridge
 			single lasso
