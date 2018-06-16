@@ -6,75 +6,10 @@
 # 16/06/2018
 ####################################################################
 
-basic.preprocessing.short <- function(data)
+preprocessing.create.allfeatures <- function(data)
 {
-  
-  # 1. inspection--------------------------------------------------
-  dim(data)
-  names(data)
-  # target data$price
-  
-  summary(data)
-  
-  
-  # continuous vars
-  price
-  sqft_living
-  sqft_lot
-  sqft_basement
-  sqft_living15
-  sqft_lot15
-  bathrooms
-  lat
-  long
-  yr_built
-  yr_renovated
-  # continuous-integer:
-  bedrooms
-  floors
-  # categorical-ordinal -> consider continuous
-  condition
-  table(condition)
-  is.factor(condition)
-  grade
-  table(grade)
-  is.factor(grade)
-  
-  # categorical vars
-  # categorical-binary
-  waterfront            
-  summary(waterfront)
-  table(waterfront==1)
-  is.factor(waterfront)
-  # we use it as numeric
-  
-  view
-  summary(view)
-  table(view==0)
-  is.factor(view)
-  # we use it as numeric
-  
-  # categorical: 
-  # should be categorical? 
-  #    -> order has no sense
-  #    -> but linear regression cannot deal with it..
-  zipcode
-  table(zipcode)
-  levels(zipcode)
-  is.factor(zipcode)
+  attach(data)
   zipcode <- as.factor(zipcode)
-  is.factor(zipcode)
-  
-  
-  
-  
-  #date -> to numeric? does not maintain order
-  date
-  is.factor(date)
-  date[c(1,100,200,300)]
-  as.numeric(date)[c(1,100,200,300)]
-  # we should skip this var for now, we are not doing time-series 
-  # we could transform into quarters
   
   
   # set id as row.name
@@ -83,120 +18,36 @@ basic.preprocessing.short <- function(data)
   for (j in 1:nrow(data)){
     data$rownames[j] = paste(data$rownames[j],substr(as.character(data$date[j]), 1,6),sep="_") 
   }
-  head(data$rownames)
   row.names(data) <- data$rownames
-  head(data)
-  
-  
   
   # 2.missing data--------------------------------------------------
-  
-  summary(data)
-  # NA's: not found
-  # any Mean >> 3rd Qu.? or Mean << 1st Qu.?
-  data$yr_renovated # a lot of houses are not renovated, but this is not missing data
-  
+ 
   
   # 3. outliers--------------------------------------------------
-  # Visual: summary, histogram
-  summary(price)
-  hist(data$price)
-  hist(price[price < 4000000 ], breaks=15)
-  hist(price[price > 5000000 ], breaks=15)
-  hist(price[price > 3000000 ], breaks=15)
-  # not sure they are outliers. 
-  # long tail for sure
-  
-  hist(data$bathrooms)
-  table(bathrooms)
-  hist(bathrooms[])
-  # long tail again, but maybe this time it is easier to remove 8
-  
-  
-  hist(data$bedrooms)
-  table(bedrooms)
-  # 33 is a clear outlier
-  hist(data$bedrooms[bedrooms!=33])
-  
-  
-  hist(data$sqft_living)
-  hist(sqft_living[sqft_living<10000])
-  hist(sqft_living[sqft_living<5000])
-  summary(sqft_living)
-  # long tail again
-  
-  hist(data$sqft_lot)
-  hist(data$sqft_lot[sqft_lot<100000])
-  summary(sqft_lot)
-  # long tail...
-  
-  hist(data$sqft_above)
-  hist(data$sqft_basement)  # long tail or outlier
-  hist(data$sqft_living15)
-  hist(data$sqft_lot15)     # long tail or outlier
-  
   
   # one individual with bedrooms=33 -> clear outlier
-  data[data$price==640000,1:4] # clear outlier!
   data <- data[data$bedrooms!=33,]
-  #data.new <- data.new[data.new$bedrooms!=33,]
   
   # mahalanobis distance 
-  library(chemometrics)
-  names(data)
-  # columns to consider: continuous(price, bedrooms, bathrooms, sqft_*, floors,condition, grade), binary(waterfront, view)
-  names(data)
-  dim(data[,c(3:8,11:14)])
-  data.outliers = Moutlier(data[,c(3:8,11:14)],quantile = 0.975, plot = TRUE) # singular
-  data.outliers = Moutlier(data[,c(3:12,18,19)],quantile = 0.975, plot = TRUE)
-  data.outliers = Moutlier(data[,c(3:12)],quantile = 0.975, plot = TRUE)
-  data.outliers = Moutlier(data[,c(3:9)],quantile = 0.975, plot = TRUE)
-  data.outliers = Moutlier(data[,c(3:7,11)],quantile = 0.975, plot = TRUE)
-  data.outliers = Moutlier(data[,c(3:8,20,21)],quantile = 0.975, plot = TRUE)
-  # maybe sqft_above and sqft_living? or any combination of the sqft
-  # cols that make it singular:
-  #    9,10,11,13,14,16,
-  # non sense to use: id, date, zipcode, 
-  cov(data[,c(3:14,15,16,18:21)])
-  cr <- cor(data[,c(3:14,15,16,18:21)])
-  as.numeric(cr > 0.69)
-  
-  
+  # we need the assumption of Gaussianity to be checked
   data.outliers = Moutlier(data[,c(3:8,12,15,18:21)],quantile = 0.975, plot = TRUE)
-  data.outliers$cutoff
-  head(data.outliers$rd)
   data.outliers.sorted <- sort(data.outliers$rd, decreasing=TRUE)
-  head(data.outliers.sorted)
-  length(data.outliers.sorted[data.outliers.sorted>data.outliers$cutoff]) #5585! by the cutoff and 0.975 quantile
-  length(data.outliers.sorted[data.outliers.sorted>data.outliers$cutoff]) #4682! by the cutoff and 0.997 quantile
   # we can remove the first 8 values in the data.outliers.rd
-  data.outliers.sorted[1:8]
   
   #cleaning outliers
-  row.names(data)
-  colnames(data)
   data.orig <- data
-  data <- data.orig
   data <- data[data.outliers$rd<566,2:21]
   detach(data)
   attach(data)
   
-  
-  
   # 4. features--------------------------------------------------
-  
-  # ranges
-  
-  
-  date
-  as.numeric(date)
   
   # transform to months
   datelevels <- levels(date)
   for(i in 1:length(datelevels)){
     datelevels[i] <- substr(strsplit(as.character(datelevels[i]),"T"), 8,9)
   }
-  datelevels
+  #datelevels
   buymonth <- data$date
   levels(buymonth) <- datelevels
   buymonth <- as.numeric(buymonth)
@@ -212,7 +63,7 @@ basic.preprocessing.short <- function(data)
       datelevels[i] <-"4"  
     }
   }
-  datelevels
+  #datelevels
   buyquarter <- data$date
   levels(buyquarter) <- datelevels
   buyquarter <- as.numeric(buyquarter)
@@ -221,69 +72,66 @@ basic.preprocessing.short <- function(data)
   
   
   # bathrooms manually generated ranges: <1, <2,<3,<4,>=4
-  table(bathrooms)
-  hist(bathrooms)
-  bathrooms.cat <- cut(bathrooms, breaks = c(seq(-0.254,0.25),8) )  # makes no sense
+  #table(bathrooms)
+  #hist(bathrooms)
+  #bathrooms.cat <- cut(bathrooms, breaks = c(seq(-0.254,0.25),8) )  # makes no sense
   bathrooms.cat <- cut(bathrooms, breaks = seq(-0.25,8,0.25) )  # better, but it's the same as the bathrooms var
-  head(bathrooms.cat)
-  table(bathrooms.cat)
-  head(bathrooms)
-  length(bathrooms.cat[is.na(bathrooms.cat)])
-  hist(as.numeric(bathrooms.cat))
+  #head(bathrooms.cat)
+  #table(bathrooms.cat)
+  #head(bathrooms)
+  #length(bathrooms.cat[is.na(bathrooms.cat)])
+  #hist(as.numeric(bathrooms.cat))
   bathrooms.range <- as.numeric(bathrooms.cat)
   
   
   # bedrooms manually generated ranges: 
-  table(bedrooms)
-  hist(bedrooms)
+  #table(bedrooms)
+  #hist(bedrooms)
   bedrooms.cat <- cut(bedrooms, breaks = c(-1,0:10,33) ) 
-  head(bedrooms.cat)
-  head(bedrooms)
-  table(bedrooms.cat)
-  length(bedrooms.cat[is.na(bedrooms.cat)])
-  hist(as.numeric(bedrooms.cat))
+  #head(bedrooms.cat)
+  #head(bedrooms)
+  #table(bedrooms.cat)
+  #length(bedrooms.cat[is.na(bedrooms.cat)])
+  #hist(as.numeric(bedrooms.cat))
   bedrooms.range <- as.numeric(bedrooms.cat)
   
   # sqft_living
-  hist(sqft_living)
-  hist(sqft_living, breaks=100)
-  max(sqft_living)
+  #hist(sqft_living)
+  #hist(sqft_living, breaks=100)
+  #max(sqft_living)
   sqft_living.cat <- cut(sqft_living, breaks = c(seq(0,7000,10),13540 ) )
   sqft_living.range <- as.numeric(sqft_living.cat)
-  hist(sqft_living.range)
+  #hist(sqft_living.range)
   
   # sqft_lot
-  hist(sqft_lot)
-  hist(sqft_lot, breaks=100)
-  summary(sqft_lot)
+  #hist(sqft_lot)
+  #hist(sqft_lot, breaks=100)
+  #summary(sqft_lot)
   sqft_lot.cat <- cut(sqft_lot, breaks = c(seq(519,20000,50),1651359 ) )
-  hist(as.numeric(sqft_lot.cat)) # really long tail!
+  #hist(as.numeric(sqft_lot.cat)) # really long tail!
   sqft_lot.cat <- cut(sqft_lot, breaks = c(seq(519,100000,50),1651359 ) )
-  hist(as.numeric(sqft_lot.cat)) # really long tail!
+  #hist(as.numeric(sqft_lot.cat)) # really long tail!
   sqft_lot.cat <- cut(sqft_lot, breaks = c(seq(519,1000000,50),1651359 ) )
-  hist(as.numeric(sqft_lot.cat)) 
-  length(sqft_lot[sqft_lot>50000])
-  length(sqft_lot[sqft_lot>100000])
-  length(sqft_lot[sqft_lot>1000000])
-  length(sqft_lot[sqft_lot>1500000])
+  #hist(as.numeric(sqft_lot.cat)) 
+  #length(sqft_lot[sqft_lot>50000])
+  #length(sqft_lot[sqft_lot>100000])
+  #length(sqft_lot[sqft_lot>1000000])
+  #length(sqft_lot[sqft_lot>1500000])
   
   
   
   
   # binary vars
-  
   is.renovated <- as.numeric(yr_renovated > 0 )
-  is.renovated
   
   # ratios
-  
   bathrooms.bedrooms.ratio <- bathrooms/bedrooms
   # infinite values appear
-  table(bathrooms)
-  table(bedrooms)
+  #table(bathrooms)
+  #table(bedrooms)
   # change inf to 0
   bathrooms.bedrooms.ratio[bedrooms==0] <- 0
-  summary(bathrooms.bedrooms.ratio)
+  #summary(bathrooms.bedrooms.ratio)
   
   bedrooms.sqft.living.ratio <- bedrooms/sqft_living
   bathroom.sqft.living.ratio <- bathrooms/sqft_living
@@ -311,7 +159,7 @@ basic.preprocessing.short <- function(data)
   
   # logarithms
   
-  names(data.new)
+  #names(data.new)
   log.bedrooms <- log10(bedrooms+1)
   log.bathrooms <- log10(bathrooms+1)
   log.sqft_living <- log10(sqft_living)
@@ -339,11 +187,7 @@ basic.preprocessing.short <- function(data)
   log.bedrooms.floors.ratio <- log10(bedrooms.floors.ratio+1)
   #log.sdft_lot <- log10(sqft_lot)
   
-  
-  for(i in 1:ncol(data.new)){
-    print(length(data.new[,i]))
-  }
-  
+
   # current features
   data.new <- data.frame(
     data[,2:20],
@@ -400,57 +244,33 @@ basic.preprocessing.short <- function(data)
   
   # Gaussianity
   
-  #     histograms with normal overl
-  
-  hist.with.normal <- function (x, main, xlabel=deparse(substitute(x)), ...)
-  {
-    h <- hist(x,plot=F, ...)
-    s <- sd(x)
-    m <- mean(x)
-    ylim <- range(0,h$density,dnorm(0,sd=s))
-    hist(x,freq=FALSE,ylim=ylim,xlab=xlabel, main=main, ...)
-    curve(dnorm(x,m,s),add=T,col="red")
-  }
-  
-  
-  
-  
+
+
   #     Gaussianization
   library(MASS)
   
   gaussianize <- function(x,y,df) {
-    
-    
-    par(mfrow=c(1,3))
-    hist(x, main="Look at that ...")
-    
     bx <- boxcox(I(x+1) ~ . - y, data = df,
                  lambda = seq(-0.25, 0.25, length = 10))
-    
     lambda <- bx$x[which.max(bx$y)]
-    
     x.BC <- (x^lambda - 1)/lambda
-    
-    hist(x.BC, main="Look at that now!")
-    
-    par (mfrow=c(1,1))
     return(x.BC)
   }
   
   data.new2 <- data.new[,c(3:8,12,15,18:21)]
-  gaussianize(bathrooms,price,data.new2)
+  #gaussianize(bathrooms,price,data.new2)
   log.sqft_lot15.BC <- gaussianize(log.sqft_lot15,price,data.new2)  # maybe
-  gaussianize(log.grade,price,data.new2)
+  #gaussianize(log.grade,price,data.new2)
   log.sqft_lot.BC <- gaussianize(log.sqft_lot,price,data.new2)   # maybe
-  gaussianize(bedrooms.floors.ratio,price,data.new2)
-  gaussianize(bedrooms.sqft.living.ratio,price,data.new2)
+  #gaussianize(bedrooms.floors.ratio,price,data.new2)
+  #gaussianize(bedrooms.sqft.living.ratio,price,data.new2)
   bathroom.sqft.living.ratio.BC <- gaussianize(bathroom.sqft.living.ratio,price,data.new2) # maybe
-  gaussianize(floor.sqft.living.ratio,price,data.new2)
+  #gaussianize(floor.sqft.living.ratio,price,data.new2)
   sqft.living.floors.ratio.BC <- gaussianize(sqft.living.floors.ratio,price,data.new2)  # maybe
   sqft_living15.BC <- gaussianize(sqft_living15,price,data.new2)  # maybe
-  gaussianize(grade,price,data.new2)
+  #gaussianize(grade,price,data.new2)
   sqft_lot.BC <- gaussianize(sqft_lot,price,data.new2)  # better, but not gaussian
-  gaussianize(bathrooms,price,data.new2)
+  #gaussianize(bathrooms,price,data.new2)
   
   # adding selected Gaussianized variables
   data.new <- data.frame(
@@ -463,14 +283,141 @@ basic.preprocessing.short <- function(data)
     sqft_lot.BC
   )
   
-  
-  
-  # PCA
-  #library(FactoMineR)
-  #pca <- PCA(data.new)
-  
-  # 6. saving data
-  #save(data.new, file = "data-preprocessed.Rdata")
-  
  return(data.new) 
+}
+
+
+featureset.original.nooutliers <- function(data){
+  data.new <- preprocessing.create.allfeatures(data)
+  data2 <- data.new[,c(1:24)]
+  data2 <- data2[,c(-14,-15,-22,-23)]
+  return(data2)
+}
+
+featureset.all <- function(data){
+  data.new <- preprocessing.create.allfeatures(data)
+  return(data.new)
+}
+
+featureset.logs <- function(data){
+  data.new <- preprocessing.create.allfeatures(data)
+  data3 <- data.new[,c(1:24,35:45)]
+  data3 <- data3[,c(1,7,8,13,16,17,20,21,24:35)]
+  return(data3)
+}
+
+featureset.ratios <- function(data){
+  data.new <- preprocessing.create.allfeatures(data)
+  data4 <- data.new[,c(1:34)]
+  data4 <- data4[,c(-2,-3,-4,-5,-6,-15,-14,-22,-23)]
+  return(data4)
+}
+
+featureset.logratios <- function(data){
+  data.new <- preprocessing.create.allfeatures(data)
+  data5 <- data.new[,c(1:24,48:57)]
+  data5 <- data5[,c(-2,-3,-4,-5,-6,-9,-15,-16,-17)]
+  return(data5)
+}
+
+
+featureset.nocorr.manual01 <- function(data){
+  data.all <- preprocessing.create.allfeatures(data)
+  
+  # original no outlier 
+  data2 <- data.all[,c(1:24)]
+  data2 <- data2[,c(-14,-15,-22,-23)]
+  data.new <- data2
+  
+  # select non correlated subset
+  cor(data.new)
+  par(mfrow=c(1,1))
+  library(corrplot)
+  corrplot(cor(data.new), method = "color", addCoef.col="grey")
+  #corrplot(cor(data.new[,1:21]), method = "color", addCoef.col="grey")
+  #corrplot(cor(data.new[,1:30]), method = "color", addCoef.col="grey")
+  #corrplot(cor(data.new[,1:40]), method = "color", addCoef.col="grey")
+  
+  data5 <- data.new[,c(-16,-17,-13,-12,-11,-10,-4-3)]
+
+  return(data5)
+}
+
+
+featureset.nocorr.manual02 <- function(data){
+  data.all <- preprocessing.create.allfeatures(data)
+  
+  # original no outlier
+  data2 <- data.all[,c(1:24)]
+  data2 <- data2[,c(-14,-15,-22,-23)]
+  data.new <- data2
+  
+  # non correlated subset
+  cor(data.new)
+  par(mfrow=c(1,1))
+  library(corrplot)
+  corrplot(cor(data.new), method = "color", addCoef.col="grey")
+
+  
+  data5 <- data.new[,c(-2,-3,-10,-11,-16,-17)]
+  
+  return(data5)
+}
+
+
+featureset.nocorr.log.manual03 <- function(data){
+  data.all <- preprocessing.create.allfeatures(data)
+  
+  # logs
+  data3 <- data.all[,c(1:24,35:45)]
+  data3 <- data3[,c(1,7,8,13,16,17,20,21,24:35)]
+  data.new <- data3
+  
+  # no correlated subset
+  cor(data.new)
+  par(mfrow=c(1,1))
+  library(corrplot)
+  corrplot(cor(data.new), method = "color", addCoef.col="grey")
+  data5 <- data.new[,c(-10,-11,-16,-17,-18,-19,-20)]
+  corrplot(cor(data5), method = "color", addCoef.col="grey")
+  
+  return(data5)
+}
+
+
+featureset.nocorr.ratios.manual04 <- function(data){
+  data.all <- preprocessing.create.allfeatures(data)
+  
+  # ratios
+  data4 <- data.all[,c(1:34)]
+  data4 <- data4[,c(-2,-3,-4,-5,-6,-15,-14,-22,-23)]
+  data.new <- data4
+  
+  # no correlated subset
+  cor(data.new)
+  par(mfrow=c(1,1))
+  library(corrplot)
+  corrplot(cor(data.new), method = "color", addCoef.col="grey")
+  data5 <- data.new[,c(-5,-6,-11,-20,-25,-23,-21)]
+  corrplot(cor(data5), method = "color", addCoef.col="grey")
+  
+  return(data5)
+}
+
+
+manual.load <- function(data){
+  
+  # 0. loading--------------------------------------------------
+  setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+  
+  a = Sys.info()
+  if (a[1] == "Linux"){
+    # Linux reading file
+    data <- read.csv(file="../Dataset/kc_house_data.csv", header=TRUE, sep=",")
+    
+  } else {
+    # windows reading file
+    data <- read.csv(file="../Dataset/kc_house_data.csv", header=TRUE, sep=",")
+  }
+  attach(data)
 }

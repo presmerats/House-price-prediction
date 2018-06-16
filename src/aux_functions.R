@@ -9,15 +9,17 @@ load_packages <- function()
   require("mvnormtest")
   require("TunePareto") # for generateCVRuns()
   require("tree")
+  require(chemometrics)
+  
   
 }
 
 source_scripts <- function()
 {
+  source("01_eda.R")
+  
   source("02_datapreparation_david.R")
-  source("02_datapreparation.R")
-  source("02_datapreparation_short.R")
-  source("02_datapreparation_short2.R")
+  source("02_datapreparation_manual.R")
   
   source("03_unsupervised_analysis.R")
   

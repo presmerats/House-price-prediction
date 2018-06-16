@@ -3,6 +3,8 @@ ML project
 
 ok-review framework
 
+ok- cross validation lab review
+
 - adapt to framework
 	ok- 04_XXXX for models
 	ok- 02_XXXX for feature selection/extraction
@@ -11,19 +13,61 @@ ok-review framework
 	- adapt ridge and lasso 
 		ok- and add to aux_functions.R
 		ok- group scripts, 
+		- datapreparation
+			ko- adapt the outputs to different calls to different files
+			ok- review datapreparation_short2
+				Inspection
+				Missing data
+				Outliers
+					Histograms
+					Mahalanobis (review if its correct)
+					Saving data
+				Date to montth
+				Range vars (from continuous)
+				Binary vars
+				Ratios
+				Logarithms
+				Statistical analysis
+					Gaussianization
+				Feature Selection
+					Correlation manual analysis
+					Prepared Featuresets -> each one should be a differentt function
+					PCA -> not implementated
+			ok- create a EDA script from that
+				-> remove file daving from 02_datapreparation?
+				-> save to 01_EDA.R
+				-> should contain PCA also
+			ok- create a function with all different selections 
+				-allnew
+				-orig_no_outliers
+				-ratios
+				-logs
+				-logratios
+				-manual_no_correlation_selection
+
+			- test everything
+
+			
+			- remove 02_datapreparation_short2.R
+
+
 		- adapt to single file input, single file output
+			- modify model fitting + prediciton inside modle function to be called inside cv
+			single ridge
+			single lasso
+			call from main
 		- write results to txdt file
 		- xlsx file also?
 	- clean unused R script files
-
-
-- cross validation lab
 
 - train basic
 	 models: lin, poly, ridge, lasso
 	 features: pca, log, corr.
 
 - documentation
+	- skeleton
+	- basic sections and ideas
+	- automatically build tables from results
 
 - train advanced:
 	features: 
