@@ -19,6 +19,8 @@ load_packages <- function()
   load_install_packages("TunePareto") # for generateCVRuns()
   load_install_packages("tree")
   load_install_packages("chemometrics")
+  load_install_packages("MASS")
+  load_install_packages("corrplot")
   
 }
 
