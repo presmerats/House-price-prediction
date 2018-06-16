@@ -142,7 +142,7 @@ basic.preprocessing.short <- function(data)
   #data.new <- data.new[data.new$bedrooms!=33,]
   
   # mahalanobis distance 
-  library(chemometrics)
+  load_install_packages("chemometrics")
   names(data)
   # columns to consider: continuous(price, bedrooms, bathrooms, sqft_*, floors,condition, grade), binary(waterfront, view)
   names(data)
@@ -416,7 +416,7 @@ basic.preprocessing.short <- function(data)
   
   
   #     Gaussianization
-  library(MASS)
+  load_install_packages("MASS")
   
   gaussianize <- function(x,y,df) {
     

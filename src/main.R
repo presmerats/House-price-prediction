@@ -4,20 +4,8 @@ gc()
 
 #### 1 - Set up environment ####
 
-a = Sys.info()
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path)) 
 
-david_wd <- "~/MIRI-Data Science/ML - Machine Learning/Project/mlproject/src"
-asaf_wd <- ""
-pau_wd <- "~/Projectes/mlproject/src"
-
-if (a["user"] == "david") {
-  wd <- david_wd
-  } else if (a["user"] == "pau") {
-   wd <- pau_wd
-} else {
-  wd <- asaf_wd
-}
-setwd(wd)
 
 # source scripts
 
@@ -33,15 +21,8 @@ load_packages()
 
 #### 2 - Read data ####
 
-if (a[1] == "Linux"){
-  # Linux reading file
-  data <- read.csv(file="../Dataset/kc_house_data.csv", header=TRUE, sep=",")
+data <- read.csv(file="../Dataset/kc_house_data.csv", header=TRUE, sep=",")
   
-} else {
-  # windows reading file
-  data <- read.csv(file="../Dataset/kc_house_data.csv", header=TRUE, sep=",")
-}
-
 #### 2.1 - Create datasets to be used ####
 
 raw_continuous_dataset <- raw_continuous_vars_selection(data)
@@ -65,6 +46,7 @@ rm(preprocessed.data01)
 # perform PCA
 
 pca_analysis()
+pcr_model(data = data)
 pca_analysis_2()
 
 

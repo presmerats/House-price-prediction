@@ -44,7 +44,7 @@ ridge1 <- function(df1){
   names(train)
   
   
-  library(MASS)
+  load_install_packages("MASS")
   model.ridge <- lm.ridge(price ~ ., data=train, lambda = seq(0,10,0.1))
   
   plot(seq(0,10,0.1), model.ridge$GCV, main="GCV of Ridge Regression", type="l", 
@@ -89,7 +89,7 @@ lasso1 <- function(df1){
   
   train = df1[[1]]
   test = df1[[2]]
-  library(lars)
+  load_install_packages("lars")
   
   class(train)
   train
@@ -140,7 +140,7 @@ ridge2 <- function(df1){
   # glmnet package
   
     
-  library(glmnet)
+  lload_install_packages("glmnet")
 
   # recommended setup
   x = model.matrix(price~.,train)[,-1]
@@ -187,7 +187,7 @@ lasso2 <- function(df1){
   test = df1[[2]] 
   
   # Lasso with the glmnet package
-  library(glmnet)
+  load_install_packages("glmnet")
   # recommended setup
   x = model.matrix(price~.,train)[,c(-1)]
   t = train$price

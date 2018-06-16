@@ -70,7 +70,7 @@ summary(train)
 names(train)
 
 
-library(MASS)
+load_install_packages("MASS")
 model.ridge <- lm.ridge(price ~ ., data=train[,-60], lambda = seq(0,10,0.1))
 
 plot(seq(0,10,0.1), model.ridge$GCV, main="GCV of Ridge Regression", type="l", 
@@ -102,7 +102,7 @@ model.ridgereg.FINAL <- lm.ridge(price ~ ., data=train[,-60], lambda = lambda.ri
 ## Recall that in the LASSO, the coefficients are penalized by the L1 norm. The 
 # optimal value for lambda is again chosen by cross-validation
 
-library(lars)
+load_install_packages("lars")
 
 class(train)
 train
@@ -138,7 +138,7 @@ abline(h=0, lty=7)
 
 # glmnet package
 
-library(glmnet)
+load_install_packages("glmnet")
 t <- train$price
 x <- as.matrix(train[,c(-1,-60)])
 # recommended setup
@@ -176,7 +176,7 @@ model.ridge.final <- glmnet(x,t, alpha=0, lambda=3.3  )
 # 5. Lasso with glmnet...............................................
 
 # Lasso with the glmnet package
-library(glmnet)
+load_install_packages("glmnet")
 # recommended setup
 x = model.matrix(price~.,train)[,c(-1,-60)]
 t = train$price

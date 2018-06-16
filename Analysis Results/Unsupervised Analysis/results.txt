@@ -1,1 +1,34 @@
 PCA_analysis result: several highly correlated variables, explaining the price. Recommended to identify latent factors and use them for prediction
+
+
+ *******
+
+ pcr_analysis result: As learned in PCA analysis several highly correlated variables, Using PCR we can see that with 6 PCs the model's explained variance is higher than 90%. Though, it is hard to analyze the importance of the variables.
+
+*****
+
+
+Data: 	X dimension: 19452 11 
+	Y dimension: 19452 1
+Fit method: svdpc
+Number of components considered: 11
+
+VALIDATION: RMSEP
+Cross-validated using 10 random segments.
+       (Intercept)  1 comps  2 comps  3 comps  4 comps  5 comps  6 comps  7 comps  8 comps  9 comps  10 comps  11 comps
+CV          366092   270205   268442   263697   263110   248009   247657   247101   246502   245827    243473    243479
+adjCV       366092   270194   268431   263686   263098   247994   247644   247066   246499   245321    243440    243442
+
+TRAINING: % variance explained
+       1 comps  2 comps  3 comps  4 comps  5 comps  6 comps  7 comps  8 comps  9 comps  10 comps  11 comps
+X        42.67    57.85    71.77    79.49    85.77    90.52    93.21    95.71    97.86    100.00    100.00
+price    45.58    46.30    48.18    48.42    54.18    54.32    54.55    54.78    55.69     55.99     55.99
+
+
+ *******
+
+ The result of the prediction with PCR yeild RMSE of  257606.218843766 
+
+ *******
+
+

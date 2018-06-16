@@ -1,16 +1,26 @@
 
-
+load_install_packages <- function(packageName)
+{
+  if(!require(packageName, character.only=TRUE)){
+    print(paste(packageName, "not exist, installation in process.." ))
+    install.packages(packageName)
+    if(!require(packageName, character.only=TRUE))
+      print(paste("failed to install:", packageName ))
+  }
+}
 
 load_packages <- function()
 {
-  require("FactoMineR")
-  require("mvtnorm")
-  require("MVN")
-  require("mvnormtest")
-  require("TunePareto") # for generateCVRuns()
-  require("tree")
+  load_install_packages("FactoMineR")
+  load_install_packages("pls")
+  load_install_packages("mvtnorm")
+  load_install_packages("MVN")
+  load_install_packages("mvnormtest")
+  load_install_packages("TunePareto") # for generateCVRuns()
+  load_install_packages("tree")
   
 }
+#load_packages()
 
 source_scripts <- function()
 {

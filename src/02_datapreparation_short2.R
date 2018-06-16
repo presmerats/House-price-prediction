@@ -142,7 +142,7 @@ data <- data[data$bedrooms!=33,]
 #data.new <- data.new[data.new$bedrooms!=33,]
 
 # mahalanobis distance 
-library(chemometrics)
+load_install_packages("chemometrics")
 names(data)
 # columns to consider: continuous(price, bedrooms, bathrooms, sqft_*, floors,condition, grade), binary(waterfront, view)
 names(data)
@@ -416,7 +416,7 @@ hist.with.normal <- function (x, main, xlabel=deparse(substitute(x)), ...)
 
 
 #     Gaussianization
-library(MASS)
+load_install_packages("MASS")
 
 gaussianize <- function(x,y,df) {
   
@@ -467,7 +467,7 @@ data.new <- data.frame(
 # Feature selection---------
 # correlation
 cor(data.new)
-library(corrplot)
+load_install_packages("corrplot")
 corrplot(cor(data.new), method = "color", addCoef.col="grey")
 corrplot(cor(data.new[,1:21]), method = "color", addCoef.col="grey")
 corrplot(cor(data.new[,1:30]), method = "color", addCoef.col="grey")
@@ -513,7 +513,7 @@ save(data5, file = "data-featureset-5.Rdata")
 
 
 # PCA
-library(FactoMineR)
+load_install_packages("FactoMineR")
 pca.res <- PCA(data.new)
 
 
