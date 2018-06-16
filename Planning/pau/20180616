@@ -45,9 +45,8 @@ ok- cross validation lab review
 				-logratios
 				-manual_no_correlation_selection
 
-			- test everything
+			ok- test everything
 
-			
 			- remove 02_datapreparation_short2.R
 
 

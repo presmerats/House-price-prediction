@@ -420,4 +420,24 @@ manual.load <- function(data){
     data <- read.csv(file="../Dataset/kc_house_data.csv", header=TRUE, sep=",")
   }
   attach(data)
-}
+  
+  
+  # debugging
+  
+  load(file="../Dataset/featureset_allmanual.Rda")
+  load(file="../Dataset/featureset_allmanual.Rda")
+  
+  load(file="../Dataset/featureset_allmanual.Rda")
+  
+  load(file="../Dataset/featureset_allmanual.Rda")
+  
+  load(file="../Dataset/featureset_allmanual.Rda")
+  
+  load(file="../Dataset/featureset_allmanual.Rda")
+  
+  load(file="../Dataset/featureset_allmanual.Rda")
+  load(file="../Dataset/featureset_allmanual.Rda")
+  load(file="../Dataset/featureset_allmanual.Rda")
+  load(file="../Dataset/featureset_allmanual.Rda")
+  
+  }
