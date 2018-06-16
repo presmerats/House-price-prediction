@@ -2,11 +2,13 @@ ML project
 ==========
 
 - adapt to framework
+
+- cross validation lab
 - train basic
 	 models: lin, poly, ridge, lasso
 	 features: pca, log, corr.
 - documentation
 - train advanced:
-	models: rvm, bayesian regression, neural network
+	models: splines, GAM, PCR, PLS, rvm, neural network, bayesian regression, 
 	features: clustering?
 - slides

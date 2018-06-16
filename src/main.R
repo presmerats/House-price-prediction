@@ -8,7 +8,7 @@ a = Sys.info()
 
 david_wd <- "~/MIRI-Data Science/ML - Machine Learning/Project/mlproject/src"
 asaf_wd <- ""
-pau_wd <- ""
+pau_wd <- "~/Projectes/mlproject/src"
 
 if (a["user"] == "david") {
   wd <- david_wd
