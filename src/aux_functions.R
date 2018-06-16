@@ -14,8 +14,18 @@ load_packages <- function()
 
 source_scripts <- function()
 {
-  source("unsupervised_analysis.R")
-  source("linear_regressions_fitting.R")
+  source("02_datapreparation_david.R")
+  source("02_datapreparation.R")
+  source("02_datapreparation_short.R")
+  source("02_datapreparation_short2.R")
+  
+  source("03_unsupervised_analysis.R")
+  
+  source("04_linear_regressions_fitting.R")
+  source("04_model_fitting_ridge_lasso_regression.R")
+  source("04_model_ridge_lasso_functions.R")
+  source("04_trees_methods_fitting.R")
+  
   source("Cross_validation.R")
-  source("01_datapreparation_david.R")
+  
 }

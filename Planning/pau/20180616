@@ -1,14 +1,41 @@
 ML project
 ==========
 
+ok-review framework
+
 - adapt to framework
+	ok- 04_XXXX for models
+	ok- 02_XXXX for feature selection/extraction
+	ok- 03_XXXX for unsupervised learning
+	ok. adapt preprocessing
+	- adapt ridge and lasso 
+		ok- and add to aux_functions.R
+		ok- group scripts, 
+		- adapt to single file input, single file output
+		- write results to txdt file
+		- xlsx file also?
+	- clean unused R script files
+
 
 - cross validation lab
+
 - train basic
 	 models: lin, poly, ridge, lasso
 	 features: pca, log, corr.
+
 - documentation
+
 - train advanced:
-	models: splines, GAM, PCR, PLS, rvm, neural network, bayesian regression, 
-	features: clustering?
+	features: 
+		clustering with Gower
+	models: 
+		splines, 
+		GAM, 
+		PCR, 
+		PLS, 
+		rvm, 
+		neural network, 
+		bayesian regression, 
+	
+
 - slides

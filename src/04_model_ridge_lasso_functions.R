@@ -8,9 +8,10 @@
 
 
 # 0. loading--------------------------------------------------
+# no longer required
 # loading the different datasets (feature subsets)
-setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-rm(list = ls())
+#setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+#rm(list = ls())
 
 # 1. Test and Train sets-----------------------------------
 
@@ -246,76 +247,83 @@ compute.NRMSE <- function(model, test, typemodel="ridge"){
 
 # -- Execution of the different models and their NRMSE----------------------------
 # REMARK: we are kind of overfitting to the test data set!
+# REMARK2: this needs some more adaptation to the framework, from trainign many models and writing to disk 
 
-# loading the different datasets (feature subsets)
-load("data/data-preprocessed.Rdata")
-load("data/data-featureset-2.Rdata")
-load("data/data-featureset-3.Rdata")
-load("data/data-featureset-4.Rdata")
-load("data/data-featureset-5.Rdata")
-objects()
+ridge_regression_fitting_group <- function(data, dataset_id, output_results = "../Analysis Results/Rigde Regression Fitting/")
+{
+    
+  
+  # loading the different datasets (feature subsets)
+  load("../Data/pending_revision/data-preprocessed.Rdata")
+  load("../Data/pending_revision/data-featureset-2.Rdata")
+  load("../Data/pending_revision/data-featureset-3.Rdata")
+  load("../Data/pending_revision/data-featureset-4.Rdata")
+  load("../Data/pending_revision/data-featureset-5.Rdata")
+  objects()
+  
+  df1 = train.test.set(data.new)
+  df2 = train.test.set(data2)
+  df3 = train.test.set(data3)
+  df4 = train.test.set(data4)
+  df5 = train.test.set(data5)
+  #df5[[1]]
+  #class(df5)
+  #class(df5[1])
+  #class(df5[[1]])
+  
+  # ridge1
+  ridge1.fs1 = ridge1(df1)
+  (nrmse.ridge1.fset1 <- compute.NRMSE(ridge1.fs1[[1]],df1[[2]],typemodel="ridge"))
+  ridge1.fs2 = ridge1(df2)
+  (nrmse.ridge1.fset2 <- compute.NRMSE(ridge1.fs2[[1]],df2[[2]],typemodel="ridge"))
+  ridge1.fs3 = ridge1(df3)
+  (nrmse.ridge1.fset4 <- compute.NRMSE(ridge1.fs3[[1]],df3[[2]],typemodel="ridge"))
+  ridge1.fs4 = ridge1(df4)
+  (nrmse.ridge1.fset4 <- compute.NRMSE(ridge1.fs4[[1]],df4[[2]],typemodel="ridge"))
+  ridge1.fs5 = ridge1(df5)
+  (nrmse.ridge1.fset5 <- compute.NRMSE(ridge1.fs5[[1]],df5[[2]],typemodel="ridge"))
+  
+  # ridge 2
+  ridge2.fs1 = ridge2(df1)
+  (nrmse.ridge2.fset1 <- compute.NRMSE(ridge2.fs1[[1]],df1[[2]],typemodel="ridge"))
+  ridge2.fs2 = ridge2(df2)
+  (nrmse.ridge2.fset2 <- compute.NRMSE(ridge2.fs2[[1]],df2[[2]],typemodel="ridge"))
+  ridge2.fs3 = ridge2(df3)
+  (nrmse.ridge2.fset4 <- compute.NRMSE(ridge2.fs3[[1]],df3[[2]],typemodel="ridge"))
+  ridge2.fs4 = ridge2(df4)
+  (nrmse.ridge2.fset4 <- compute.NRMSE(ridge2.fs4[[1]],df4[[2]],typemodel="ridge"))
+  ridge2.fs5 = ridge2(df5)
+  (nrmse.ridge2.fset5 <- compute.NRMSE(ridge2.fs5[[1]],df5[[2]],typemodel="ridge"))
+  
+  # lasso1
+  lasso1.result.1 <- lasso1(df1)
+  (nrmse.lasso1.fset1 <- compute.NRMSE(lasso1.result.1[[1]],df1[[2]],typemodel="lasso1"))
+  lasso1.result.2 <- lasso1(df2)
+  (nrmse.lasso1.fset2 <- compute.NRMSE(lasso1.result.2[[1]],df2[[2]],typemodel="lasso1"))
+  lasso1.result.3 <- lasso1(df3)
+  (nrmse.lasso1.fset3 <- compute.NRMSE(lasso1.result.3[[1]],df3[[2]],typemodel="lasso1"))
+  lasso1.result.4 <- lasso1(df4)
+  (nrmse.lasso1.fset4 <- compute.NRMSE(lasso1.result.4[[1]],df4[[2]],typemodel="lasso1"))
+  lasso1.result.5 <- lasso1(df5)
+  (nrmse.lasso1.fset5 <- compute.NRMSE(lasso1.result.5[[1]],df5[[2]],typemodel="lasso1"))
+  
+  # lasso2
+  lasso2.result.1 <- lasso2(df1)
+  (nrmse.lasso2.fset1 <- compute.NRMSE(lasso2.result.1[[1]],df1[[2]],typemodel="lasso2"))
+  lasso2.result.2 <- lasso2(df2)
+  (nrmse.lasso2.fset2 <- compute.NRMSE(lasso2.result.2[[1]],df2[[2]],typemodel="lasso2"))
+  lasso2.result.3 <- lasso2(df3)
+  (nrmse.lasso2.fset3 <- compute.NRMSE(lasso2.result.3[[1]],df3[[2]],typemodel="lasso2"))
+  lasso2.result.4 <- lasso2(df4)
+  (nrmse.lasso2.fset4 <- compute.NRMSE(lasso2.result.4[[1]],df4[[2]],typemodel="lasso2"))
+  lasso2.result.5 <- lasso2(df5)
+  (nrmse.lasso2.fset5 <- compute.NRMSE(lasso2.result.5[[1]],df5[[2]],typemodel="lasso2"))
+  
+  
+  RSS <- lasso2.result.1[[1]]$
+  RSE <- sqrt(RSS/nrow(data)) # average error made on a prediction. 
+  mean_price <- mean(data$price)
+  TSS <- sum((data$price - mean_price)^2)
+  R_sqared <- (TSS - RSS)/TSS 
 
-df1 = train.test.set(data.new)
-df2 = train.test.set(data2)
-df3 = train.test.set(data3)
-df4 = train.test.set(data4)
-df5 = train.test.set(data5)
-#df5[[1]]
-#class(df5)
-#class(df5[1])
-#class(df5[[1]])
-
-# ridge1
-ridge1.fs1 = ridge1(df1)
-(nrmse.ridge1.fset1 <- compute.NRMSE(ridge1.fs1[[1]],df1[[2]],typemodel="ridge"))
-ridge1.fs2 = ridge1(df2)
-(nrmse.ridge1.fset2 <- compute.NRMSE(ridge1.fs2[[1]],df2[[2]],typemodel="ridge"))
-ridge1.fs3 = ridge1(df3)
-(nrmse.ridge1.fset4 <- compute.NRMSE(ridge1.fs3[[1]],df3[[2]],typemodel="ridge"))
-ridge1.fs4 = ridge1(df4)
-(nrmse.ridge1.fset4 <- compute.NRMSE(ridge1.fs4[[1]],df4[[2]],typemodel="ridge"))
-ridge1.fs5 = ridge1(df5)
-(nrmse.ridge1.fset5 <- compute.NRMSE(ridge1.fs5[[1]],df5[[2]],typemodel="ridge"))
-
-# ridge 2
-ridge2.fs1 = ridge2(df1)
-(nrmse.ridge2.fset1 <- compute.NRMSE(ridge2.fs1[[1]],df1[[2]],typemodel="ridge"))
-ridge2.fs2 = ridge2(df2)
-(nrmse.ridge2.fset2 <- compute.NRMSE(ridge2.fs2[[1]],df2[[2]],typemodel="ridge"))
-ridge2.fs3 = ridge2(df3)
-(nrmse.ridge2.fset4 <- compute.NRMSE(ridge2.fs3[[1]],df3[[2]],typemodel="ridge"))
-ridge2.fs4 = ridge2(df4)
-(nrmse.ridge2.fset4 <- compute.NRMSE(ridge2.fs4[[1]],df4[[2]],typemodel="ridge"))
-ridge2.fs5 = ridge2(df5)
-(nrmse.ridge2.fset5 <- compute.NRMSE(ridge2.fs5[[1]],df5[[2]],typemodel="ridge"))
-
-# lasso1
-lasso1.result.1 <- lasso1(df1)
-(nrmse.lasso1.fset1 <- compute.NRMSE(lasso1.result.1[[1]],df1[[2]],typemodel="lasso1"))
-lasso1.result.2 <- lasso1(df2)
-(nrmse.lasso1.fset2 <- compute.NRMSE(lasso1.result.2[[1]],df2[[2]],typemodel="lasso1"))
-lasso1.result.3 <- lasso1(df3)
-(nrmse.lasso1.fset3 <- compute.NRMSE(lasso1.result.3[[1]],df3[[2]],typemodel="lasso1"))
-lasso1.result.4 <- lasso1(df4)
-(nrmse.lasso1.fset4 <- compute.NRMSE(lasso1.result.4[[1]],df4[[2]],typemodel="lasso1"))
-lasso1.result.5 <- lasso1(df5)
-(nrmse.lasso1.fset5 <- compute.NRMSE(lasso1.result.5[[1]],df5[[2]],typemodel="lasso1"))
-
-# lasso2
-lasso2.result.1 <- lasso2(df1)
-(nrmse.lasso2.fset1 <- compute.NRMSE(lasso2.result.1[[1]],df1[[2]],typemodel="lasso2"))
-lasso2.result.2 <- lasso2(df2)
-(nrmse.lasso2.fset2 <- compute.NRMSE(lasso2.result.2[[1]],df2[[2]],typemodel="lasso2"))
-lasso2.result.3 <- lasso2(df3)
-(nrmse.lasso2.fset3 <- compute.NRMSE(lasso2.result.3[[1]],df3[[2]],typemodel="lasso2"))
-lasso2.result.4 <- lasso2(df4)
-(nrmse.lasso2.fset4 <- compute.NRMSE(lasso2.result.4[[1]],df4[[2]],typemodel="lasso2"))
-lasso2.result.5 <- lasso2(df5)
-(nrmse.lasso2.fset5 <- compute.NRMSE(lasso2.result.5[[1]],df5[[2]],typemodel="lasso2"))
-
-
-RSS <- lasso2.result.1[[1]]$
-RSE <- sqrt(RSS/nrow(data)) # average error made on a prediction. 
-mean_price <- mean(data$price)
-TSS <- sum((data$price - mean_price)^2)
-R_sqared <- (TSS - RSS)/TSS 
+}

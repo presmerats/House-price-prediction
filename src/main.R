@@ -48,6 +48,14 @@ raw_continuous_dataset <- raw_continuous_vars_selection(data)
 save(file = "../Dataset/raw_continuous_dataset.Rda", raw_continuous_dataset)
 rm(raw_continuous_dataset)
 
+preprocessed.data01 <- basic.preprocessing(data)
+#preprocessed.data01 <- basic.preprocessing.short(data)
+#preprocessed.data01 <- basic.preprocessing.short2(data)
+save(file = "../Dataset/preproceessed01.Rda", preprocessed.data01)
+rm(preprocessed.data01)
+
+
+
 #### 3 - Unsupervised analysis of the data ####
 
 # test normality. 
@@ -70,4 +78,6 @@ pca_analysis_2()
 
 load(file="../Dataset/raw_continuous_dataset.Rda")
 linear_regression_fitting(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
+
+
 

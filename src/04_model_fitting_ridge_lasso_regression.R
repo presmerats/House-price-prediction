@@ -8,7 +8,11 @@
 
 
 # 0. loading--------------------------------------------------
-setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+#setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+
+ridge_regression_fitting <- function(data, dataset_id, output_results = "../Analysis Results/Rigde Regression Fitting/")
+{
+  
 
 rm(list = ls())
 load("data-preprocessed.Rdata")
@@ -210,3 +214,7 @@ N.test <- nrow(x)
 (nrmse.lasso <- sqrt(pred.lasso/((N-1)*var(test$price))))
 # 0.00428808
 
+
+
+
+}

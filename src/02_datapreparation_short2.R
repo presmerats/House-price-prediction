@@ -6,20 +6,9 @@
 # 07/05/2018
 ####################################################################
 
-# 0. loading--------------------------------------------------
-setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
-a = Sys.info()
-if (a[1] == "Linux"){
-  # Linux reading file
-  data <- read.csv(file="../Dataset/kc_house_data.csv", header=TRUE, sep=",")
-  
-} else {
-  # windows reading file
-  data <- read.csv(file="../Dataset/kc_house_data.csv", header=TRUE, sep=",")
-}
-attach(data)
-
+basic.preprocessing.short2 <- function(data)
+{
 # 1. inspection--------------------------------------------------
 dim(data)
 names(data)
@@ -532,7 +521,10 @@ pca.res <- PCA(data.new)
 # 6. saving data
 
 
-save(data.new, file = "data-preprocessed.Rdata")
+#save(data.new, file = "data-preprocessed.Rdata")
 
+return(data.new)
+
+}
 
 
