@@ -1,2 +1,3 @@
 Script;Comment;Input;Model;Training error CV;Testing error CV
 "linear_regressions_fitting";"testing the workflow";"raw_continuous_vars";"simple linear regression";"222847.68";"199650.06"
+"linear_regressions_fitting";"testing the workflow";"raw_continuous_vars";"simple linear regression";"222906.86";"198818.34"

@@ -1,0 +1,747 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"FeatureEx",
+				"FeatureExtractionDDI\tclass"
+			],
+			[
+				"prepare",
+				"prepareFeatures\tfunction"
+			],
+			[
+				"chunk",
+				"chunkGroup"
+			],
+			[
+				"e1w",
+				"e1word\tstatement"
+			],
+			[
+				"e2o",
+				"e2offset_original\tstatement"
+			],
+			[
+				"e1off",
+				"e1offset_original\tstatement"
+			],
+			[
+				"entity",
+				"entity1_features_template\tstatement"
+			],
+			[
+				"shortest",
+				"shortestpathDep"
+			],
+			[
+				"process",
+				"processSentences\tfunction"
+			],
+			[
+				"shor",
+				"shortestpathDep"
+			],
+			[
+				"sho",
+				"shortestpathDep"
+			],
+			[
+				"proces",
+				"ProcessSentences\tfunction"
+			],
+			[
+				"offset",
+				"offsetstart"
+			],
+			[
+				"re",
+				"registerError\tfunction"
+			],
+			[
+				"test",
+				"testdata"
+			],
+			[
+				"wei",
+				"weightsVector\tfunction"
+			],
+			[
+				"window_1_",
+				"window_1_before\tstatement"
+			],
+			[
+				"result",
+				"resultFeatures\tstatement"
+			],
+			[
+				"coutn",
+				"countWindow\tfunction"
+			],
+			[
+				"algo",
+				"algo\tstatement"
+			],
+			[
+				"par",
+				"parseEvaluationLine"
+			],
+			[
+				"trainin",
+				"training_set_name\tstatement"
+			],
+			[
+				"Key",
+				"KeyboardKey\tmodule"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/pau/Projectes/mlproject/README.md",
+			"settings":
+			{
+				"buffer_size": 2492,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "20180616",
+			"settings":
+			{
+				"buffer_size": 696,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "Theme",
+		"selected_items":
+		[
+			[
+				"Theme",
+				"UI: Select Color Scheme"
+			],
+			[
+				"boxy",
+				"Boxy Theme: Configuration"
+			],
+			[
+				"json",
+				"JSON Reindent: reindent file or selection"
+			],
+			[
+				"set syntax:json",
+				"Set Syntax: JSON"
+			],
+			[
+				"preview",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"mark",
+				"Markdown Preview: Preview in Browser"
+			]
+		],
+		"width": 497.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/pau/gdrive/MIRI-DS/CPDS/Parallelism/OpenMP single constructS",
+		"/home/pau/gdrive/MIRI-DS/MVA/exercices/ex08/tic_tt.csv",
+		"/home/pau/gdrive/MIRI-DS/MVA/MVA_MBA Market basket analysis",
+		"/home/pau/gdrive/MIRI-DS/MVA/MVA summary",
+		"/home/pau/gdrive/MIRI-DS/MVA/PCA-class.R",
+		"/home/pau/gdrive/MIRI-DS/MVA/exercices/credsco.R",
+		"/home/pau/gdrive/MIRI-DS/MVA/practiceC5212B",
+		"/home/pau/gdrive/MIRI-DS/MVA/MVA multivariate normal distribution",
+		"/home/pau/gdrive/MIRI-DS/planning/Summer 2018",
+		"/home/pau/gdrive/MIRI-DS/MVA/MVA presentation notes",
+		"/home/pau/gdrive/g/trainingi",
+		"/home/pau/gdrive/MIRI-DS/ML/notes/ML-11-12-NN-notes",
+		"/home/pau/gdrive/MIRI-DS/MVA/MVA PCA 1",
+		"/home/pau/gdrive/MIRI-DS/MVA/MVA PCA 2.index",
+		"/home/pau/gdrive/MIRI-DS/MVA/MVA_PCA2.R",
+		"/home/pau/gdrive/MIRI-DS/MVA/MVA_PCA2_interpretation of biplots",
+		"/home/pau/gdrive/MIRI-DS/MVA/Clustering",
+		"/home/pau/gdrive/MIRI-DS/MVA/MVA_Clustering.notes",
+		"/home/pau/gdrive/MIRI-DS/CPDS/Parallelism/CUDA_intro",
+		"/home/pau/gdrive/MIRI-DS/AHLT-MAI/AHLT summary",
+		"/home/pau/gdrive/MIRI-DS/AHLT-MAI/AHLT -Session 5",
+		"/home/pau/gdrive/MIRI-DS/AHLT-MAI/AHLT - Session4 - Parsing - Robust parsing Chunking",
+		"/home/pau/gdrive/MIRI-DS/AHLT-MAI/AHLTMAI - session 3",
+		"/home/pau/gdrive/MIRI-DS/AHLT-MAI/AHLT sess 2",
+		"/home/pau/gdrive/MIRI-DS/AHLT-MAI/AHLT sess1",
+		"/home/pau/gdrive/MIRI-DS/AHLT-MAI/Project/Dataset-description",
+		"/home/pau/gdrive/MIRI-DS/AHLT-MAI/Project/classnotes",
+		"/home/pau/gdrive/MIRI-DS/OD/11_-_descriptionlogs-ontology",
+		"/home/pau/gdrive/MIRI-DS/OD/12_-_TRiple store",
+		"/home/pau/gdrive/MIRI-DS/OD/11_-_notes2-exercice11",
+		"/home/pau/gdrive/MIRI-DS/OD/09_-_Knowledge graphs",
+		"/home/pau/gdrive/MIRI-DS/OD/lab/lab3/od-lab3-personaltries",
+		"/home/pau/gdrive/MIRI-DS/OD/OD _session_20180323",
+		"/home/pau/Projectes/AHLT-mai/src/FeatureExtraction.py",
+		"/home/pau/Projectes/AHLT-mai/src/FreelingFeatures.py",
+		"/home/pau/Projectes/AHLT-mai/data/batches/dnr22/d30tDBmNERaCRFw1m10.yaml",
+		"/home/pau/Projectes/AHLT-mai/data/batches/dnr22/d30tMDmNERaCRFw1m10.yaml",
+		"/home/pau/Projectes/AHLT-mai/data/batches/dnr22/d23tDBmBERaLSVMw3m0.yaml",
+		"/home/pau/Projectes/AHLT-mai/data/batches/dnr22/d23tMDmBERaLSVMw3m0.yaml",
+		"/home/pau/Projectes/AHLT-mai/data/batches/svmdebug/d23tDBmNERaSVMw3.yaml",
+		"/home/pau/Projectes/AHLT-mai/data/batches/b0524/d24tMDmNERaCRFw1.yaml",
+		"/home/pau/Projectes/AHLT-mai/data/reports/_NER_scores.tex",
+		"/home/pau/Projectes/AHLT-mai/data/reports/_NER_scores2.tex",
+		"/home/pau/Projectes/AHLT-mai/data/reports/_DDI_scores2.tex",
+		"/home/pau/Projectes/AHLT-mai/src/templates/score2.j2",
+		"/home/pau/Projectes/AHLT-mai/data/reports/_DDI_scores.tex",
+		"/home/pau/Projectes/AHLT-mai/src/BIOFeatures.py",
+		"/home/pau/Projectes/AHLT-mai/data/features/features.json",
+		"/home/pau/Projectes/AHLT-mai/data/features/dataall.json",
+		"/home/pau/Projectes/AHLT-mai/data/LaboCase/Test/Test for DrugNER task/DrugBank/Misoprostol.xml",
+		"/home/pau/Projectes/AHLT-mai/planning/AHLT project tasks2",
+		"/home/pau/Projectes/AHLT-mai/planning/DDI_notes",
+		"/home/pau/Projectes/AHLT-mai/src/07-DDI_preprocess_DrugBank.py",
+		"/home/pau/Projectes/AHLT-mai/src/07-DDI_preprocess_Medline.py",
+		"/home/pau/Projectes/AHLT-mai/src/07-DDI_preprocess_total.py",
+		"/home/pau/Projectes/AHLT-mai/src/07-DDI_inspectfeatures.py",
+		"/home/pau/Projectes/AHLT-mai/src/Reporting.py",
+		"/home/pau/Projectes/AHLT-mai/src/templates/scores.j2",
+		"/home/pau/Projectes/AHLT-mai/src/CustomFeatures.py",
+		"/home/pau/Projectes/AHLT-mai/data/batches/ddi22/preprocessBDDIstep3Medline-test.yaml",
+		"/home/pau/Projectes/AHLT-mai/data/batches/ddi22/preprocessBDDIstep3Medline.yaml",
+		"/home/pau/Projectes/AHLT-mai/data/batches/ddi22/preprocessDDIstep3Medline-test.yaml",
+		"/home/pau/Projectes/AHLT-mai/data/batches/ddi22/preprocessDDIstep3Medline.yaml",
+		"/home/pau/Projectes/AHLT-mai/data/batches/ddi22/preprocessBDDIstep3DrugBank.yaml",
+		"/home/pau/Projectes/AHLT-mai/data/batches/ddi22/preprocessBDDIstep3DrugBank-test.yaml",
+		"/home/pau/Projectes/AHLT-mai/data/batches/ddi22/preprocessDDIstep3DrugBank.yaml",
+		"/home/pau/Projectes/AHLT-mai/data/batches/ddi22/preprocessDDIstep3DrugBank-test.yaml",
+		"/home/pau/Projectes/AHLT-mai/data/batches/ddi22/ddi006.yaml",
+		"/home/pau/Projectes/AHLT-mai/src/templates/scores3.j2",
+		"/home/pau/Projectes/AHLT-mai/src/NERmodel.py",
+		"/home/pau/Projectes/AHLT-mai/src/06-CRFplayground.py",
+		"/home/pau/Projectes/AHLT-mai/src/07-DDI playground.py",
+		"/home/pau/Projectes/AHLT-mai/src/07-DDI features.py",
+		"/home/pau/Projectes/AHLT-mai/src/CustomFeaturesDDI.py",
+		"/home/pau/Projectes/AHLT-mai/src/FeatureExtractionDDI.py",
+		"/home/pau/Projectes/AHLT-mai/src/DDImodel.py",
+		"/home/pau/Projectes/AHLT-mai/data/batches/ddi22/ddi010_strange.yaml",
+		"/home/pau/gdrive/MIRI-DS/Career/Mthesis/DeepReinforcementLearningCisco",
+		"/home/pau/Projectes/AHLT-mai/src/07-DDI_train_prasetree_features.py",
+		"/home/pau/Projectes/AHLT-mai/src/07-DDI_test_prasetree_features.py",
+		"/home/pau/Projectes/AHLT-mai/src/07-DDI_train_prasetree_features_DDItype.py",
+		"/home/pau/Projectes/AHLT-mai/src/ChunkFeatures.py",
+		"/home/pau/Projectes/AHLT-mai/src/shortestpath.py",
+		"/home/pau/Projectes/AHLT-mai/data/batches/ddi22/featureExtractionTest2type.yaml",
+		"/home/pau/Projectes/AHLT-mai/data/batches/ddi22/featureExtractionTest2.yaml",
+		"/home/pau/Projectes/AHLT-mai/data/batches/ddi22/featureExtraction2type.yaml",
+		"/home/pau/Projectes/AHLT-mai/data/batches/ddi22/featureExtraction2.yaml",
+		"/home/pau/Projectes/AHLT-mai/data/batches/ddi22/ddi007-someparams.yaml",
+		"/home/pau/Projectes/AHLT-mai/data/batches/ddi22/dddi007-paramsmaybe.yaml",
+		"/home/pau/Projectes/AHLT-mai/data/batches/ddi22/ddi006_params.yaml",
+		"/home/pau/Projectes/AHLT-mai/data/batches/ddi22/ddi006_paramsmaybe.yaml",
+		"/home/pau/Projectes/AHLT-mai/src/07-DDI_test_prasetree_features_DDItype.py",
+		"/home/pau/Projectes/AHLT-mai/data/batches/ddi22/featureExtractionDDITOTAL.yaml",
+		"/home/pau/Projectes/AHLT-mai/src/debug_offsets_test.json",
+		"/home/pau/Projectes/AHLT-mai/src/debug_offsets_train.json",
+		"/home/pau/gdrive/MIRI-DS/Career/Ms T.",
+		"/home/pau/Projectes/AHLT-mai/src/debug_offsets.json",
+		"/home/pau/Projectes/nlp-with-python/lab/chap2/chap2ex09.py",
+		"/home/pau/Projectes/AHLT-mai/data/features/FeatureExtraction2_countfeatures.json",
+		"/home/pau/Projectes/AHLT-mai/data/features/FeatureExtractionTest2_countfeatures.json",
+		"/home/pau/Projectes/AHLT-mai/src/07-DDI_pystatparser.py",
+		"/home/pau/Projectes/AHLT-mai/src/07-DDI_MaltParser.py",
+		"/home/pau/Projectes/AHLT-mai/src/07-DDI features tests.ipynb",
+		"/home/pau/Projectes/nlp-with-python/lab/chap2/chap2ex10.py",
+		"/home/pau/Projectes/nlp-with-python/lab/chap2/chap2ex18.py",
+		"/home/pau/Projectes/AHLT-mai/src/07-NER_bestmodels.py",
+		"/home/pau/Projectes/AHLT-mai/src/04-ParallelBatch.py",
+		"/home/pau/Projectes/AHLT-mai/src/07-DDI_train_prasetree_features_Dep.py",
+		"/home/pau/Projectes/AHLT-mai/data/features/d25tDBmDDIaSVM-Dependency-d25tDBmDDIaSVMm0.json",
+		"/home/pau/Projectes/AHLT-mai/data/batches/b0524/d24tDBmNERaCRFw1.yaml",
+		"/home/pau/Projectes/AHLT-mai/data/batches/b0522/d22tDBmNERaCRFw1.yaml",
+		"/home/pau/Projectes/AHLT-mai/data/batches/b0522/d22btDBmNERaCRFw1.yaml",
+		"/home/pau/Projectes/AHLT-mai/data/batches/svmdebug/d21tDBmNERaSVMw3.yaml",
+		"/home/pau/Projectes/AHLT-mai/data/batches/b0524/d24tDBmNERaLSVMw3.yaml",
+		"/home/pau/Projectes/AHLT-mai/data/batches/b0524/d24tMDmNERaLSVMw3.yaml",
+		"/home/pau/Projectes/AHLT-mai/data/batches/svmdebug/d23tDBmNERaLWSVMw3.yaml",
+		"/home/pau/gdrive/MIRI-DS/MVA/MVA_decision_trees",
+		"/home/pau/Projectes/SerpentAI/requirements.txt",
+		"/home/pau/Projectes/AHLT-mai/src/CRFtrainer.py",
+		"/home/pau/Projectes/AHLT-mai/src/SVMtrainer.py",
+		"/home/pau/gdrive/MIRI-DS/CPDS/Parallelism/OpenMP task parallelism",
+		"/home/pau/gdrive/MIRI-DS/CPDS/Parallelism/MPI-intro",
+		"/home/pau/Projectes/AHLT-mai/src/07-DDI_test_prasetree_features_Dep.py",
+		"/home/pau/Projectes/AHLT-mai/src/07-DDI_test_prasetree_features_Both.py",
+		"/home/pau/Projectes/AHLT-mai/src/07-DDI_train_prasetree_features_Both.py",
+		"/home/pau/Projectes/AHLT-mai/data/batches/svmdebug/d21tDBmDDIaSVMw3.yaml",
+		"/home/pau/Projectes/AHLT-mai/data/features/d21tDBmDDIaSVM-test-Dependency-d21tDBmDDIaSVMm0-test.json",
+		"/home/pau/Projectes/AHLT-mai/src/DrugBankLookup.py"
+	],
+	"find":
+	{
+		"height": 22.0
+	},
+	"find_in_files":
+	{
+		"height": 130.0,
+		"where_history":
+		[
+			"../batches/",
+			"../batches/*.yaml",
+			".",
+			"../data/batches"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"\t\n",
+			"pseudo",
+			"Condition",
+			"condition",
+			"centroi",
+			"line",
+			"activa",
+			"regularization",
+			"distance",
+			"product",
+			",\n",
+			"linear",
+			"link",
+			"Regulari",
+			"regulari",
+			"asu",
+			"www",
+			"http://www.sersc.org",
+			"www",
+			"cvtra",
+			"cv",
+			"no C",
+			"self.scores",
+			"macro: {F1",
+			"limitTraining: 1000",
+			"featuresLists",
+			"window",
+			"www",
+			"extractFeatures",
+			"crf",
+			"trainTestModel",
+			"newModelPipeline",
+			"verifyOffsets",
+			"self.verification",
+			"verification",
+			"newModelPipeline",
+			"pipeline",
+			"done",
+			"pprint",
+			"^ mmm",
+			"^  m",
+			"pprint",
+			"prepareDDIFeatures",
+			"prepareFeatures",
+			"prepareSentenceFeatures",
+			"prepareEntityWordFeatures",
+			"prepareSentenceFeatures",
+			"sefe_",
+			"finalizeFeatures",
+			"featureExtractionDDIstep2",
+			"filterEntityWordFeatures",
+			"filterWordFeatures",
+			"FILTER",
+			"wordFeaturesExtension",
+			"modeltype",
+			"parallelBatch",
+			"trainTestModel",
+			"print(\"p",
+			"print(\"parseSing",
+			"parsePredictionOutput",
+			"prasePrediction",
+			"loadDDIFeatures",
+			"window",
+			"Exception:",
+			"prepareDDIFeatures",
+			"prepareFe",
+			"exception",
+			"finalize",
+			"predict",
+			"topcount=topcount",
+			"loadDDIFeatures",
+			"loadDDIFeaturesFile",
+			"finalizeFeatures",
+			"prepareDDIFeatures",
+			"loadDDIFeaturesFile",
+			"trainFeatures",
+			"trainingFolder",
+			"testBDDIfile",
+			"parallelDDIbatchTraining",
+			"total_time",
+			"modeltype: DDI",
+			"total_time",
+			"0,42",
+			"0.42",
+			"limittraining: 1000",
+			"^  m",
+			"  m",
+			"status: done",
+			"     wordfeatures:",
+			": DDI",
+			"BDDI",
+			"]]",
+			"wordStructure2,\n      wordStructureLong,\n      wordStructureLong2",
+			"save",
+			"maxwordlength",
+			"files_path",
+			"prepareFeatures",
+			"trainFeatureExtraction",
+			"predictionResults",
+			"Myfeatures",
+			"myFeatures",
+			"trainTestModel",
+			"MyFeatures",
+			"extractFeaturesNG",
+			"featureExtractionDDI",
+			"self.orth",
+			"ortholist",
+			"\"",
+			"e[\"trigrams",
+			"prepareCountFeatures",
+			"custom.",
+			"self.custom",
+			"MyFeatures",
+			"createCountVarsForDDI",
+			"paramthreshold",
+			"parallelDDIbatchTraining",
+			"parallelBatchTraining",
+			"featureExtractionDDITest",
+			"topcount",
+			"e[",
+			"radiopertech",
+			"265",
+			"267",
+			"266",
+			"targetformat",
+			"featureExtractionDDIstep2",
+			"treetype",
+			"transformToXY"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"limitTraining: null",
+			"  mmm",
+			"^ mmm",
+			"modeltype: BDDI",
+			"limitTraining: null",
+			"  mm",
+			"status: pending",
+			": BDDI",
+			"DDI",
+			"]",
+			"",
+			"+str(word2)+",
+			"+str(word1)+",
+			"''.join(tree)",
+			"",
+			"    ",
+			"DDImodel",
+			"",
+			"modeltype: ER",
+			"gc.collect()\\ntime.sleep(60)",
+			"algorithm: svm",
+			"modeltype: NER",
+			"modeltype: ER",
+			"algorithm: svm",
+			"modeltype: ER",
+			"wordStruc",
+			"resultsold:\\n",
+			"\", params,",
+			"\",",
+			"\"",
+			"",
+			"fcurrent:",
+			"fcurrent",
+			"    fbefore",
+			"    fafter",
+			"    fbefore",
+			"    fafter",
+			"wafter",
+			"fafter",
+			"fbefore",
+			"fafter",
+			"\":+",
+			"\":-",
+			":-",
+			"  mod\\1:\\n    algorithm: crf\\n",
+			"  mod\\$1:\\n    algorithm: crf\\n",
+			"m0",
+			"",
+			"status: pending",
+			"\",",
+			"\"",
+			"resultstring[",
+			"self.",
+			"    word",
+			"    ",
+			"jobconf[",
+			"status: done",
+			"status: pending",
+			"    word",
+			"modeltype: NER",
+			"pos,",
+			"lemma, pos,",
+			"lemma,",
+			"pos, lookup, chunk",
+			"pos, lookup, chunkGroup",
+			"chunk",
+			"  mod",
+			"",
+			"chunkGroup",
+			"pos,isLo",
+			"lemma,",
+			"pos",
+			"lemma",
+			"pos",
+			"lemma",
+			"",
+			"    ",
+			"feature[\"pos\"]",
+			"features[\"pos\"]",
+			"features[\"lemma\"]",
+			"feature[\"lemma\"]",
+			"feature[\"word\"]",
+			"features[\"word\"]",
+			"'drugtype'",
+			"'biotag'",
+			"feature[\"pos\"]",
+			"feature[\"lemma\"]",
+			"feature[\"word\"]",
+			"beforefeature[\"word\"]",
+			"beforefeature[\"lemma\"]",
+			"beforefeature[\"pos\"]",
+			"wordfeatures[\"pos\"]",
+			"wordfeatures[\"lemma\"]",
+			"wordfeatures[\"word\"]",
+			"]",
+			"[",
+			"\"",
+			"",
+			" "
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/home/pau/Projectes/mlproject/README.md",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2492,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "20180616",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 696,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 22.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "mlproject.sublime-project",
+	"replace":
+	{
+		"height": 40.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 136.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

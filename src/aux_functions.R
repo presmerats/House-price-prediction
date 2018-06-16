@@ -18,16 +18,16 @@ load_packages <- function()
   load_install_packages("mvnormtest")
   load_install_packages("TunePareto") # for generateCVRuns()
   load_install_packages("tree")
+  load_install_packages("chemometrics")
   
 }
-#load_packages()
 
 source_scripts <- function()
 {
+  source("01_eda.R")
+  
   source("02_datapreparation_david.R")
-  source("02_datapreparation.R")
-  source("02_datapreparation_short.R")
-  source("02_datapreparation_short2.R")
+  source("02_datapreparation_manual.R")
   
   source("03_unsupervised_analysis.R")
   

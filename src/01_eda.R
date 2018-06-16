@@ -2,25 +2,25 @@
 # Machine Learning Project
 # Pau Rodriguez
 
-# Data pre-processing
+# Data pre-processing and Exploratory Data analysis
 # 07/05/2018
 ####################################################################
 
 # 0. loading--------------------------------------------------
-#setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
-#a = Sys.info()
-#if (a[1] == "Linux"){
-#  # Linux reading file
-#  data <- read.csv(file="../Dataset/kc_house_data.csv", header=TRUE, sep=",")
-#  
-#} else {
-#  # windows reading file
-#  data <- read.csv(file="../Dataset/kc_house_data.csv", header=TRUE, sep=",")
-#}
-#attach(data)
+a = Sys.info()
+if (a[1] == "Linux"){
+  # Linux reading file
+  data <- read.csv(file="../Dataset/kc_house_data.csv", header=TRUE, sep=",")
+  
+} else {
+  # windows reading file
+  data <- read.csv(file="../Dataset/kc_house_data.csv", header=TRUE, sep=",")
+}
+attach(data)
 
-basic.preprocessing <- function(data)
+basic.eda <- function(data)
 {
   # 1. inspection--------------------------------------------------
   dim(data)
@@ -662,10 +662,7 @@ basic.preprocessing <- function(data)
   #library(FactoMineR)
   #pca <- PCA(data.new)
   
-  # 6. saving data
-  #save(data.new, file = "data-preprocessed.Rdata"
-  # saving is done outside of this function
-  return(data.new)
+
   
   
 }
