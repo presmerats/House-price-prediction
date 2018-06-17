@@ -291,11 +291,15 @@ featureset.original.nooutliers <- function(data){
   data.new <- preprocessing.create.allfeatures(data)
   data2 <- data.new[,c(1:24)]
   data2 <- data2[,c(-14,-15,-22,-23)]
+  names(data2)[1] <- "target"
+  
   return(data2)
 }
 
 featureset.all <- function(data){
   data.new <- preprocessing.create.allfeatures(data)
+  names(data.new)[1] <- "target"
+  
   return(data.new)
 }
 
@@ -303,6 +307,8 @@ featureset.logs <- function(data){
   data.new <- preprocessing.create.allfeatures(data)
   data3 <- data.new[,c(1:24,35:45)]
   data3 <- data3[,c(1,7,8,13,16,17,20,21,24:35)]
+  names(data3)[1] <- "target"
+  
   return(data3)
 }
 
@@ -310,6 +316,8 @@ featureset.ratios <- function(data){
   data.new <- preprocessing.create.allfeatures(data)
   data4 <- data.new[,c(1:34)]
   data4 <- data4[,c(-2,-3,-4,-5,-6,-15,-14,-22,-23)]
+  names(data4)[1] <- "target"
+  
   return(data4)
 }
 
@@ -317,6 +325,8 @@ featureset.logratios <- function(data){
   data.new <- preprocessing.create.allfeatures(data)
   data5 <- data.new[,c(1:24,48:57)]
   data5 <- data5[,c(-2,-3,-4,-5,-6,-9,-15,-16,-17)]
+  names(data5)[1] <- "target"
+  
   return(data5)
 }
 
@@ -339,6 +349,8 @@ featureset.nocorr.manual01 <- function(data){
   #corrplot(cor(data.new[,1:40]), method = "color", addCoef.col="grey")
   
   data5 <- data.new[,c(-16,-17,-13,-12,-11,-10,-4-3)]
+  
+  names(data5)[1] <- "target"
 
   return(data5)
 }
@@ -360,6 +372,7 @@ featureset.nocorr.manual02 <- function(data){
 
   
   data5 <- data.new[,c(-2,-3,-10,-11,-16,-17)]
+  names(data5)[1] <- "target"
   
   return(data5)
 }
@@ -380,6 +393,7 @@ featureset.nocorr.log.manual03 <- function(data){
   corrplot(cor(data.new), method = "color", addCoef.col="grey")
   data5 <- data.new[,c(-10,-11,-16,-17,-18,-19,-20)]
   corrplot(cor(data5), method = "color", addCoef.col="grey")
+  names(data5)[1] <- "target"
   
   return(data5)
 }
@@ -400,7 +414,7 @@ featureset.nocorr.ratios.manual04 <- function(data){
   corrplot(cor(data.new), method = "color", addCoef.col="grey")
   data5 <- data.new[,c(-5,-6,-11,-20,-25,-23,-21)]
   corrplot(cor(data5), method = "color", addCoef.col="grey")
-  
+  names(data5)[1] <- "target"
   return(data5)
 }
 

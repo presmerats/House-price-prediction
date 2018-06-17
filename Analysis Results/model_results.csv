@@ -1,1 +1,3 @@
 Script;Comment;Input;Model;Training error;Training MSE; Training NRMSE;Validation error; Validation MSE; Validation NRMSE;Testing error;Testing MSE;Testing NRMSE
+"ridge_regressions_mass";"testing the workflow";"featureset_nocorrelation04_ratios";"ridge regression MASS";"203775194515548";"62883874252.5993";"250766.573236146";"9753712.15291003";"0";"0";"556671125172463";"73619139743.7629";"271328.472047743"
+"ridge_regressions_mass";"testing the workflow";"raw_continuous_vars";"ridge regression MASS";"179524970695233";"55374759622.2186";"235318.421765527";"8566531.67076731";"0";"0";"459023581116032";"60681285096.9703";"246335.716243037"

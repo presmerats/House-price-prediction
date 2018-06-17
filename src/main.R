@@ -33,47 +33,44 @@ raw_continuous_dataset <- raw_continuous_vars_selection(data)
 save(file = "../Dataset/raw_continuous_dataset.Rda", raw_continuous_dataset)
 rm(raw_continuous_dataset)
 
-featureset.allmanual <- featureset.all(data)
-save(file = "../Dataset/featureset_allmanual.Rda", featureset.allmanual)
-rm(featureset.allmanual)
+featureset_allmanual <- featureset.all(data)
+save(file = "../Dataset/featureset_allmanual.Rda", featureset_allmanual)
+rm(featureset_allmanual)
 
-featureset.original.nooutliers <- featureset.original.nooutliers(data)
-save(file = "../Dataset/featureset_original_nooutliers.Rda", featureset.original.nooutliers)
-rm(featureset.original.nooutliers)
+featureset_original_nooutliers <- featureset.original.nooutliers(data)
+save(file = "../Dataset/featureset_original_nooutliers.Rda", featureset_original_nooutliers)
+rm(featureset_original_nooutliers)
 
+featureset_logs <- featureset.logs(data)
+save(file = "../Dataset/featureset_logs.Rda", featureset_logs)
+rm(featureset_logs)
 
-featureset.logs <- featureset.logs(data)
-save(file = "../Dataset/featureset_logs.Rda", featureset.logs)
-rm(featureset.logs)
+featureset_ratios <- featureset.ratios(data)
+save(file = "../Dataset/featureset_ratios.Rda", featureset_ratios)
+rm(featureset_ratios)
 
-featureset.ratios <- featureset.ratios(data)
-save(file = "../Dataset/featureset_ratios.Rda", featureset.ratios)
-rm(featureset.ratios)
+featureset_logratios <- featureset.logratios(data)
+save(file = "../Dataset/featureset_logratios.Rda", featureset_logratios)
+rm(featureset_logratios)
 
-
-featureset.logratios <- featureset.logratios(data)
-save(file = "../Dataset/featureset_logratios.Rda", featureset.logratios)
-rm(featureset.logratios)
-
-
-featureset.nocorrelation <- featureset.nocorr.manual01(data)
-save(file = "../Dataset/featureset_nocorrelation01.Rda", featureset.nocorrelation)
-rm(featureset.nocorrelation)
+featureset_nocorrelation01 <- featureset.nocorr.manual01(data)
+save(file = "../Dataset/featureset_nocorrelation01.Rda", featureset_nocorrelation01)
+rm(featureset_nocorrelation01)
 
 
-featureset.nocorrelation02 <- featureset.nocorr.manual02(data)
-save(file = "../Dataset/featureset_nocorrelation02.Rda", featureset.nocorrelation02)
-rm(featureset.nocorrelation02)
+featureset_nocorrelation02 <- featureset.nocorr.manual02(data)
+save(file = "../Dataset/featureset_nocorrelation02.Rda", featureset_nocorrelation02)
+rm(featureset_nocorrelation02)
 
 
-featureset.nocorrelation03.logs <- featureset.nocorr.log.manual03(data)
-save(file = "../Dataset/featureset_nocorrelation03_logs.Rda", featureset.nocorrelation03.logs)
-rm(featureset.nocorrelation03.logs)
+featureset_nocorrelation03_logs <- featureset.nocorr.log.manual03(data)
+save(file = "../Dataset/featureset_nocorrelation03_logs.Rda", featureset_nocorrelation03_logs)
+rm(featureset_nocorrelation03_logs)
 
 
-featureset.nocorrelation04.ratios <- featureset.nocorr.ratios.manual04(data)
-save(file = "../Dataset/featureset_nocorrelation04_ratios.Rda", featureset.nocorrelation04.ratios)
-rm(featureset.nocorrelation04.ratios)
+featureset_nocorrelation04_ratios <- featureset.nocorr.ratios.manual04(data)
+save(file = "../Dataset/featureset_nocorrelation04_ratios.Rda", featureset_nocorrelation04_ratios)
+rm(featureset_nocorrelation04_ratios)
 
 #### 3 - Unsupervised analysis of the data ####
 
@@ -98,9 +95,12 @@ pca_analysis_2()
 
 load(file="../Dataset/raw_continuous_dataset.Rda")
 linear_regression_fitting(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
+rm(raw_continuous_vars)
 
 load(file="../Dataset/raw_continuous_dataset.Rda")
 mass.ridge(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
+rm(raw_continuous_vars)
 
-
-
+load(file="../Dataset/featureset_nocorrelation04_ratios.Rda")
+mass.ridge(featureset_nocorrelation04_ratios, dataset_id = "featureset_nocorrelation04_ratios")
+rm(featureset_nocorrelation04_ratios)
