@@ -110,7 +110,6 @@ lars.lasso.CV.total <- function (k,data,model.lasso)
   }
   
   # index of the bestlambda (the one with less validation error)
-  browser()
   bestlam=which.min(va.errors)
  
 }

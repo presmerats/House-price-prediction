@@ -91,13 +91,19 @@ ok- cross validation lab review
 					ok-lasso1  (MASS)
 					ok-linear regression
 
-		- xlsx file also?
-		- write comments on Analysis Results/Ridge and Analysis Results/Lasso
+		ok- xlsx file also?
+		ok- write comments on Analysis Results/Ridge and Analysis Results/Lasso
 
-	- clean unused R script files
+	ok- clean unused R script files
 		04_model_fitting_ridge_lasso.R
 		
-	- PCA prin comp features, and a way to project new values before predict
+	ok- PCA prin comp features, and a way to project new values before predict
+		PCA (only numerical data, without outliers)
+		select prin comps -> numpcs
+		PCA( n=numpcs)
+		cbind PCA princomp + price
+			-> no need to project.. jsut build the dataset
+
 
 	- get to know other models
 		pcr
@@ -122,9 +128,15 @@ ok- cross validation lab review
 	 	log, 
 	 	log+ratios
 	 	uncorr subsets,
+	experiments:
+		for each model
+			for each dataset
+				get results
+
 	graphs:	plot some comparisons 
-		model vs datasets
-		dataset vs models
+		model vs datasets (group by model)
+		dataset vs models (group by dataset)
+		logic maybe: select best dataset overall, then select best model over it
 	conclusions
 
 - documentation

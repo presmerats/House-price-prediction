@@ -36,6 +36,23 @@ pca_analysis <- function(output_results = "../Analysis Results/Unsupervised Anal
 
 }
 
+featureset_pca <- function(data){
+  # the imput must be continuous data with no outliers
+  pca_result <- PCA(data, quanti.sup = c(1), ncp=6)
+  dev.off()
+  # select num prin components -> 90% variance for 6
+  # pca_result$eig
+  
+  # current features
+  data_pca <- data.frame(
+    cbind(target=data[,1],
+      pca_result$ind$coord)
+  )
+  
+  
+  return(data_pca)
+}
+
 
 
 pcr_model <- function(output_results = "../Analysis Results/Unsupervised Analysis/", data)

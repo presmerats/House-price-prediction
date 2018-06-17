@@ -1,1 +1,4 @@
 lm_fitting_continuous_original_variables_result: R-squared:0.56
+new version with cross validation error just to compare to other models
+error measures: squared error, MSE, NRMSE
+pending: add the R-squared? (how to add for other models?)

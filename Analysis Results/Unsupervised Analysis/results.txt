@@ -30,5 +30,6 @@ price    45.58    46.30    48.18    48.42    54.18    54.32    54.55    54.78   
  The result of the prediction with PCR yeild RMSE of  257606.218843766 
 
  *******
+ Considering moving PCR to a model instead of a simple unsupervised learning?
 
 

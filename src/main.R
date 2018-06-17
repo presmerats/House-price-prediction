@@ -72,6 +72,13 @@ featureset_nocorrelation04_ratios <- featureset.nocorr.ratios.manual04(data)
 save(file = "../Dataset/featureset_nocorrelation04_ratios.Rda", featureset_nocorrelation04_ratios)
 rm(featureset_nocorrelation04_ratios)
 
+raw_continuous_dataset <- raw_continuous_vars_selection(data)
+featureset_pca <- featureset_pca(raw_continuous_dataset)
+save(file = "../Dataset/featureset_pca.Rda", featureset_pca)
+rm(featureset_pca)
+
+
+
 #### 3 - Unsupervised analysis of the data ####
 
 # test normality. 
@@ -93,30 +100,50 @@ pca_analysis_2()
 
 #### 4 - Models fitting ####
 
+
+# ----- continuous vars only --------------------------------------------#
 load(file="../Dataset/raw_continuous_dataset.Rda")
 linear_regression_fitting02(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
-rm(raw_continuous_vars)
-
-load(file="../Dataset/raw_continuous_dataset.Rda")
 mass.ridge(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
+glmnet.ridge(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
+glmnet.lasso(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
+lars.lasso(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
 rm(raw_continuous_vars)
 
+
+# ----- PCA extracted features --------------------------------------------#
+load(file="../Dataset/featureset_pca.Rda")
+linear_regression_fitting02(featureset_pca, dataset_id = "featureset_pca")
+mass.ridge(featureset_pca, dataset_id = "featureset_pca")
+glmnet.ridge(featureset_pca, dataset_id = "featureset_pca")
+glmnet.lasso(featureset_pca, dataset_id = "featureset_pca")
+lars.lasso(featureset_pca, dataset_id = "featureset_pca")
+rm(featureset_pca)
+
+
+# ----- logs --------------------------------------------#
+
+
+# ----- ratios --------------------------------------------#
+
+
+# ----- logs and ratios --------------------------------------------#
+
+
+# ----- uncorrelated selection 1 --------------------------------------------#
+
+
+# ----- uncorrelated selection 2 --------------------------------------------#
+
+
+# ----- uncorrelated selection 3 --------------------------------------------#
+
+
+# ----- uncorrelated selection 4 --------------------------------------------#
 load(file="../Dataset/featureset_nocorrelation04_ratios.Rda")
 mass.ridge(featureset_nocorrelation04_ratios, dataset_id = "featureset_nocorrelation04_ratios")
 rm(featureset_nocorrelation04_ratios)
 
 
-load(file="../Dataset/raw_continuous_dataset.Rda")
-glmnet.ridge(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
-rm(raw_continuous_vars)
-
-load(file="../Dataset/raw_continuous_dataset.Rda")
-glmnet.lasso(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
-rm(raw_continuous_vars)
 
 
-
-
-load(file="../Dataset/raw_continuous_dataset.Rda")
-lars.lasso(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
-rm(raw_continuous_vars)
