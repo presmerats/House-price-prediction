@@ -94,7 +94,7 @@ pca_analysis_2()
 #### 4 - Models fitting ####
 
 load(file="../Dataset/raw_continuous_dataset.Rda")
-linear_regression_fitting(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
+linear_regression_fitting02(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
 rm(raw_continuous_vars)
 
 load(file="../Dataset/raw_continuous_dataset.Rda")

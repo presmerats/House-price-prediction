@@ -46,7 +46,7 @@ ok- cross validation lab review
 				-manual_no_correlation_selection
 			ok- test everything
 			ok- remove 02_datapreparation_short2.R
-		- adapt to single file input, single file output
+		ok- adapt to single file input, single file output
 			ok-ridge1
 				training test separation
 					ok-> split training and test! then va and training
@@ -73,7 +73,7 @@ ok- cross validation lab review
 					ko-> maybe cv1 and cv2 can be the same(to have more training individuals)
 					->introduce a manual cv computation and save the validation error
 					
-			-> apply to all models! maybe in the main before fitting the models
+			ok-> apply to all models! maybe in the main before fitting the models
 				ok-model_results.csv change header
 				ok-for each function
 					func header, 
@@ -89,7 +89,7 @@ ok- cross validation lab review
 					ok-ridge2
 					ok-lasso2(glmnet)
 					ok-lasso1  (MASS)
-->					linear regression
+					ok-linear regression
 
 		- xlsx file also?
 		- write comments on Analysis Results/Ridge and Analysis Results/Lasso
