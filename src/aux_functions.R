@@ -21,7 +21,10 @@ load_packages <- function()
   load_install_packages("chemometrics")
   load_install_packages("MASS")
   load_install_packages("corrplot")
-  
+  load_install_packages("randomForest")
+  load_install_packages("rpart")
+  load_install_packages("rpart.plot")
+  #load_install_packages("rattle")
 }
 
 source_scripts <- function()
