@@ -94,10 +94,13 @@ pca_analysis_2()
 
 
 
-#### 4 - Linear Models fitting ####
+#### 4 - Models fitting ####
 
 load(file="../Dataset/raw_continuous_dataset.Rda")
 linear_regression_fitting(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
+
+load(file="../Dataset/raw_continuous_dataset.Rda")
+mass.ridge(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
 
 
 

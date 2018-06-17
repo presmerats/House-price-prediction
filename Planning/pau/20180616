@@ -47,17 +47,50 @@ ok- cross validation lab review
 			ok- test everything
 			ok- remove 02_datapreparation_short2.R
 ->		- adapt to single file input, single file output
-			- modify model fitting + prediciton inside modle function to be called inside cv
-			single ridge
-			single lasso
-			call from main
+			ok-ridge1
+				training test separation
+					ok-> split training and test! then va and training
+					ok-> split must be random
+					ko-> new load function?	
+				cv setup
+					ridge lambdas? test different lambdas?
+					func for se, func for nrmse
+				refit after selecting minimal cv
+				compute test error and save also
+					NRMSE setup
+					MSE setup
+				
+			-> apply to all models! maybe in the main before fitting the models
+				ok-model_results.csv change header
+				-MODELS
+					ok-ridge1 (MASS)
+					ridge2
+					lasso1  (MASS)
+					lasso2
+					linear regression
+					pcr
+					trees
+
+				-for each function
+					func header, 
+					test & training,  
+					cv, 
+					refit, 
+					generalization error, 
+					write
+				-calls from main
+			
+			->fix names of the datasets when saving them as featuresets_files -> same name as filenam	
+		
 		- write results to txdt file
 		- xlsx file also?
 	- clean unused R script files
+		04_model_fitting_ridge_lasso.R
 
 - train basic
-	 models: lin, poly, ridge, lasso
-	 features: pca, log, corr.
+	 models: lin, poly, ridge, lasso, pcr, trees, 
+	 features: pca, ratios,  log, uncorr,
+	 make sure: cv then retrain then test
 
 - documentation
 	- skeleton

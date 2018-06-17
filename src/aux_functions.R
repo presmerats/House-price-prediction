@@ -34,10 +34,11 @@ source_scripts <- function()
   source("03_unsupervised_analysis.R")
   
   source("04_linear_regressions_fitting.R")
-  source("04_model_fitting_ridge_lasso_regression.R")
   source("04_model_ridge_lasso_functions.R")
   source("04_trees_methods_fitting.R")
   
   source("Cross_validation.R")
+  source("Test_error.R")
+  
   
 }
