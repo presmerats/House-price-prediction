@@ -46,7 +46,7 @@ ok- cross validation lab review
 				-manual_no_correlation_selection
 			ok- test everything
 			ok- remove 02_datapreparation_short2.R
-->		- adapt to single file input, single file output
+		- adapt to single file input, single file output
 			ok-ridge1
 				training test separation
 					ok-> split training and test! then va and training
@@ -59,13 +59,20 @@ ok- cross validation lab review
 				compute test error and save also
 					NRMSE setup
 					MSE setup
-				
+				write results to txdt file
+
+			ok->fix names of the datasets when saving them as featuresets_files 
+				ok-> same name as filenam	(automatically done like that)
+				ok-> clean environment? just in case
+					
 			-> apply to all models! maybe in the main before fitting the models
 				ok-model_results.csv change header
 				-MODELS
 					ok-ridge1 (MASS)
-					ridge2
-					lasso1  (MASS)
+					ok-ridge2
+						first k-fold
+						then loocv?
+->					lasso1  (MASS)
 					lasso2
 					linear regression
 					pcr
@@ -76,16 +83,20 @@ ok- cross validation lab review
 					test & training,  
 					cv, 
 					refit, 
-					generalization error, 
+					train, validation and generalization error
 					write
 				-calls from main
 			
-			->fix names of the datasets when saving them as featuresets_files -> same name as filenam	
 		
-		- write results to txdt file
 		- xlsx file also?
+		- write comments on Analysis Results/Ridge and Analysis Results/Lasso
+
 	- clean unused R script files
 		04_model_fitting_ridge_lasso.R
+		
+	- compute some validation error in order to perform a broad model selection
+		- we can use the training error after cv? ->no
+		- we could do another validation round with the selected models of each type
 
 - train basic
 	 models: lin, poly, ridge, lasso, pcr, trees, 
@@ -99,6 +110,7 @@ ok- cross validation lab review
 
 - train advanced:
 	features: 
+		PCA features
 		clustering with Gower
 	models: 
 		splines, 

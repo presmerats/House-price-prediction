@@ -21,6 +21,8 @@ load_packages <- function()
   load_install_packages("chemometrics")
   load_install_packages("MASS")
   load_install_packages("corrplot")
+  load_install_packages("lars")
+  load_install_packages("glmnet")
   
 }
 
