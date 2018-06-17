@@ -75,18 +75,7 @@ ok- cross validation lab review
 					
 			-> apply to all models! maybe in the main before fitting the models
 				ok-model_results.csv change header
-				-MODELS
-					ok-ridge1 (MASS)
-					ok-ridge2
-						first k-fold
-						then loocv?
-->					lasso1  (MASS)
-					ok-lasso2(glmnet)
-					linear regression
-					pcr
-					trees
-
-				-for each function
+				ok-for each function
 					func header, 
 					test & training,  
 					cv, 
@@ -95,7 +84,13 @@ ok- cross validation lab review
 					write
 					calls from main
 			
-		
+				-MODELS
+					ok-ridge1 (MASS)
+					ok-ridge2
+					ok-lasso2(glmnet)
+					ok-lasso1  (MASS)
+->					linear regression
+
 		- xlsx file also?
 		- write comments on Analysis Results/Ridge and Analysis Results/Lasso
 
@@ -104,10 +99,33 @@ ok- cross validation lab review
 		
 	- PCA prin comp features, and a way to project new values before predict
 
+	- get to know other models
+		pcr
+		trees
+		random forest
+		book readings
+
 - train basic
-	 models: lin, poly, ridge, lasso, pcr, trees, 
-	 features: pca, ratios,  log, uncorr,
-	 make sure: cv then retrain then test
+	 models: 
+	 	lin, 
+	 	poly, 
+	 	ridge, 
+	 	lasso, 
+	 	pcr, 
+	 	trees,
+	 	random forest 
+	 features: 
+	 	all
+	 	continuous only
+	 	pca, 
+	 	ratios,  
+	 	log, 
+	 	log+ratios
+	 	uncorr subsets,
+	graphs:	plot some comparisons 
+		model vs datasets
+		dataset vs models
+	conclusions
 
 - documentation
 	- skeleton
@@ -120,8 +138,7 @@ ok- cross validation lab review
 		clustering with Gower
 	models: 
 		splines, 
-		GAM, 
-		PCR, 
+		GAM,  
 		PLS, 
 		rvm, 
 		neural network, 
