@@ -314,3 +314,65 @@ regression_treelib_tree_fitting <- function(data, dataset_id, output_results = "
   # 0.1494284
   printResult("regression_tree_treelib", dataset_id , RMSE.learn, RMSE.test)
 }
+
+
+regression_randomforest <- function(data, dataset_id, output_results = "../Analysis Results/Trees/")
+{
+  
+  train = round(nrow(data)*0.7)
+  
+  trainidx = 1:train
+  testidx  = (train+1):nrow(data)
+  
+  training_data = data[trainidx,]
+  testing_data  = data[testidx,]
+  
+  set.seed(2018)
+  (ntrees <- round(10^seq(1,3,by=0.2)))
+  rf.results <- matrix (rep(0,2*length(ntrees)),nrow=length(ntrees))
+  colnames (rf.results) <- c("ntrees", "RMSE")
+  rf.results[,"ntrees"] <- ntrees
+  rf.results[,"RMSE"] <- 0
+  
+  ii <- 1
+  
+  for (nt in ntrees)
+  { 
+    print(nt)
+    
+    model.rf <- randomForest(price ~., data=training_data, ntree=nt, proximity=FALSE)
+    # get the RMSE
+    rf.results[ii,"RMSE"] = model.rf$mse[nt]
+    
+    ii <- ii+1
+  }
+  nt
+  rf.results
+  
+  # choose best value of 'ntrees'
+  
+  lowest.mse.error <- as.integer(which.min(rf.results[,"RMSE"]))
+  (ntrees.best <- rf.results[lowest.mse.error,"ntrees"])
+  sqrt(rf.results[11, "RMSE"])
+  ## Now refit the RF with the best value of 'ntrees'
+  
+  model.rf3 <- randomForest(price ~.-id-date, data=training_data, ntree=ntrees.best,proximity=FALSE, importance=TRUE)
+  
+  # let's compute the final test error:
+  
+  # Lets Use the RF to predict the results of our testing data:
+  pred_test = predict(model.rf3, newdata=testing_data)
+  
+  # Lets use the RF to predit the training error data
+  pred_learn=predict(model.rf3, data=training_data)
+  
+  RMSE.learn = sqrt(mean((pred_learn - (training_data$price))^2))
+  RMSE.learn
+  # 132976.3
+
+  RMSE.test = sqrt(mean((pred_test - (testing_data$price))^2))
+  RMSE.test
+  # 128273.6
+  printResult(paste("Random forest - tree size: ", ntrees.best) , dataset_id , RMSE.learn, RMSE.test)
+  
+}

@@ -24,11 +24,9 @@ load_packages <- function()
   load_install_packages("randomForest")
   load_install_packages("rpart")
   load_install_packages("rpart.plot")
-  #load_install_packages("rattle")
   load_install_packages("lars")
   load_install_packages("glmnet")
-  load_install_packages("corrplot")
-  
+
 }
 
 source_scripts <- function()
