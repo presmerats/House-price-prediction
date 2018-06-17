@@ -81,7 +81,7 @@ ok- cross validation lab review
 						first k-fold
 						then loocv?
 ->					lasso1  (MASS)
-					lasso2
+					ok-lasso2(glmnet)
 					linear regression
 					pcr
 					trees

@@ -38,6 +38,7 @@ source_scripts <- function()
   
   source("04_linear_regressions_fitting.R")
   source("04_ridge_regression_fitting_methods.R")
+  source("04_lasso_regression_fitting_methods.R")
   source("04_trees_methods_fitting.R")
   
   source("Cross_validation.R")
