@@ -109,3 +109,14 @@ rm(featureset_nocorrelation04_ratios)
 load(file="../Dataset/raw_continuous_dataset.Rda")
 glmnet.ridge(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
 rm(raw_continuous_vars)
+
+load(file="../Dataset/raw_continuous_dataset.Rda")
+glmnet.lasso(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
+rm(raw_continuous_vars)
+
+
+
+
+load(file="../Dataset/raw_continuous_dataset.Rda")
+lars.lasso(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
+rm(raw_continuous_vars)
