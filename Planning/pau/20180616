@@ -64,6 +64,14 @@ ok- cross validation lab review
 			ok->fix names of the datasets when saving them as featuresets_files 
 				ok-> same name as filenam	(automatically done like that)
 				ok-> clean environment? just in case
+
+			ok- compute some validation error in order to perform a broad model selection
+				ko- we can use the training error after cv? ->no
+				- we could do another validation round with the selected models of each type
+					ko->must be done over same dataset
+					ko->for each data set; for each model; cv model hyper params over cv1; then cv selected model type over cv2; save cv2 error; then refit and compute generalization error
+					ko-> maybe cv1 and cv2 can be the same(to have more training individuals)
+					->introduce a manual cv computation and save the validation error
 					
 			-> apply to all models! maybe in the main before fitting the models
 				ok-model_results.csv change header
@@ -94,13 +102,7 @@ ok- cross validation lab review
 	- clean unused R script files
 		04_model_fitting_ridge_lasso.R
 		
-	ok- compute some validation error in order to perform a broad model selection
-		ko- we can use the training error after cv? ->no
-		- we could do another validation round with the selected models of each type
-			ko->must be done over same dataset
-			ko->for each data set; for each model; cv model hyper params over cv1; then cv selected model type over cv2; save cv2 error; then refit and compute generalization error
-			ko-> maybe cv1 and cv2 can be the same(to have more training individuals)
-			->introduce a manual cv computation and save the validation error
+	- PCA prin comp features, and a way to project new values before predict
 
 - train basic
 	 models: lin, poly, ridge, lasso, pcr, trees, 

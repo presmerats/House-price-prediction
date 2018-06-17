@@ -106,8 +106,6 @@ mass.ridge(featureset_nocorrelation04_ratios, dataset_id = "featureset_nocorrela
 rm(featureset_nocorrelation04_ratios)
 
 
-
-
 load(file="../Dataset/raw_continuous_dataset.Rda")
 glmnet.ridge(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
 rm(raw_continuous_vars)
