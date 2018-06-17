@@ -85,7 +85,7 @@ ok- cross validation lab review
 					refit, 
 					train, validation and generalization error
 					write
-				-calls from main
+					calls from main
 			
 		
 		- xlsx file also?
@@ -94,9 +94,13 @@ ok- cross validation lab review
 	- clean unused R script files
 		04_model_fitting_ridge_lasso.R
 		
-	- compute some validation error in order to perform a broad model selection
-		- we can use the training error after cv? ->no
+	ok- compute some validation error in order to perform a broad model selection
+		ko- we can use the training error after cv? ->no
 		- we could do another validation round with the selected models of each type
+			ko->must be done over same dataset
+			ko->for each data set; for each model; cv model hyper params over cv1; then cv selected model type over cv2; save cv2 error; then refit and compute generalization error
+			ko-> maybe cv1 and cv2 can be the same(to have more training individuals)
+			->introduce a manual cv computation and save the validation error
 
 - train basic
 	 models: lin, poly, ridge, lasso, pcr, trees, 

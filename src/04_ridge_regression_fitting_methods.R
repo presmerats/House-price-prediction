@@ -54,16 +54,18 @@ mass.ridge <-  function(data, dataset_id, output_results = "../Analysis Results/
   
   # training error
   tr.pred <- beta.ridgereg.FINAL[1] + as.matrix(train[,2:ncol(train)])%*%beta.ridgereg.FINAL[-1]
-  tr.pred <- as.matrix(cbind(const=1,train[,2:ncol(train)])) %*% coef(model.ridgereg.FINAL)
+  #tr.pred <- as.matrix(cbind(const=1,train[,2:ncol(train)])) %*% coef(model.ridgereg.FINAL)
   tr.se <- sum((tr.pred - train$target)^2)*0.5
   tr.MSE <- 2*tr.se/nrow(train)
   tr.NRMSE <- sqrt(tr.MSE) 
   
   # validation error ( in ridge the Validation error is done automatically)
-  # va.pred <- predict.lm(model.ridgereg.FINAL, newdata=train[va,])
-  va.se <- model.ridgereg.FINAL$GCV
-  va.MSE <- 0
-  va.NRMSE <- 0
+  # manually repeat validation error computation for later model selection
+  #tr.pred <- beta.ridgereg.FINAL[1] + as.matrix(train[,2:ncol(train)])%*%beta.ridgereg.FINAL[-1]
+  valist <- mass.ridge.CV(10,train,lambda.ridge)
+  va.se <- valist[1]
+  va.MSE <- valist[2]
+  va.NRMSE <- valist[3]
   
   # generalization error
   te.pred <- beta.ridgereg.FINAL[1] + as.matrix(test[,2:ncol(train)])%*%beta.ridgereg.FINAL[-1]
@@ -113,6 +115,66 @@ mass.ridge <-  function(data, dataset_id, output_results = "../Analysis Results/
   
 }
 
+
+
+# Simplified CV function version
+mass.ridge.CV <- function (k,data, lambda.ridge)
+{
+  CV.folds <- generateCVRuns(data$target, ntimes=1, nfold=k, stratified=TRUE)
+  
+  thenames <- c("k","fold","TR error", "TR MSE", "TR NRMSE","VA error","VA MSE","VA NRMSE")
+  cv.results <- matrix (rep(0,length(thenames)*k),nrow=k)
+  colnames (cv.results) <- thenames
+  
+  cv.results[,"TR error"] <- 0
+  cv.results[,"VA error"] <- 0
+  cv.results[,"TR MSE"] <- 0
+  cv.results[,"VA MSE"] <- 0
+  cv.results[,"TR NRMSE"] <- 0
+  cv.results[,"VA NRMSE"] <- 0
+  cv.results[,"k"] <- k
+  
+  
+  
+  for (j in 1:k)
+  {
+    # get VA data
+    va <- unlist(CV.folds[[1]][[j]])
+    
+    # train on TR data
+    #my.da.TR <- lm(target ~ X1 + X2, data = data[-va,], prior=priors, CV=FALSE) 
+    model.ridgereg.FINAL <- lm.ridge(target ~ ., data=data[-va,], lambda = lambda.ridge)
+    beta.ridgereg.FINAL <- coef(model.ridgereg.FINAL)
+    
+    # predict TR data
+    #pred.va <- predict (my.da.TR)$class
+    tr.pred <- beta.ridgereg.FINAL[1] + as.matrix(data[-va,2:ncol(data)])%*%beta.ridgereg.FINAL[-1]
+    tr.se <- sum((tr.pred - data$target[-va])^2)*0.5
+    cv.results[j,"TR error"]  <- tr.se
+    tr.MSE <- 2*tr.se/nrow(data[-va])
+    cv.results[j,"TR MSE"]  <- tr.MSE
+    cv.results[j,"TR NRMSE"]  <- sqrt(tr.MSE)
+    # which one? se? MSE? NRMSE? in the end it will be averaged
+
+    
+    # predict VA data
+    cv.pred <- beta.ridgereg.FINAL[1] + as.matrix(data[va,2:ncol(data)])%*%beta.ridgereg.FINAL[-1]
+    
+    cv.se <- sum((cv.pred - data$target[va])^2)*0.5
+    cv.results[j,"VA error"] <- cv.se
+    cv.MSE <-  2*cv.se/nrow(data[va,])
+    cv.results[j,"VA MSE"] <- cv.MSE
+    cv.results[j,"VA NRMSE"] <-  sqrt(cv.MSE)
+    
+    cv.results[j,"fold"] <- j
+  }
+  
+  va.se.mean <- mean(cv.results[,"VA error"])
+  va.MSE.mean <- mean(cv.results[,"VA MSE"])
+  va.NRMSE.mean <- mean(cv.results[,"VA NRMSE"])
+  return(c(va.se.mean, va.MSE.mean, va.NRMSE.mean))
+  # return everything: mean training error, mean va error?
+}
 
 
 

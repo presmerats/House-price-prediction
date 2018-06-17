@@ -97,3 +97,4 @@ MODEL.CV.OVER.Ks <- function (data, kflod=10, method, plot=FALSE) {
   return(result)
 }
 
+
