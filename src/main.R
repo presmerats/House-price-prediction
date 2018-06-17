@@ -72,8 +72,14 @@ featureset_nocorrelation04_ratios <- featureset.nocorr.ratios.manual04(data)
 save(file = "../Dataset/featureset_nocorrelation04_ratios.Rda", featureset_nocorrelation04_ratios)
 rm(featureset_nocorrelation04_ratios)
 
-raw_continuous_dataset <- raw_continuous_vars_selection(data)
-featureset_pca <- featureset_pca(raw_continuous_dataset)
+# # this approach contains outliers
+# raw_continuous_dataset <- raw_continuous_vars_selection(data)
+# featureset_pca <- featureset_pca(raw_continuous_dataset)
+# this contains outliers too
+featureset_pca <- featureset_pca(data)
+# # without outliers
+# load(file="../Dataset/featureset_original_nooutliers.Rda")
+# featureset_pca <- featureset_pca(featureset_original_nooutliers)
 save(file = "../Dataset/featureset_pca.Rda", featureset_pca)
 rm(featureset_pca)
 
@@ -108,17 +114,26 @@ mass.ridge(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
 glmnet.ridge(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
 glmnet.lasso(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
 lars.lasso(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
+pcr_model(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
 rm(raw_continuous_vars)
 
 
 # ----- PCA extracted features --------------------------------------------#
 load(file="../Dataset/featureset_pca.Rda")
-linear_regression_fitting02(featureset_pca, dataset_id = "featureset_pca")
-mass.ridge(featureset_pca, dataset_id = "featureset_pca")
-glmnet.ridge(featureset_pca, dataset_id = "featureset_pca")
-glmnet.lasso(featureset_pca, dataset_id = "featureset_pca")
-lars.lasso(featureset_pca, dataset_id = "featureset_pca")
+linear_regression_fitting02(featureset_pca, dataset_id = "featureset_pca_normal")
+mass.ridge(featureset_pca, dataset_id = "featureset_pca_normal")
+glmnet.ridge(featureset_pca, dataset_id = "featureset_pca_normal")
+glmnet.lasso(featureset_pca, dataset_id = "featureset_pca_normal")
+lars.lasso(featureset_pca, dataset_id = "featureset_pca_normal")
+#pcr_model(featureset_pca, dataset_id = "featureset_pca_normal")
 rm(featureset_pca)
+# load(file="../Dataset/featureset_pca.Rda")
+# linear_regression_fitting02(featureset_pca, dataset_id = "featureset_pca_nooutliers")
+# mass.ridge(featureset_pca, dataset_id = "featureset_pca_nooutliers")
+# glmnet.ridge(featureset_pca, dataset_id = "featureset_pca_nooutliers")
+# glmnet.lasso(featureset_pca, dataset_id = "featureset_pca_nooutliers")
+# lars.lasso(featureset_pca, dataset_id = "featureset_pca_nooutliers")
+# rm(featureset_pca)
 
 
 # ----- logs --------------------------------------------#

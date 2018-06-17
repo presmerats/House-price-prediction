@@ -37,18 +37,48 @@ pca_analysis <- function(output_results = "../Analysis Results/Unsupervised Anal
 }
 
 featureset_pca <- function(data){
-  # the imput must be continuous data with no outliers
-  pca_result <- PCA(data, quanti.sup = c(1), ncp=6)
-  dev.off()
-  # select num prin components -> 90% variance for 6
-  # pca_result$eig
+  # # the imput must be continuous data with no outliers
+  # pca_result <- PCA(data, quanti.sup = c(1), ncp=6)
+  # # # select num prin components -> 90% variance for 6
+  # # pca_result$eig
+  # # current features
+  # data_pca <- data.frame(
+  #   cbind(target=data[,1],
+  #         pca_result$ind$coord)
+  # )
   
+  # # the problem is that here outliers are not removed
+  # # the result is worse when training many models
+  # pca_result <- PCA(data, quanti.sup = c(3),quali.sup = c(1,2,9,10,15,16,17,18,19), ncp=8)
+  # dev.off()
+  # # current features
+  # data_pca <- data.frame(
+  #   cbind(target=data[,3],
+  #         pca_result$ind$coord)
+  # )
+
+  # manually remove categorical vars(but outliers are not removed)
+  data2 <- data[,c(-1,-2,-9,-10,-15,-16,-17,-18,-19)]
+  # browser()
+  pca_result <- PCA(data2, quanti.sup = c(1), ncp=6)
   # current features
   data_pca <- data.frame(
-    cbind(target=data[,1],
+    cbind(target=data[,3],
       pca_result$ind$coord)
   )
-  
+
+  # # comes from featureset_original_nooutliers.Rda
+  # # manually remove categorical vars(but outliers are not removed)
+  # data2 <- data[,c(-7,-8,-9,-13,-14,-15,-18,-19,-20)]
+  # # data2 <- data[,c(-7,-8,-9,-13,-14,-15,-18,-19)]  # with is.renovated
+  # pca_result <- PCA(data2, quanti.sup = c(1), ncp=5)
+  # # browser()
+  # # current features
+  # data_pca <- data.frame(
+  #   cbind(target=data[,1],
+  #         pca_result$ind$coord)
+  # )
+
   
   return(data_pca)
 }

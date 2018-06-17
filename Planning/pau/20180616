@@ -105,11 +105,14 @@ ok- cross validation lab review
 			-> no need to project.. jsut build the dataset
 
 
+
 	- get to know other models
 		pcr
 		trees
 		random forest
 		book readings
+
+- continuous vars dataset without outliers -> create dataset
 
 - train basic
 	 models: 
