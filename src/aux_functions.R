@@ -25,6 +25,10 @@ load_packages <- function()
   load_install_packages("rpart")
   load_install_packages("rpart.plot")
   #load_install_packages("rattle")
+  load_install_packages("lars")
+  load_install_packages("glmnet")
+  load_install_packages("corrplot")
+  
 }
 
 source_scripts <- function()
@@ -37,10 +41,11 @@ source_scripts <- function()
   source("03_unsupervised_analysis.R")
   
   source("04_linear_regressions_fitting.R")
-  source("04_model_fitting_ridge_lasso_regression.R")
-  source("04_model_ridge_lasso_functions.R")
+  source("04_ridge_regression_fitting_methods.R")
   source("04_trees_methods_fitting.R")
   
   source("Cross_validation.R")
+  source("Test_error.R")
+  
   
 }

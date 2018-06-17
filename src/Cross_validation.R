@@ -34,19 +34,21 @@ MODEL.CV <- function (data, k=10, method, prediction_method = "generic")
       my_lr_tr <- lm(target ~ ., data=data[-va,])
       # predict on training set
       tr.pred <- predict(my_lr_tr, data = data[-va,])
-      # predict on test set
+      # predict on validation set
       va.pred <- predict.lm(my_lr_tr, newdata  = data[va,])
-    } else if (method == "regression_tree")
-    {
+    } else if (method == "regression_tree") {
       browser()
       
       my_tree_tr <- tree(target ~., data=data[-va,])
       # predict on training set. 
       
       
+    } else if (method == "ridge_regression_mass") {
+      # the CV is different, so this is not done here!
+      
     }
     
-    ## get training and valiation errors
+    ## get training and validation errors
     
     # training error:
     tr.se <- sum(((tr.pred - data[-va,]$target)^2))*0.5
@@ -94,4 +96,5 @@ MODEL.CV.OVER.Ks <- function (data, kflod=10, method, plot=FALSE) {
 
   return(result)
 }
+
 
