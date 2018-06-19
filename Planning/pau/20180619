@@ -72,6 +72,12 @@ OK					homoscedasticity
 					3) EDA+assumptions; PCA feature selection(get PC's); model selection; feature selection
 					4) EDA+assumptions; pick BASELINE MODEL (linear regre?); feature selection; model selectioin
 					5) do 1,2,3,4 and compare the results
+				implementation
+					ok-pca extraction
+					-model selection
+					- write model output to another file? or use another identifier
+					-feature selection
+
 				feature selection:
 					Experiments to select features
 						manual subsets
@@ -83,10 +89,10 @@ OK					homoscedasticity
 						for each "selected subset"
 
 
-			Results
-				model va error by feature set
+				Results
+					model va error by feature set
 
-				featureset by model
+					featureset by model
 
 
 

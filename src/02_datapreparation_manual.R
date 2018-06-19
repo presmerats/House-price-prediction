@@ -234,7 +234,6 @@ preprocessing.create.allfeatures <- function(data)
     
     
   )
-  detach(data.new)
   detach(data)
   attach(data.new)
   
