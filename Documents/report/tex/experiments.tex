@@ -1,0 +1,28 @@
+\section{Experiments}
+
+This section exposed the selected approach to perform a sound feature and model selection. We are usually faced with problems where feature selection is performed before model selection. In our case, with many different models that are so different between them, the selection of feature set can affect a lot the model performance. So in the end, to avoid performing space exploration without a strategy, we decide to choose between different strategical approaches:
+\begin{itemize}
+    \item Perform feature selection based on data analysis and then perform model selection over selected feature set
+    \item pick a model based on tested assumptions on the data and then perform feature selection using forward selection while trainig the model
+    \item perform PCA and select significant components, then perform model selection with the extracted PCA features and finally perform feature selection over all feature sets with the selected model.
+    \item pick a baseline model type, and then perform feature selection while training the baseline model. Once the feature set is selected, we then could perform model selection over all the different types
+    \item perform all the previous approaches and choose the pair of feature set and model that yields the lower validation error.
+\end{itemize}
+
+\subsection{Approach 1}
+
+\subsection{Approach 2}
+
+\subsection{Approach 3}
+
+\subsection{Approach 4}
+
+\subsection{Approach 5}
+
+\subsection{Results}
+
+% single option 1,2,3,4
+The following table summarizes the results of the experiments performed. The models are trained over the selected feature set and then they are ranked according to their validation error. The model with minimal validation error will be our selection. 
+
+%\input{./tables/experimentsResults.tex}
+

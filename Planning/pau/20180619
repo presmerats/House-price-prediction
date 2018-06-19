@@ -1,0 +1,96 @@
+ML report
+
+
+
+			introduction
+
+
+			multivariate data analysis
+				preprocessing
+					missing
+					outliers¡
+				Exploratory data analysis
+					histograms
+					gaussianization
+					extact: ratios logs 
+					correlation analysis
+				unsupervised analysis
+					PCA
+OK  				clustering
+						hierarchical + kmeans
+						break dataset into different clusters based on centroid/similarity
+						train different models for each new dataset, predict different model for each dataset
+				Assumptions
+OK					normality
+OK					independence
+OK					homoscedasticity
+					-> more than one gaussian?
+??					other assumptions for each model
+
+			feature extraction
+				manual: ratios, logs (followin intuition)
+				manual correlation: subsets of uncorrelated analysis
+				PCA:
+
+
+			fitting models
+				methodology
+					for each model
+						justification, assumptions
+						configuration of hyper parameters -> cv or other
+						extraction of va error and test error
+					final selection: va error, then compare with the test error
+
+				linear
+					justification:
+						baseline
+					model conf & hyper parameters
+
+??				polynomial
+					justification
+					model selection
+
+				ridge:
+
+				lasso
+
+				PCR
+
+				decision trees
+
+				random forest
+
+				other
+					Splines
+					GAMS
+					RVM
+
+			Experiments
+??				different strategy options:
+					1) EDA+ assumptions; feature select; model select
+					2) EDA+assumptions; pick a model based on assumpts; feature selection
+					3) EDA+assumptions; PCA feature selection(get PC's); model selection; feature selection
+					4) EDA+assumptions; pick BASELINE MODEL (linear regre?); feature selection; model selectioin
+					5) do 1,2,3,4 and compare the results
+				feature selection:
+					Experiments to select features
+						manual subsets
+						manual uncorrelated subsets
+						pca features
+						-> compare for each model?
+
+					Experiments to fit models
+						for each "selected subset"
+
+
+			Results
+				model va error by feature set
+
+				featureset by model
+
+
+
+			Conclusions
+				results best models, bests featuresets
+				assumptions that didnt work, relaxed?
+				expectations of features vs reality?
