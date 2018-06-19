@@ -6,12 +6,9 @@ normality_tests <- function(data)
   removed_vars <- names(data) %in% categorical_vars
   data <- data[,!removed_vars]
   
-  # test multivariate normality
-  mshapiro.test(as.matrix(data[1:5000,]))
+  mvn(data, mvnTest = c("hz"))
 
 }
-
-## 
 
 pca_analysis <- function(output_results = "../Analysis Results/Unsupervised Analysis/", data)
 {
