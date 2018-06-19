@@ -75,12 +75,16 @@ rm(featureset_nocorrelation04_ratios)
 # # this approach contains outliers
 # raw_continuous_dataset <- raw_continuous_vars_selection(data)
 # featureset_pca <- featureset_pca(raw_continuous_dataset)
-# this contains outliers too
-featureset_pca <- featureset_pca(data)
-# # without outliers
-# load(file="../Dataset/featureset_original_nooutliers.Rda")
-# featureset_pca <- featureset_pca(featureset_original_nooutliers)
+# PCA this contains outliers too
+load(file="../Dataset/raw_continuous_dataset.Rda")
+featureset_pca <- featureset_pca(raw_continuous_dataset)
 save(file = "../Dataset/featureset_pca.Rda", featureset_pca)
+rm(featureset_pca)
+
+# # without outliers but taking only continuous data inside
+load(file="../Dataset/featureset_original_nooutliers.Rda")
+featureset_pca <- featureset_pca2(featureset_original_nooutliers)
+save(file = "../Dataset/featureset_pca_nooutliers.Rda", featureset_pca)
 rm(featureset_pca)
 
 
@@ -169,4 +173,38 @@ rm(featureset_nocorrelation04_ratios)
 
 
 
+
+#### 5 - Experiments ####
+
+### 5.1 - Option 3) PCA feature selection , model selection, feature selection ###
+
+# perform PCA, -> select PC's, prepare data set
+# this is already done in the featureset
+load(file="../Dataset/featureset_pca.Rda")
+#load(file="../Dataset/featureset_pca_nooutliers.Rda")
+
+# perform model selection -> train all models over this data set, and select the one with smallest va error
+linear_regression_fitting02(featureset_pca, dataset_id = "O3_pca_model_selection")
+mass.ridge(featureset_pca, dataset_id = "O3_pca_model_selection")
+glmnet.ridge(featureset_pca, dataset_id = "O3_pca_model_selection")
+glmnet.lasso(featureset_pca, dataset_id = "O3_pca_model_selection")
+lars.lasso(featureset_pca, dataset_id = "O3_pca_model_selection")
+#pcr_model(featureset_pca, dataset_id = "O3_pca_model_selection")
+rm(featureset_pca)
+
+# perform feature selection with this selected model
+# we read the results file and we get the min validation NRMSE is  for the model
+# minimum va NRMSE 202981.063059123 for glmnet ridge regression model
+
+# result is feature and model
+featurespace = get.featureset.names("../Dataset/")
+
+for(i in 1:length(featurespace)){
+  #get clean name
+  filename = paste("../Dataset/",featurespace[i],".Rda",sep="")
+  newobjects = load(file=filename)
+  auxvar <- get(newobjects[1])
+  glmnet.ridge(auxvar, dataset_id = "O3_feature_selection", comment=featurespace[i])
+  rm(auxvar)
+}
 

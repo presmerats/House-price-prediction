@@ -4,9 +4,9 @@ normality_tests <- function(data)
   # remove categorical vars
   categorical_vars <- c("id", "date", "waterfront", "view", "yr_built", "yr_renovated", "zipcode", "lat", "long")
   removed_vars <- names(data) %in% categorical_vars
-  data <- data[,!removed_vars]
+  data2 <- data[,!removed_vars]
   
-  mvn(data, mvnTest = c("hz"))
+  mvn(data2, mvnTest = c("hz"))
   #dwtest(price~., data = data, alternative = "two.sided")
 
 }
@@ -35,51 +35,66 @@ pca_analysis <- function(output_results = "../Analysis Results/Unsupervised Anal
 }
 
 featureset_pca <- function(data){
-  # # the imput must be continuous data with no outliers
-  # pca_result <- PCA(data, quanti.sup = c(1), ncp=6)
-  # # # select num prin components -> 90% variance for 6
-  # # pca_result$eig
-  # # current features
-  # data_pca <- data.frame(
-  #   cbind(target=data[,1],
-  #         pca_result$ind$coord)
-  # )
-  
-  # # the problem is that here outliers are not removed
-  # # the result is worse when training many models
-  # pca_result <- PCA(data, quanti.sup = c(3),quali.sup = c(1,2,9,10,15,16,17,18,19), ncp=8)
-  # dev.off()
-  # # current features
-  # data_pca <- data.frame(
-  #   cbind(target=data[,3],
-  #         pca_result$ind$coord)
-  # )
-
-  # manually remove categorical vars(but outliers are not removed)
-  data2 <- data[,c(-1,-2,-9,-10,-15,-16,-17,-18,-19)]
-  # browser()
-  pca_result <- PCA(data2, quanti.sup = c(1), ncp=6)
+  # the imput must be continuous data with no outliers
+  pca_result <- PCA(data, quanti.sup = c(1), ncp=6)
+  # # select num prin components -> 90% variance for 6
+  # pca_result$eig
   # current features
   data_pca <- data.frame(
-    cbind(target=data[,3],
-      pca_result$ind$coord)
+    cbind(target=data[,1],
+          pca_result$ind$coord)
   )
 
-  # # comes from featureset_original_nooutliers.Rda
-  # # manually remove categorical vars(but outliers are not removed)
-  # data2 <- data[,c(-7,-8,-9,-13,-14,-15,-18,-19,-20)]
-  # # data2 <- data[,c(-7,-8,-9,-13,-14,-15,-18,-19)]  # with is.renovated
-  # pca_result <- PCA(data2, quanti.sup = c(1), ncp=5)
-  # # browser()
-  # # current features
-  # data_pca <- data.frame(
-  #   cbind(target=data[,1],
-  #         pca_result$ind$coord)
-  # )
+  return(data_pca)
+}
 
+
+featureset_pca2 <- function(data){
+
+  # comes from featureset_original_nooutliers.Rda
+  # manually remove categorical vars(but outliers are not removed)
+  data2 <- data[,c(-7,-8,-9,-13,-14,-15,-18,-19,-20)]
+  # data2 <- data[,c(-7,-8,-9,-13,-14,-15,-18,-19)]  # with is.renovated
+  pca_result <- PCA(data2, quanti.sup = c(1), ncp=5)
+  # browser()
+  # current features
+  data_pca <- data.frame(
+    cbind(target=data[,1],
+          pca_result$ind$coord)
+  )
+  
   
   return(data_pca)
 }
+
+
+featureset_pca3 <- function(data){
+  # this approach is not used
+    
+    # # the problem is that here outliers are not removed
+    # # the result is worse when training many models
+    # pca_result <- PCA(data, quanti.sup = c(3),quali.sup = c(1,2,9,10,15,16,17,18,19), ncp=8)
+    # dev.off()
+    # # current features
+    # data_pca <- data.frame(
+    #   cbind(target=data[,3],
+    #         pca_result$ind$coord)
+    # )
+    
+    # manually remove categorical vars(but outliers are not removed)
+    data2 <- data[,c(-1,-2,-9,-10,-15,-16,-17,-18,-19)]
+    # browser()
+    pca_result <- PCA(data2, quanti.sup = c(1), ncp=6)
+    # current features
+    data_pca <- data.frame(
+      cbind(target=data[,3],
+            pca_result$ind$coord)
+    )
+    
+    return(data_pca)
+  
+}
+
 
 
 
@@ -154,5 +169,10 @@ clustering_test <- function(data){
   plot(pca.hc, hang = -1, cex = 0.6, main = "PCA Cluster Dendogram")
   #dev.off()  
   
+}  
+
+clustering01 <- function(data) {
   
+  library(cluster)
+  daisy(data, metric = "gower", stand = TRUE)
 }

@@ -2,7 +2,7 @@
 
 # 3. Lasso regression from Lars ...................................................
 
-lars.lasso <- function(data, dataset_id, output_results = "../Analysis Results/Lasso/"){
+lars.lasso <- function(data, dataset_id, output_results = "../Analysis Results/Lasso/", comment = "testing"){
   
   # in each data frame, 
   # assume the target is in column 1, and target is called data$target
@@ -49,7 +49,7 @@ lars.lasso <- function(data, dataset_id, output_results = "../Analysis Results/L
   # write results to results file.  
   
   function_script <- "Lasso_regression_larss"
-  comment <- "testing the workflow"
+  comment <- comment
   Input <- dataset_id
   Model <- "Lasso regression LARS"
   Training_error <- tr.se
@@ -178,7 +178,7 @@ lars.lasso.CV <- function (k,data,lasso.mod,bestlam)
 
 # 5. Lasso with glmnet...............................................
 
-glmnet.lasso <- function(data, dataset_id, output_results = "../Analysis Results/Lasso/"){
+glmnet.lasso <- function(data, dataset_id, output_results = "../Analysis Results/Lasso/", comment = "testing"){
   
   # in each data frame, 
   # assume the target is in column 1, dada$target
@@ -226,7 +226,7 @@ glmnet.lasso <- function(data, dataset_id, output_results = "../Analysis Results
   # write results to results file.  
   
   function_script <- "lasso_regressions_glmnet"
-  comment <- "testing the workflow"
+  comment <- comment
   Input <- dataset_id
   Model <- "lasso regression GLMNET"
   Training_error <- tr.se

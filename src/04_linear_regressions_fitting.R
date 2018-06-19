@@ -1,5 +1,5 @@
 
-linear_regression_fitting <- function(data, dataset_id, output_results = "../Analysis Results/Linear Model Fitting/")
+linear_regression_fitting <- function(data, dataset_id, output_results = "../Analysis Results/Linear Model Fitting/", comment = "testing")
 {
   
   
@@ -17,7 +17,7 @@ linear_regression_fitting <- function(data, dataset_id, output_results = "../Ana
   # write results to results file.  
   
   function_script <- "linear_regressions_fitting"
-  comment <- "testing the workflow"
+  comment <- comment
   Input <- dataset_id
   Model <- "simple linear regression"
   Trainin_error_CV <- round(linear_regreesion.10x10.CV[1],2)
@@ -32,7 +32,7 @@ linear_regression_fitting <- function(data, dataset_id, output_results = "../Ana
 
 
 
-linear_regression_fitting02 <- function(data, dataset_id, output_results = "../Analysis Results/Linear Model Fitting/")
+linear_regression_fitting02 <- function(data, dataset_id, output_results = "../Analysis Results/Linear Model Fitting/", comment = "testing")
 {
   
   # in each data frame, 
@@ -67,7 +67,7 @@ linear_regression_fitting02 <- function(data, dataset_id, output_results = "../A
   
   # write results to results file.  
   function_script <- "linear_regressions_fitting"
-  comment <- "testing the workflow"
+  comment <- comment
   Input <- dataset_id
   Model <- "simple linear regression"
   Training_error <- tr.se
