@@ -10,7 +10,7 @@ ok- cross validation lab review
 	ok- 02_XXXX for feature selection/extraction
 	ok- 03_XXXX for unsupervised learning
 	ok. adapt preprocessing
-	- adapt ridge and lasso 
+	ok- adapt ridge and lasso 
 		ok- and add to aux_functions.R
 		ok- group scripts, 
 		ok- datapreparation

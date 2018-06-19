@@ -103,7 +103,7 @@
 			"file": "20180616",
 			"settings":
 			{
-				"buffer_size": 4063,
+				"buffer_size": 4126,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -112,7 +112,8 @@
 			"file": "/home/pau/Projectes/mlproject/Analysis Results/model_results.csv",
 			"settings":
 			{
-				"buffer_size": 6173,
+				"buffer_size": 13105,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		}
@@ -304,7 +305,7 @@
 	],
 	"find":
 	{
-		"height": 26.0
+		"height": 23.0
 	},
 	"find_in_files":
 	{
@@ -575,15 +576,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4063,
+						"buffer_size": 4126,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3303,
-								3303
+								3246,
+								3246
 							]
 						],
 						"settings":
@@ -592,7 +593,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1176.0,
+						"translation.y": 1136.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -604,23 +605,24 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6173,
+						"buffer_size": 13105,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5343,
-								5343
+								7878,
+								7878
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"word_wrap": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 315.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -631,7 +633,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 26.0
+		"height": 23.0
 	},
 	"input":
 	{
@@ -668,7 +670,7 @@
 	"project": "mlproject.sublime-project",
 	"replace":
 	{
-		"height": 48.0
+		"height": 42.0
 	},
 	"save_all_on_build": true,
 	"select_file":
