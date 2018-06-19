@@ -74,9 +74,29 @@ OK					homoscedasticity
 					5) do 1,2,3,4 and compare the results
 				implementation
 					ok-pca extraction
-					-model selection
-					- write model output to another file? or use another identifier
-					-feature selection
+					ok-model selection
+					ok- write model output to another file? or use another identifier
+					ok-feature selection
+
+					ok-feature selection from all datasets in a folder
+					implement 3
+					implement 1
+					implement 2
+					implement 4
+					implement 5
+					explain each of them
+
+					fix CV (train and predict, refit after cv )
+					
+					other feature sets
+						use sampling to select columns and write to a file
+					EXECUTE FEATURE/MODEL SELECTION AGAIN?
+				
+				*	results table from csv
+					plot from csv
+				
+					eda plots and charts (histograms, logs, ratios,)
+
 
 				feature selection:
 					Experiments to select features

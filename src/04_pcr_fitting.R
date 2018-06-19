@@ -1,4 +1,4 @@
-pcr_model <- function(data, dataset_id, output_results = "../Analysis Results/PCR/")
+pcr_model <- function(data, dataset_id, output_results = "../Analysis Results/PCR/", comment = "testing")
 {
   
   set.seed(2018)
@@ -45,7 +45,7 @@ pcr_model <- function(data, dataset_id, output_results = "../Analysis Results/PC
   # write results to results file.  
   
   function_script <- "pcr_regression"
-  comment <- "testing the workflow"
+  comment <- comment
   Input <- dataset_id
   Model <- "PCR"
   Training_error <- tr.se

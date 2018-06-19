@@ -49,3 +49,10 @@ source_scripts <- function()
   
   
 }
+
+# 2. Utils--------------------
+get.featureset.names <- function(folderpath){
+  #file.list <- dir(folderpath)
+  file.list <- Filter(function(x){substring(x,nchar(x)-3,nchar(x))==".Rda"},dir(folderpath))
+  return(lapply(file.list,function(x){gsub(".Rda","",x)}))
+}

@@ -189,25 +189,14 @@ rm(featureset_pca)
 # minimum va NRMSE 202981.063059123 for glmnet ridge regression model
 
 # result is feature and model
-featurespace = c("featureset_allmanual",
-                 "featureset_pca_nooutliers",
-                 "featureset_pca",
-                 "featureset_original_nooutliers",
-                 "raw_continuous_dataset",
-                 "featureset_nocorrelation04_ratios",
-                 "featureset_nocorrelation03_logs",
-                 "featureset_nocorrelation02",
-                 "featureset_nocorrelation01",
-                 "featureset_logratios",
-                 "featureset_ratios",
-                 "featureset_logs"
-                 )
+featurespace = get.featureset.names("../Dataset/")
+
 for(i in 1:length(featurespace)){
   #get clean name
   filename = paste("../Dataset/",featurespace[i],".Rda",sep="")
   newobjects = load(file=filename)
   auxvar <- get(newobjects[1])
-  glmnet.ridge(auxvar, dataset_id = "O3_feature_selection")
+  glmnet.ridge(auxvar, dataset_id = "O3_feature_selection", comment=featurespace[i])
   rm(auxvar)
 }
 

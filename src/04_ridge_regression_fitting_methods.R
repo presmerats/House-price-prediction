@@ -20,7 +20,7 @@
 # 2. Ridge regression from MASS-------------------------------------
 
 
-mass.ridge <-  function(data, dataset_id, output_results = "../Analysis Results/Ridge/"){
+mass.ridge <-  function(data, dataset_id, output_results = "../Analysis Results/Ridge/", comment = "testing"){
   
   # in each data frame, 
   # assume the target is in column 1, and target is called data$target
@@ -77,7 +77,7 @@ mass.ridge <-  function(data, dataset_id, output_results = "../Analysis Results/
   # write results to results file.  
   
   function_script <- "ridge_regressions_mass"
-  comment <- "testing the workflow"
+  comment <- comment
   Input <- dataset_id
   Model <- "ridge regression MASS"
   Training_error <- tr.se
@@ -182,7 +182,7 @@ mass.ridge.CV <- function (k,data, lambda.ridge)
 
 # 4. Ridge with glmnet...............................................
 
-glmnet.ridge <- function(data, dataset_id, output_results = "../Analysis Results/Ridge/"){
+glmnet.ridge <- function(data, dataset_id, output_results = "../Analysis Results/Ridge/", comment = "testing"){
   
   # in each data frame, 
   # assume the target is in column 1, dada$target
@@ -244,7 +244,7 @@ glmnet.ridge <- function(data, dataset_id, output_results = "../Analysis Results
   # write results to results file.  
   
   function_script <- "ridge_regressions_glmnet"
-  comment <- "testing the workflow"
+  comment <- comment
   Input <- dataset_id
   Model <- "ridge regression GLMNET"
   Training_error <- tr.se
