@@ -76,7 +76,7 @@ model.selection.func <- function(func,folder=folder,id="O3_feature_selection" ){
 
 Prediction.errors <- function(pred, t){
   tr.se <- 0.5*sum((pred - t)^2)
-  tr.MSE <- mean(2*tr.se)
+  tr.MSE <- mean((pred - t)^2)
   tr.RMSE <- sqrt(tr.MSE)  
   tr.NRMSE <- sqrt(tr.MSE/var(t))  
   tr.R2 <- 1 - tr.NRMSE^2
