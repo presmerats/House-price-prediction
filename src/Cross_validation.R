@@ -8,7 +8,7 @@
 
 MODEL.CV <- function (data, k=10, method, prediction_method = "generic")
 {
-
+  set.seed(2018)
   CV.folds <- generateCVRuns(data$target, ntimes=1, nfold=k, stratified=TRUE)
   
   cv.results <- matrix (rep(0,4*k),nrow=k)

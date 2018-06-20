@@ -122,6 +122,7 @@ lars.lasso.CV.total <- function (k,data,model.lasso)
 
 lars.lasso.CV <- function (k,data,lasso.mod,bestlam)
 {
+  set.seed(2018)
   CV.folds <- generateCVRuns(data$target, ntimes=1, nfold=k, stratified=TRUE)
   
   thenames <- c("k","fold","TR error", "TR MSE", "TR NRMSE","VA error","VA MSE","VA RMSE","VA NRMSE","VA R2")
@@ -272,6 +273,7 @@ glmnet.lasso.CV <- function (k,data,lasso.mod, bestlam)
 {
   return(glmnet.ridge.CV(k,data,lasso.mod,bestlam))
 
+  #   set.seed(2018)
   # CV.folds <- generateCVRuns(data$target, ntimes=1, nfold=k, stratified=TRUE)
   # 
   # thenames <- c("k","fold","TR error", "TR MSE", "TR NRMSE","VA error","VA MSE","VA NRMSE")

@@ -111,6 +111,7 @@ mass.ridge <-  function(data, dataset_id, output_results = "../Analysis Results/
 # Simplified CV function version
 mass.ridge.CV <- function (k,data, lambda.ridge)
 {
+  set.seed(2018)
   CV.folds <- generateCVRuns(data$target, ntimes=1, nfold=k, stratified=TRUE)
   
   thenames <- c("k","fold","TR error", "TR MSE", "TR NRMSE","VA error","VA MSE","VA RMSE","VA NRMSE","VA R2")
@@ -274,6 +275,7 @@ glmnet.ridge <- function(data, dataset_id, output_results = "../Analysis Results
 # Simplified CV function version
 glmnet.ridge.CV <- function (k,data,ridge.mod, bestlam)
 {
+  set.seed(2018)
   CV.folds <- generateCVRuns(data$target, ntimes=1, nfold=k, stratified=TRUE)
   
   thenames <- c("k","fold","TR error", "TR MSE", "TR NRMSE","VA error","VA MSE","VA RMSE","VA NRMSE","VA R2")

@@ -78,6 +78,7 @@ pcr_model <- function(data, dataset_id, output_results = "../Analysis Results/PC
 
 pcr.CV <- function (k,data,pcr.fit,ncomponents)
 {
+  set.seed(2018)
   CV.folds <- generateCVRuns(data$target, ntimes=1, nfold=k, stratified=TRUE)
   
   thenames <- c("k","fold","TR error", "TR MSE", "TR NRMSE","VA error","VA MSE","VA RMSE","VA NRMSE","VA R2")
