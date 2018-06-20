@@ -1,9 +1,9 @@
 #Sequential Forward Selection
 
-SFS <- function(func, data, dataset_id, baseset = c(1:10), extra = c(11:20), output_results = "../Analysis Results/SFS/", filename="sfs.csv"){
+SFS <- function(func, data, dataset_id, baseset = c(1:10), extra = c(11:20), output_results = "../Analysis Results/SFS/", filename="sfs.csv", method = "unknownMethod"){
   #print(extra)
   #print(baseset)
-  output = paste(output_results, filename, sep = "")
+  output = paste(output_results, method, dataset_id, filename, sep = "_")
   df1 <- train.test.set(data)
   train = df1[[1]]
   test = df1[[2]]
@@ -33,7 +33,10 @@ SFS <- function(func, data, dataset_id, baseset = c(1:10), extra = c(11:20), out
     extra = extra[-which(extra %in% bestNextIdx)]
   }
   #print(used)
-  return( sort(c(baseset, used)) )
+  variableIndex =  sort(c(baseset, used))
+  head(data[,variableIndex])
+  #save(file = paste("../Dataset/SFS_", dataset_id, method, ".Rda", sep = ""), data[,variableIndex])
+  return(data[,variableIndex])
 }
   
 
@@ -42,7 +45,12 @@ SFS <- function(func, data, dataset_id, baseset = c(1:10), extra = c(11:20), out
 #SFS(glmnet.lasso, raw_continuous_dataset, dataset_id = "raw_continuous_vars", baseset = c(1:7), extra = c(8:12), filename = "glmnet_lasso_raw_continuous_vars.csv")
 
 
+#SFS(glmnet.lasso, raw_continuous_dataset, dataset_id = "raw_continuous_vars", baseset = c(1:7), extra = c(8:12), filename = "glmnet_lasso_raw_continuous_vars.csv")
+
+#bla = SFS(glmnet.lasso, featureset_base_ratios, dataset_id = "featureset_base_ratios", baseset = c(1:13), extra = c(14:26), method = "glmnet_lasso")
+
+#featureset_base_ratios
 # Before calling it make sure we add headers!!!!!!!!!!
 #!!!!!!!!!!!!!!********************!!!!!!!!!!
 #create.Latex.Table4(filein = "../Analysis Results/sfs.csv", fileout  = "../Analysis Results/sfs.tex")
-#create.Latex.Table4(filein = "../Analysis Results/SFS/glmnet_lasso_raw_continuous_vars.csv", fileout  = "../Analysis Results/SFS/glmnet_lasso_raw_continuous_vars.tex")
+#create.Latex.Table4(filein = "../Analysis Results/SFS/glmnet_lasso_featureset_base_ratios.csv", fileout  = "../Analysis Results/SFS/glmnet_lasso_featureset_base_ratios.tex")
