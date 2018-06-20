@@ -143,7 +143,10 @@ ok- cross validation lab review
 						GLMNET bug
 						final table version
 				
+					ok-feature selection: forward selection
+				
 					- linear/lasso/ridge/pcr
+						ko- new validation set apart from the training and just use predict over this one
 						- perform training and prediction in the cv
 							ok-lars lasso 
 							ok-glmnet lasso
@@ -153,18 +156,10 @@ ok- cross validation lab review
 							ok-pcr
 							-tree
 							-random forest
-						- new validation set apart from the training and just use predict over this one
-					-trees and random forest
-					
+							
+						check lars lasso
+						check forward selecction
 
-					-other feature sets
-						PCA
-							1,2,3,4,5,6,7,8 components
-						ratios,logs, ratiologs, nocorr
-							remove/add -> all combinations?
-						use sampling to select columns and write to a file
-						EXECUTE FEATURE/MODEL SELECTION AGAIN?
-				
 					eda 
 						plots and charts (histograms, logs, ratios,)
 						write some explanation

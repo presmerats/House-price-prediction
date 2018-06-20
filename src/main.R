@@ -125,6 +125,9 @@ regression_treelib_tree_fitting(raw_continuous_dataset, dataset_id = "raw_contin
 regression_randomforest(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
 rm(raw_continuous_vars)
 
+source("aux_functions.R")
+source_scripts()
+load_packages()
 
 # ----- PCA extracted features --------------------------------------------#
 load(file="../Dataset/featureset_pca.Rda")
@@ -135,8 +138,8 @@ glmnet.lasso(featureset_pca, dataset_id = "featureset_pca_normal")
 lars.lasso(featureset_pca, dataset_id = "featureset_pca_normal")
 #pcr_model(featureset_pca, dataset_id = "featureset_pca_normal")
 regression_rpart_tree_fitting(featureset_pca, dataset_id = "featureset_pca_normal")
-classification_rpart_tree_fitting(featureset_pca, dataset_id = "featureset_pca_normal")
-regression_treelib_tree_fitting(featureset_pca, dataset_id = "featureset_pca_normal")
+#classification_rpart_tree_fitting(featureset_pca, dataset_id = "featureset_pca_normal")
+#regression_treelib_tree_fitting(featureset_pca, dataset_id = "featureset_pca_normal")
 regression_randomforest(featureset_pca, dataset_id = "featureset_pca_normal")
 rm(featureset_pca)
 # load(file="../Dataset/featureset_pca.Rda")
@@ -182,9 +185,6 @@ rm(featureset_nocorrelation04_ratios)
 # we select the continuous variables that are not correlated
 # result: featureset_nocorrelation01
 
-source("aux_functions.R")
-source_scripts()
-load_packages()
 # perform model selection -> train all models over this data set, and select the one with smallest va error
 models.list <- c(linear_regression_fitting02,mass.ridge,glmnet.ridge, glmnet.lasso,lars.lasso)
 #models.list <- c(linear_regression_fitting02,mass.ridge,glmnet.ridge, glmnet.lasso,lars.lasso,pcr_model)

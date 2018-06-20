@@ -124,6 +124,8 @@ classification_rpart_tree_fitting <- function(data, dataset_id, output_results =
   (CP = get_CP(data.dt$cptable))
   # CP = 0.001054376
   
+  browser()
+  
   # Now lets plot the training tree:
   png(paste(output_results,"classification_rpart_tree_training.png",sep=""), width = 1000, height = 1000, units = "px", pointsize = 20)
   rpart.plot(data.dt, type = 4, extra = 101)
@@ -165,7 +167,7 @@ classification_rpart_tree_fitting <- function(data, dataset_id, output_results =
   
 }
 
-regression_rpart_tree_fitting <- function(data, dataset_id, output_results = "../Analysis Results/Trees/")
+regression_rpart_tree_fitting <- function(data, dataset_id, output_results = "../Analysis Results/Trees/", comment = "testing",filename = "../Analysis Results/model_results.csv")
 {
   df1 <- train.test.set(data)
   training_data = df1[[1]]
@@ -200,9 +202,19 @@ regression_rpart_tree_fitting <- function(data, dataset_id, output_results = "..
     # SELECTED VALUE OF THE COMPLEXITY PARAMETER
     return(CP)
   }
-  
+
   (CP = get_CP(data.dt$cptable))
   # CP = 0.001713321
+  
+  tree.index = match(CP,data.dt$cptable)
+  r2 <- 1 - data.dt$cptable[tree.index,4]
+
+  error = Prediction.errors.from.r2(r2,training_data,training_data$target)
+  va.se <- error[["se"]]
+  va.MSE <-  error[["mse"]]
+  va.RMSE <-  error[["rmse"]]  
+  va.NRMSE  <-  error[["nrmse"]]
+  va.R2 <-  error[["r2"]]
   
   # Now lets plot the training tree:
   png(paste(output_results,"regression_rpart_tree_training.png",sep=""), width = 1000, height = 1000, units = "px", pointsize = 20)
@@ -219,29 +231,63 @@ regression_rpart_tree_fitting <- function(data, dataset_id, output_results = "..
   barplot(prune.dt$variable.importance, col=rgb(0.2,0.4,0.6,0.6), las=2 ,main="Variable importance")
   dev.off()
   
-  
-  # Compute the accuracy, precision, recall and AUC on the test individuals.
-  
-  # Lets Use the prune tree to predict the results of our testing data:
-  pred_test = predict(prune.dt, newdata=testing_data,type="vector")
-  
   # Lets use the prune tree to predit the training error data
-  pred_learn=predict(prune.dt, data=training_data,type="vector")
+  tr.pred=predict(prune.dt, data=training_data,type="vector")
+  error = Prediction.errors(tr.pred,training_data$target)
+  tr.se <- error[["se"]]
+  tr.MSE <-  error[["mse"]]
+  tr.RMSE <-  error[["rmse"]]  
+  tr.NRMSE <-  error[["nrmse"]]  
+  tr.R2 <-  error[["r2"]] 
   
-  SE.learn = 0.5*sum((pred_learn - (training_data$target))^2)
-  MSE.learn = (mean((pred_learn - (training_data$target))^2))
-  NRMSE.learn = sqrt(MSE.learn)
-  MSE.learn
+   
+  # Lets Use the prune tree to predict the results of our testing data:
+  te.pred = predict(prune.dt, newdata=testing_data,type="vector")
+  error = Prediction.errors(te.pred,testing_data$target)
+  te.se <- error[["se"]]
+  te.MSE <-  error[["mse"]]
+  te.RMSE <-  error[["rmse"]]  
+  te.NRMSE <-  error[["nrmse"]]  
+  te.R2 <-  error[["r2"]]
   
-  SE.test = 0.5*sum((pred_test - (testing_data$target))^2)
-  MSE.test = (mean((pred_test - (testing_data$target))^2))
-  NRMSE.test = sqrt(MSE.test) 
-  MSE.test
 
-  writeResults("regression_tree_rpartlib", "", dataset_id, "regression_tree_rpartlib", SE.learn, MSE.learn,NRMSE.learn, SE.test, MSE.test, NRMSE.test)
+  
+  # SE.learn = 0.5*sum((pred_learn - (training_data$target))^2)
+  # MSE.learn = (mean((pred_learn - (training_data$target))^2))
+  # NRMSE.learn = sqrt(MSE.learn)
+  # MSE.learn
+  # 
+  # SE.test = 0.5*sum((pred_test - (testing_data$target))^2)
+  # MSE.test = (mean((pred_test - (testing_data$target))^2))
+  # NRMSE.test = sqrt(MSE.test) 
+  # MSE.test
+  # 
+  # #writeResults("regression_tree_rpartlib", "", dataset_id, "regression_tree_rpartlib", SE.learn, MSE.learn,NRMSE.learn, SE.test, MSE.test, NRMSE.test)
   
   #printResult("regression_tree_rpartlib", dataset_id , RMSE.learn, RMSE.test)
   
+  # write results to results file.  
+  function_script <- "regression_tree_rpartlib"
+  comment <- comment
+  Input <- dataset_id
+  Model <- "regression_tree_rpartlib"
+  
+  result <- cbind(
+    function_script, 
+    comment, Input, Model, 
+    tr.se, tr.MSE, tr.RMSE, tr.NRMSE, tr.R2,
+    va.se, va.MSE, va.RMSE, va.NRMSE, va.R2,
+    te.se, te.MSE, te.RMSE, te.NRMSE, te.R2
+  )
+  
+  write.table(
+    result, 
+    file=filename, 
+    append = TRUE, 
+    sep=";", 
+    col.names = FALSE, 
+    row.names = FALSE)
+  return(va.NRMSE)
 }
 
 
