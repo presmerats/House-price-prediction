@@ -250,3 +250,33 @@ create.Latex.Table4.sorted  <- function(filein = "../Analysis Results/model_resu
   print(tli.table, file = fileout)
   
 }
+
+
+create.Latex.Table5.sorted  <- function(filein = "../Analysis Results/model_results.csv"){
+  results = read.csv(filein, header = TRUE, sep = ";")
+  
+  variables <- c("Comment", "Model", "Validation.NRMSE", "Training.NRMSE","Testing.NRMSE")
+  subset = results[,variables]
+  
+  subsetdf = cbind(subset[,2], subset[,-2]) # we want to have "Model" in the first column.
+  
+  colnames(subset) <- c("Model","Feature set", "Validation.NRMSE", "Training.NRMSE", "Testing.NRMSE")
+  
+  # we also need to sort by Validation.NRMSE
+  df2 <- subsetdf[order(-subsetdf$Validation.NRMSE),]
+  
+  df3 = df2[-which(df2$`subset[, 2]`=="simple linear regression"),]
+  plot(1:nrow(df3), df3$Validation.NRMSE, type="l", col = "blue", xlab = "", ylab = "NRMSE")
+   
+  lines(1:nrow(df3), df3$Training.NRMSE, type="l", pch=22, col="green")
+  
+  lines(1:nrow(df3), df3$Testing.NRMSE, type="l", pch=22, col="orange")
+  
+  x = 1:nrow(df3)
+  # draw an axis on the left
+  modelnames = paste(df3$`subset[, 2]`, df3$Comment)
+  axis(1, at=x,labels=modelnames, col.axis="red", las=2)
+  
+  legend("topright", legend=c("Validation Error", "Training Error", "Testing Error"), col=c("blue", "green", "orange"), lty=1, cex=0.8)
+  
+}

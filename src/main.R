@@ -334,11 +334,22 @@ create.Latex.Table4.sorted(filein = "../Analysis Results/model_results.csv",
                            fileout  = "../Analysis Results/exp_models_vs_featuresets_all.tex")
 
 
+#create.Latex.Table5.sorted()
+
+
 ### 5.6 - Sequential Forward Selection ###
 
 featureset_glmnet_lasso_sfs = SFS(glmnet.lasso, featureset_base_ratios, dataset_id = "featureset_base_ratios", baseset = c(1:13), extra = c(14:26), method = "glmnet_lasso")
 save(file = "../Dataset/featureset_glmnet_lasso_sfs.Rda", featureset_glmnet_lasso_sfs)
 rm(featureset_glmnet_lasso_sfs)
 
+
 ### 5.7 fitting the final model ###
 
+
+
+
+
+
+
+ 
