@@ -39,7 +39,7 @@ pcr_model <- function(data, dataset_id, output_results = "../Analysis Results/PC
   va.MSE <- valist[["mse"]]
   va.RMSE <- valist[["rmse"]]
   va.NRMSE <- valist[["nrmse"]]
-  va.R2 <- valist[["e2"]]
+  va.R2 <- valist[["r2"]]
   
   # generalisation error
   te.pred=predict(pcr.fit ,test[ ,-which(colnames(data)=="target")], ncomp = 6)

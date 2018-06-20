@@ -70,7 +70,7 @@ mass.ridge <-  function(data, dataset_id, output_results = "../Analysis Results/
   va.MSE <- valist[["mse"]]
   va.RMSE <- valist[["rmse"]]
   va.NRMSE <- valist[["nrmse"]]
-  va.R2 <- valist[["e2"]]
+  va.R2 <- valist[["r2"]]
   
   # generalization error
   te.pred <- beta.ridgereg.FINAL[1] + as.matrix(test[,2:ncol(train)])%*%beta.ridgereg.FINAL[-1]

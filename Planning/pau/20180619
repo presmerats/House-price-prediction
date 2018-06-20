@@ -87,17 +87,45 @@ OK					homoscedasticity
 					ok-implement 5 -> manually compare results table
 					ok-explain each of them
 
-					fix CV (train and predict, refit after cv )
+					ok-results table from csv
+					ok-fix NRMSE	
+						ok-compute also de NRMSE?
+						ok-compute also the R^2?
+							R^2 = 1 - NRMSE^2
+							NRMSE = RMSE/sqrt(Var(t))
+						okchange name to RMSE in tables, code etc...
+							ok-codes 04
+								ok-lasso1
+								ok-lasso2
+								ok-ridge1
+								ok-ridge2
+								ok-linear1
+								ok-pcr
+							ok-table creator code
+							ok-csv file
+							ok-report
+							ok-test
 					
-					other feature sets
+					-apply results table to each different approach
+				
+							
+					-fix CV (train and predict, refit after cv )
+					-apply results table to each different approach
+				
+					-other feature sets
+						PCA
+							1,2,3,4,5,6,7,8 components
+						ratios,logs, ratiologs, nocorr
+							remove/add -> all combinations?
 						use sampling to select columns and write to a file
-					EXECUTE FEATURE/MODEL SELECTION AGAIN?
+						EXECUTE FEATURE/MODEL SELECTION AGAIN?
 				
-				*	ok-results table from csv
+					eda 
+						plots and charts (histograms, logs, ratios,)
+						write some explanation
+
 					plot from csv
-					apply results table to each different approach
-				
-					eda plots and charts (histograms, logs, ratios,)
+					
 -------------------------
 
 				feature selection:
