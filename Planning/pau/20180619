@@ -72,6 +72,7 @@ OK					homoscedasticity
 					3) EDA+assumptions; PCA feature selection(get PC's); model selection; feature selection
 					4) EDA+assumptions; pick BASELINE MODEL (linear regre?); feature selection; model selectioin
 					5) do 1,2,3,4 and compare the results
+----------------------
 				implementation
 					ok-pca extraction
 					ok-model selection
@@ -79,12 +80,12 @@ OK					homoscedasticity
 					ok-feature selection
 
 					ok-feature selection from all datasets in a folder
-					implement 3
-					implement 1
-					implement 2
-					implement 4
-					implement 5
-					explain each of them
+					ok-implement 3
+					ok-implement 4
+					ok-implement 1 -> makes no sense
+					ok-implement 2 -> it's like full space exploration (done for one model)
+					ok-implement 5 -> manually compare results table
+					ok-explain each of them
 
 					fix CV (train and predict, refit after cv )
 					
@@ -92,11 +93,12 @@ OK					homoscedasticity
 						use sampling to select columns and write to a file
 					EXECUTE FEATURE/MODEL SELECTION AGAIN?
 				
-				*	results table from csv
+				*	ok-results table from csv
 					plot from csv
+					apply results table to each different approach
 				
 					eda plots and charts (histograms, logs, ratios,)
-
+-------------------------
 
 				feature selection:
 					Experiments to select features

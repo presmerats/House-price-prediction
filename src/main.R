@@ -170,33 +170,69 @@ rm(featureset_nocorrelation04_ratios)
 
 ### 5.1 - Option 3) PCA feature selection , model selection, feature selection ###
 
+# select feature set based on analysis of the data set variables
+# we select the continuous variables that are not correlated
+# result: featureset_nocorrelation01
+
+# perform model selection -> train all models over this data set, and select the one with smallest va error
+models.list <- c(linear_regression_fitting02,mass.ridge,glmnet.ridge, glmnet.lasso,lars.lasso)
+#models.list <- c(linear_regression_fitting02,mass.ridge,glmnet.ridge, glmnet.lasso,lars.lasso,pcr_model)
+load(file="../Dataset/featureset_nocorrelation04_ratios.Rda")
+lapply(models.list, do.call, args=list(featureset_nocorrelation01, dataset_id = "O1_model_selection", comment="featureset_nocorrelation01"))
+# result: ridge regression glmnet
+
+
+### 5.2 - Option 2) for each model candidate feature selection ###
+
+# Solution space exploration
+#models.list <- c(linear_regression_fitting02,mass.ridge,glmnet.ridge, glmnet.lasso,lars.lasso)
+models.list2 <- c(linear_regression_fitting02,mass.ridge,glmnet.ridge, glmnet.lasso,lars.lasso,pcr_model)
+lapply(models.list2, model.selection.func, args=list(folder="../Dataset/",id="O2_feature_mode_exploration"))
+# result: ridge regression glmnet
+
+
+
+### 5.3 - Option 3) PCA feature selection , model selection, feature selection ###
+
 # perform PCA, -> select PC's, prepare data set
 # this is already done in the featureset
 load(file="../Dataset/featureset_pca.Rda")
 #load(file="../Dataset/featureset_pca_nooutliers.Rda")
 
 # perform model selection -> train all models over this data set, and select the one with smallest va error
-linear_regression_fitting02(featureset_pca, dataset_id = "O3_pca_model_selection")
-mass.ridge(featureset_pca, dataset_id = "O3_pca_model_selection")
-glmnet.ridge(featureset_pca, dataset_id = "O3_pca_model_selection")
-glmnet.lasso(featureset_pca, dataset_id = "O3_pca_model_selection")
-lars.lasso(featureset_pca, dataset_id = "O3_pca_model_selection")
-#pcr_model(featureset_pca, dataset_id = "O3_pca_model_selection")
+models.list <- c(linear_regression_fitting02,mass.ridge,glmnet.ridge, glmnet.lasso,lars.lasso)
+#models.list <- c(linear_regression_fitting02,mass.ridge,glmnet.ridge, glmnet.lasso,lars.lasso,pcr_model)
+lapply(models.list, do.call, args=list(featureset_pca, dataset_id = "O3_pca_model_selection", comment="featureset_pca"))
 rm(featureset_pca)
 
 # perform feature selection with this selected model
-# we read the results file and we get the min validation NRMSE is  for the model
-# minimum va NRMSE 202981.063059123 for glmnet ridge regression model
+#     we read the results file and we get the min validation NRMSE is  for the model
+#     minimum va NRMSE 202981.063059123 for glmnet ridge regression model
+model.selection.func(glmnet.ridge,folder="../Dataset/",id="O3_feature_selection")
 
 # result is feature and model
-featurespace = get.featureset.names("../Dataset/")
 
-for(i in 1:length(featurespace)){
-  #get clean name
-  filename = paste("../Dataset/",featurespace[i],".Rda",sep="")
-  newobjects = load(file=filename)
-  auxvar <- get(newobjects[1])
-  glmnet.ridge(auxvar, dataset_id = "O3_feature_selection", comment=featurespace[i])
-  rm(auxvar)
-}
+
+
+### 5.4 - Option 4) pick BASELINE MODEL (linear regre?); feature selection; model selection ###
+
+# we select the baseline model
+# result: linear regression
+
+# perform feature selection with this baseline model model
+#model.selection.func(linear_regression_fitting02,"../Dataset/","O4_feature_selection")
+model.selection.func(mass.ridge,folder="../Dataset/",id="O4_feature_selection")
+#result: featureset_nocorrelation04_ratios (with linear_regression_fitting)
+#result: featureset_ratios (with mass ridge regression)
+
+# perform model selection -> train all models over this data set, and select the one with smallest va error
+models.list <- c(linear_regression_fitting02,mass.ridge,glmnet.ridge, glmnet.lasso,lars.lasso)
+#models.list <- c(linear_regression_fitting02,mass.ridge,glmnet.ridge, glmnet.lasso,lars.lasso,pcr_model)
+load(file="../Dataset/featureset_ratios.Rda")
+lapply(models.list, do.call, args=list(featureset_ratios, dataset_id = "O4_model_selection", comment="featureset_ratios"))
+# result: mass ridge
+load(file="../Dataset/featureset_nocorrelation04_ratios.Rda")
+lapply(models.list, do.call, args=list(featureset_nocorrelation04_ratios, dataset_id = "O4_model_selection", comment="featureset_nocorrelation04_ratios"))
+# result: lasso
+
 

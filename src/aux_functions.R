@@ -56,3 +56,17 @@ get.featureset.names <- function(folderpath){
   file.list <- Filter(function(x){substring(x,nchar(x)-3,nchar(x))==".Rda"},dir(folderpath))
   return(lapply(file.list,function(x){gsub(".Rda","",x)}))
 }
+
+model.selection.func <- function(func,folder=folder,id="O3_feature_selection" ){
+  featurespace = get.featureset.names(folder)
+  
+  for(i in 1:length(featurespace)){
+    
+    filename = paste(folder,featurespace[i],".Rda",sep="")
+    newobjects = load(file=filename)
+    auxvar <- get(newobjects[1])
+    do.call(func,args=list(auxvar, dataset_id = id, comment=featurespace[i]))
+    #glmnet.ridge(auxvar, dataset_id = "O3_feature_selection", comment=featurespace[i])
+    rm(auxvar)
+  }
+}
