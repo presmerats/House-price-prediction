@@ -25,12 +25,13 @@ lars.lasso <- function(data, dataset_id, output_results = "../Analysis Results/L
   # for all values of lambda, obtain the validation error then select the smaller one
   output=lars.lasso.CV.total(10,train,model.lasso)
   bestlam=output[["bestlam"]]
-  error = Prediction.errors2(output[["vaerrors"]],x,t)
-  va.se <- error[["se"]]
-  va.MSE <-  error[["mse"]]
-  va.RMSE <-  error[["rmse"]]  
-  va.NRMSE  <-  error[["nrmse"]]
-  va.R2 <-  error[["r2"]]
+  valist=output[["vaerrors"]]
+  # Validation error
+  va.se <- valist[["se"]]
+  va.MSE <- valist[["mse"]]
+  va.RMSE <- valist[["rmse"]]
+  va.NRMSE <- valist[["nrmse"]]
+  va.R2 <- valist[["r2"]]
   
   # refit
   # no need to refit, just use s=bestlam in subsequen models
