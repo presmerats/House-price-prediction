@@ -1,6 +1,6 @@
 #Sequential Forward Selection
 
-SFS <- function(data, dataset_id, baseset = c(1:10), extra = c(11:20), output_results = "../Analysis Results/SBS/", comment = "testing"){
+SFS <- function(func, data, dataset_id, baseset = c(1:10), extra = c(11:20), output_results = "../Analysis Results/SBS/", comment = "testing"){
   #print(extra)
   #print(baseset)
   df1 <- train.test.set(data)
@@ -8,7 +8,7 @@ SFS <- function(data, dataset_id, baseset = c(1:10), extra = c(11:20), output_re
   test = df1[[2]]
   model.res <- NULL
   used = c()
-  minBestError = lars.lasso(data[,baseset], dataset_id = dataset_id,filename="../Analysis Results/sfs.csv" )
+  minBestError = do.call(func,args=list(data[,baseset], dataset_id = dataset_id,filename="../Analysis Results/sfs.csv" ))
   totIter = length(extra)
   for (j in 1:totIter){
     model.res <- NULL
@@ -16,7 +16,8 @@ SFS <- function(data, dataset_id, baseset = c(1:10), extra = c(11:20), output_re
       #print(i)
       varList = c(baseset, used, i)
       dataid = paste(dataset_id, paste(varList, collapse="_"))
-      model.res[i] = lars.lasso(data[,varList], dataid,filename="../Analysis Results/sfs.csv" )
+      model.res[i] = do.call(func,args=list(data[,varList], dataid,filename="../Analysis Results/sfs.csv" ))
+      # model.res[i] = lars.lasso(data[,varList], dataid,filename="../Analysis Results/sfs.csv" )
     }
     bestNextIdx = which.min(model.res)
     #print(model.res)
@@ -35,7 +36,7 @@ SFS <- function(data, dataset_id, baseset = c(1:10), extra = c(11:20), output_re
 }
   
 
-#SBS(raw_continuous_dataset, dataset_id = "raw_continuous_vars", baseset = c(1:7), extra = c(8:12))
+#SFS(lars.lasso, raw_continuous_dataset, dataset_id = "raw_continuous_vars", baseset = c(1:7), extra = c(8:12))
 
 
 # Before calling it make sure we add headers!!!!!!!!!!
