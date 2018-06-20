@@ -167,9 +167,6 @@ classification_rpart_tree_fitting <- function(data, dataset_id, output_results =
 
 regression_rpart_tree_fitting <- function(data, dataset_id, output_results = "../Analysis Results/Trees/")
 {
-  
-  browser()
-  
   df1 <- train.test.set(data)
   training_data = df1[[1]]
   testing_data = df1[[2]]
