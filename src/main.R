@@ -362,12 +362,14 @@ load(file="../Dataset/featureset_allmanual.Rda")
 featureset_glmnet_lasso_sfs = SFS(glmnet.lasso, featureset_allmanual, dataset_id = "featureset_allmanual", baseset = c(1:8), extra = c(9:35), method = "glmnet_lasso")
 save(file = "../Dataset/featureset_glmnet_lasso_sfs.Rda", featureset_glmnet_lasso_sfs)
 #(1,7,8,13,16,17,20,21,24:35)
-create.Latex.Table4(filein = "../Analysis Results/SFS/.csv", fileout  = "../Analysis Results/SFS/.tex")
+#create.Latex.Table4(filein = "../Analysis Results/SFS/.csv", fileout  = "../Analysis Results/SFS/.tex")
+create.Latex.Table4(filein = "../Analysis Results/SFS/_glmnet_lasso_featureset_allmanual_sfs.csv", fileout  = "../Analysis Results/SFS/_glmnet_lasso_featureset_allmanual_logs_sfs.tex")
 rm(featureset_glmnet_lasso_sfs)
-
 
 ### 5.7 fitting the final model ###
 
+#load(file = "../Dataset/featureset_regression_randomforest_sfs.Rda")
+regression_randomforest(featureset_regression_randomforest_sfs, dataset_id = "featureset_regression_randomforest_sfs")
 
 load(file = "../Dataset/featureset_glmnet_lasso_sfs.Rda", featureset_glmnet_lasso_sfs)
 
