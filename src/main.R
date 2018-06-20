@@ -336,8 +336,30 @@ create.Latex.Table4.sorted(filein = "../Analysis Results/model_results.csv",
 
 ### 5.6 - Sequential Forward Selection ###
 
-featureset_glmnet_lasso_sfs = SFS(glmnet.lasso, featureset_base_ratios, dataset_id = "featureset_base_ratios", baseset = c(1:13), extra = c(14:26), method = "glmnet_lasso")
+# featureset_glmnet_lasso_sfs = SFS(glmnet.lasso, featureset_base_ratios, dataset_id = "featureset_base_ratios", baseset = c(1:13), extra = c(14:26), method = "glmnet_lasso")
+# save(file = "../Dataset/featureset_glmnet_lasso_sfs.Rda", featureset_glmnet_lasso_sfs)
+# rm(featureset_glmnet_lasso_sfs)
+
+load(file="../Dataset/featureset_logs.Rda")
+featureset_regression_randomforest_sfs = SFS(regression_randomforest, featureset_logs, dataset_id = "featureset_logs", baseset = c(1,7,8), extra = c(13:20), method = "regression_randomforest")
+save(file = "../Dataset/featureset_regression_randomforest_sfs.Rda", featureset_regression_randomforest_sfs)
+#(1,7,8,13,16,17,20,21,24:35)
+create.Latex.Table4(filein = "../Analysis Results/SFS/_regression_randomforest_featureset_logs_sfs.csv", fileout  = "../Analysis Results/SFS/_regression_randomforest_featureset_logs_sfs.tex")
+rm(featureset_regression_randomforest_sfs)
+
+load(file="../Dataset/featureset_nocorrelation03_logs.Rda")
+featureset_regression_rpart_tree_fitting_sfs = SFS(regression_rpart_tree_fitting, featureset_nocorrelation03_logs, dataset_id = "featureset_nocorrelation03_logs", baseset = c(1:8), extra = c(9:13), method = "regression_rpart_tree_fitting")
+save(file = "../Dataset/featureset_regression_rpart_tree_fitting_sfs.Rda", featureset_regression_rpart_tree_fitting_sfs)
+#c(1,7,8,13,16,17,20,21,24:35)
+create.Latex.Table4(filein = "../Analysis Results/SFS/_regression_rpart_tree_fitting_featureset_nocorrelation03_logs_sfs.csv", fileout  = "../Analysis Results/SFS/_regression_rpart_tree_fitting_featureset_nocorrelation03_logs_sfs.tex")
+rm(featureset_regression_rpart_tree_fitting_sfs)
+
+
+load(file="../Dataset/featureset_allmanual.Rda")
+featureset_glmnet_lasso_sfs = SFS(glmnet.lasso, featureset_allmanual, dataset_id = "featureset_allmanual", baseset = c(1:8), extra = c(9:35), method = "glmnet_lasso")
 save(file = "../Dataset/featureset_glmnet_lasso_sfs.Rda", featureset_glmnet_lasso_sfs)
+#(1,7,8,13,16,17,20,21,24:35)
+create.Latex.Table4(filein = "../Analysis Results/SFS/.csv", fileout  = "../Analysis Results/SFS/.tex")
 rm(featureset_glmnet_lasso_sfs)
 
 ### 5.7 fitting the final model ###

@@ -9,6 +9,7 @@ SFS <- function(func, data, dataset_id, baseset = c(1:10), extra = c(11:20), out
   test = df1[[2]]
   model.res <- NULL
   used = c()
+  print(baseset)
   minBestError = do.call(func,args=list(data[,baseset], dataset_id = dataset_id,filename=output ))
   totIter = length(extra)
   for (j in 1:totIter){
