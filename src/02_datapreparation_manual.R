@@ -417,6 +417,18 @@ featureset.nocorr.ratios.manual04 <- function(data){
   return(data5)
 }
 
+featureset.base.ratios.manual01 <- function(data){
+  data.all <- preprocessing.create.allfeatures(data)
+  
+  # ratios
+  data4 <- data.all[,c(1:34)]
+  #remove categorical 
+  data4 <- data4[,c(-7,-8,-14,-15,-16,-17,-20,-21)]
+  data.new <- data4
+  names(data.new)[1] <- "target"
+  return(data.new)
+}
+
 
 manual.load <- function(data){
   

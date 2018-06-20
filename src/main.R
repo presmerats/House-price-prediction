@@ -71,6 +71,11 @@ featureset_nocorrelation04_ratios <- featureset.nocorr.ratios.manual04(data)
 save(file = "../Dataset/featureset_nocorrelation04_ratios.Rda", featureset_nocorrelation04_ratios)
 rm(featureset_nocorrelation04_ratios)
 
+
+featureset_base_ratios <- featureset.base.ratios.manual01(data)
+save(file = "../Dataset/featureset_base_ratios.Rda", featureset_base_ratios)
+rm(featureset_base_ratios)
+
 # # this approach contains outliers
 # raw_continuous_dataset <- raw_continuous_vars_selection(data)
 # featureset_pca <- featureset_pca(raw_continuous_dataset)
@@ -249,15 +254,24 @@ load(file="../Dataset/featureset_pca.Rda")
 #load(file="../Dataset/featureset_pca_nooutliers.Rda")
 
 # perform model selection -> train all models over this data set, and select the one with smallest va error
+
 lapply(models.list, do.call, args=list(featureset_pca, dataset_id = "O3_pca_model_selection", comment="featureset_pca"))
+
+linear_regression_fitting02(featureset_pca, dataset_id = "O3_pca_model_selection")
+mass.ridge(featureset_pca, dataset_id = "O3_pca_model_selection")
+glmnet.ridge(featureset_pca, dataset_id = "O3_pca_model_selection")
+glmnet.lasso(featureset_pca, dataset_id = "O3_pca_model_selection")
+lars.lasso(featureset_pca, dataset_id = "O3_pca_model_selection")
+#pcr_model(featureset_pca, dataset_id = "O3_pca_model_selection")
+
 rm(featureset_pca)
 
 # perform feature selection with this selected model
-#     we read the results file and we get the min validation NRMSE is  for the model
-#     minimum va NRMSE 202981.063059123 for glmnet ridge regression model
-model.selection.func(glmnet.ridge,folder="../Dataset/",id="O3_feature_selection")
+# we read the results file and we get the min validation NRMSE is  for the model
+# minimum va NRMSE 202981.063059123 for glmnet ridge regression model
 
 # result is feature and model
+
 
 create.Latex.Table3(filein = "../Analysis Results/model_results.csv",
                     fileout  = "../Analysis Results/ap3_results_04.tex")
@@ -288,3 +302,43 @@ create.Latex.Table3(filein = "../Analysis Results/model_results.csv",
 
 create.Latex.Table3(filein = "../Analysis Results/model_results.csv",
                     fileout  = "../Analysis Results/ap5_results_04.tex")
+
+featurespace = get.featureset.names("../Dataset/")
+
+for(i in 1:length(featurespace)){
+  #get clean name
+  filename = paste("../Dataset/",featurespace[i],".Rda",sep="")
+  newobjects = load(file=filename)
+  auxvar <- get(newobjects[1])
+  glmnet.ridge(auxvar, dataset_id = "O3_feature_selection", comment=featurespace[i])
+  rm(auxvar)
+}
+
+
+
+### 5.5  All models vs all datasets
+rm(list = ls())
+gc()
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path)) 
+source("aux_functions.R")
+source_scripts()
+load_packages()
+load.models.list()
+# Solution space exploration
+lapply(models.list, model.selection.func, folder="../Dataset/",id="O2_feature_mode_exploration")
+# result: lars lasso regression , featureset_allmanual
+
+
+
+create.Latex.Table4.sorted(filein = "../Analysis Results/model_results.csv",
+                           fileout  = "../Analysis Results/exp_models_vs_featuresets_all.tex")
+
+
+### 5.6 - Sequential Forward Selection ###
+
+featureset_glmnet_lasso_sfs = SFS(glmnet.lasso, featureset_base_ratios, dataset_id = "featureset_base_ratios", baseset = c(1:13), extra = c(14:26), method = "glmnet_lasso")
+save(file = "../Dataset/featureset_glmnet_lasso_sfs.Rda", featureset_glmnet_lasso_sfs)
+rm(featureset_glmnet_lasso_sfs)
+
+### 5.7 fitting the final model ###
+
