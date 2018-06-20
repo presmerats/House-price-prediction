@@ -401,7 +401,7 @@ regression_treelib_tree_fitting <- function(data, dataset_id, output_results = "
 }
 
 
-regression_randomforest <- function(data, dataset_id, output_results = "../Analysis Results/Trees/")
+regression_randomforest <- function(data, dataset_id, output_results = "../Analysis Results/Trees/",comment = "testing",filename = "../Analysis Results/model_results.csv")
 {
   
   df1 <- train.test.set(data)
@@ -409,7 +409,7 @@ regression_randomforest <- function(data, dataset_id, output_results = "../Analy
   testing_data = df1[[2]]
   
   set.seed(2018)
-  (ntrees <- round(10^seq(1,3,by=0.2)))
+  (ntrees <- round(10^seq(1,2,by=0.2)))
   rf.results <- matrix (rep(0,2*length(ntrees)),nrow=length(ntrees))
   colnames (rf.results) <- c("ntrees", "RMSE")
   rf.results[,"ntrees"] <- ntrees
@@ -427,6 +427,7 @@ regression_randomforest <- function(data, dataset_id, output_results = "../Analy
     
     ii <- ii+1
   }
+  
   nt
   rf.results
   
@@ -434,6 +435,12 @@ regression_randomforest <- function(data, dataset_id, output_results = "../Analy
   
   lowest.mse.error <- as.integer(which.min(rf.results[,"RMSE"]))
   (ntrees.best <- rf.results[lowest.mse.error,"ntrees"])
+  error = Prediction.errors.from.nrmse(rf.results[lowest.mse.error,"RMSE"],training_data,training_data$target)
+  va.se <- error[["se"]]
+  va.MSE <-  error[["mse"]]
+  va.RMSE <-  error[["rmse"]]  
+  va.NRMSE  <-  error[["nrmse"]]
+  va.R2 <-  error[["r2"]]
   
   ## Now refit the RF with the best value of 'ntrees'
   set.seed(2018)
@@ -443,23 +450,61 @@ regression_randomforest <- function(data, dataset_id, output_results = "../Analy
   
   # Lets Use the RF to predict the results of our testing data:
   pred_test = predict(model.rf3, newdata=testing_data)
+  error = Prediction.errors(pred_test,testing_data$target)
+  te.se <- error["se"]
+  te.MSE <-  error["mse"]
+  te.RMSE <-  error["rmse"]  
+  te.NRMSE <-  error["nrmse"]  
+  te.R2 <-  error["r2"]
+  
   
   # Lets use the RF to predit the training error data
   pred_learn=predict(model.rf3, data=training_data)
+  error = Prediction.errors(pred_learn,training_data$target)
+  tr.se <- error["se"]
+  tr.MSE <-  error["mse"]
+  tr.RMSE <-  error["rmse"]  
+  tr.NRMSE <-  error["nrmse"]  
+  tr.R2 <-  error["r2"] 
   
-  SE.learn = 0.5*sum((pred_learn - (training_data$target))^2)
-  MSE.learn = (mean((pred_learn - (training_data$target))^2))
-  NRMSE.learn = sqrt(MSE.learn)
-  #MSE.learn
-  # 132976.3
-
-  SE.test = 0.5*sum((pred_test - (testing_data$target))^2)
-  MSE.test = (mean((pred_test - (testing_data$target))^2))
-  NRMSE.test = sqrt(MSE.test) 
-  #MSE.test
-  # 128273.6
-  #printResult(paste("Random forest - tree size: ", ntrees.best) , dataset_id , RMSE.learn, RMSE.test)
-
+  # SE.learn = 0.5*sum((pred_learn - (training_data$target))^2)
+  # MSE.learn = (mean((pred_learn - (training_data$target))^2))
+  # NRMSE.learn = sqrt(MSE.learn)
+  # #MSE.learn
+  # # 132976.3
+  # 
+  # SE.test = 0.5*sum((pred_test - (testing_data$target))^2)
+  # MSE.test = (mean((pred_test - (testing_data$target))^2))
+  # NRMSE.test = sqrt(MSE.test) 
+  # #MSE.test
+  # # 128273.6
+  # #printResult(paste("Random forest - tree size: ", ntrees.best) , dataset_id , RMSE.learn, RMSE.test)
+  # 
+  # 
+  # writeResults("Random forest", paste("tree size: ", ntrees.best), dataset_id, "Random forest", SE.learn, MSE.learn,NRMSE.learn, SE.test, MSE.test, NRMSE.test)
   
-  writeResults("Random forest", paste("tree size: ", ntrees.best), dataset_id, "Random forest", SE.learn, MSE.learn,NRMSE.learn, SE.test, MSE.test, NRMSE.test)
+  # write results to results file.  
+  function_script <- "regression_randomforest"
+  comment <- comment
+  Input <- dataset_id
+  Model <- "regression_randomforest"
+  
+  result <- cbind(
+    function_script, 
+    comment, Input, Model, 
+    tr.se, tr.MSE, tr.RMSE, tr.NRMSE, tr.R2,
+    va.se, va.MSE, va.RMSE, va.NRMSE, va.R2,
+    te.se, te.MSE, te.RMSE, te.NRMSE, te.R2
+  )
+  
+  write.table(
+    result, 
+    file=filename, 
+    append = TRUE, 
+    sep=";", 
+    col.names = FALSE, 
+    row.names = FALSE)
+  return(va.NRMSE)
+  
+  
 }
