@@ -30,52 +30,57 @@ lars.lasso <- function(data, dataset_id, output_results = "../Analysis Results/L
   
   # training, validation and test errors
   tr.pred = predict(model.lasso, x, s=bestlam, type="fit")$fit
-  tr.se <- 0.5*sum((tr.pred - t)^2)
-  tr.MSE <- mean((tr.pred - t)^2)
-  tr.NRMSE <- sqrt(tr.MSE)  
-  
-  # Validation error
+  error = Prediction.errors(tr.pred,t)
+  tr.se <- error[["se"]]
+  tr.MSE <-  error[["mse"]]
+  tr.RMSE <-  error[["rmse"]]  
+  tr.NRMSE <-  error[["nrmse"]]  
+  tr.R2 <-  error[["r2"]]
+  # tr.se <- 0.5*sum((tr.pred - t)^2)
+  # tr.MSE <- mean((tr.pred - t)^2)
+  # tr.RMSE <- sqrt(tr.MSE)  
+  # tr.NRMSE <- sqrt(tr.MSE/var(t))  
+  # tr.R2 <- 1 - tr.NRMSE^2
+  # 
+
+    # Validation error
   valist <- lars.lasso.CV(10,train,model.lasso, bestlam)
-  va.se <- valist[1]
-  va.MSE <- valist[2]
-  va.NRMSE <- valist[3]
+  va.se <- valist[["se"]]
+  va.MSE <- valist[["mse"]]
+  va.RMSE <- valist[["rmse"]]
+  va.NRMSE <- valist[["nrmse"]]
+  va.R2 <- valist[["e2"]]
+  
+
   
   # generalisation error
   te.pred = predict(model.lasso, x.test, s=bestlam, type="fit")$fit
-  te.se <- 0.5*sum((te.pred - t.test)^2)
-  te.MSE <- mean((te.pred - t.test)^2)
-  te.NRMSE <- sqrt(te.MSE)
-  
+  error = Prediction.errors(te.pred,t.test)
+  te.se <- error[["se"]]
+  te.MSE <-  error[["mse"]]
+  te.RMSE <-  error[["rmse"]]  
+  te.NRMSE <-  error[["nrmse"]]  
+  te.R2 <-  error[["r2"]]
+  # te.se <- 0.5*sum((te.pred - t.test)^2)
+  # te.MSE <- mean((te.pred - t.test)^2)
+  # te.RMSE <- sqrt(te.MSE)
+  # te.NRMSE <- sqrt(te.MSE/var(t.test))  
+  # te.R2 <- 1 - te.NRMSE^2
+
   # write results to results file.  
   
   function_script <- "Lasso_regression_larss"
   comment <- comment
   Input <- dataset_id
   Model <- "Lasso regression LARS"
-  Training_error <- tr.se
-  Training_MSE <- tr.MSE
-  Training_NRMSE <- tr.NRMSE
-  Validation_error <- va.se
-  Validation_MSE <- va.MSE
-  Validation_NRMSE <- va.NRMSE
-  Testing_error <- te.se
-  Testing_MSE <- te.MSE
-  Testing_NRMSE <- te.NRMSE
   
   result <- cbind(
     function_script, 
-    comment, 
-    Input, 
-    Model, 
-    Training_error,
-    Training_MSE,
-    Training_NRMSE,
-    Validation_error, 
-    Validation_MSE,
-    Validation_NRMSE,
-    Testing_error,
-    Testing_MSE,
-    Testing_NRMSE)
+    comment, Input, Model, 
+    tr.se, tr.MSE, tr.RMSE, tr.NRMSE, tr.R2,
+    va.se, va.MSE, va.RMSE, va.NRMSE, va.R2,
+    te.se, te.MSE, te.RMSE, te.NRMSE, te.R2
+    )
   
   write.table(
     result, 
@@ -106,7 +111,7 @@ lars.lasso.CV.total <- function (k,data,model.lasso)
     # va.MSE <- valist[2]
     # va.NRMSE <- valist[3]
     # we get the squared error
-    va.errors[i] <- lars.lasso.CV(10,data,model.lasso, i)[1]
+    va.errors[i] <- lars.lasso.CV(10,data,model.lasso, i)[[1]]
   }
   
   # index of the bestlambda (the one with less validation error)
@@ -119,16 +124,19 @@ lars.lasso.CV <- function (k,data,lasso.mod,bestlam)
 {
   CV.folds <- generateCVRuns(data$target, ntimes=1, nfold=k, stratified=TRUE)
   
-  thenames <- c("k","fold","TR error", "TR MSE", "TR NRMSE","VA error","VA MSE","VA NRMSE")
+  thenames <- c("k","fold","TR error", "TR MSE", "TR NRMSE","VA error","VA MSE","VA RMSE","VA NRMSE","VA R2")
   cv.results <- matrix (rep(0,length(thenames)*k),nrow=k)
   colnames (cv.results) <- thenames
   
   cv.results[,"TR error"] <- 0
-  cv.results[,"VA error"] <- 0
   cv.results[,"TR MSE"] <- 0
-  cv.results[,"VA MSE"] <- 0
   cv.results[,"TR NRMSE"] <- 0
+  
+  cv.results[,"VA error"] <- 0
+  cv.results[,"VA MSE"] <- 0
+  cv.results[,"VA RMSE"] <- 0
   cv.results[,"VA NRMSE"] <- 0
+  cv.results[,"VA R2"] <- 0
   cv.results[,"k"] <- k
   
   for (j in 1:k)
@@ -145,31 +153,34 @@ lars.lasso.CV <- function (k,data,lasso.mod,bestlam)
     
     # predict TR data
     tr.pred = predict(lasso.mod, x, s=bestlam, type="fit")$fit
-    tr.se <- 0.5*sum((tr.pred - t)^2)
-    tr.MSE <- mean((tr.pred - t)^2)
-    tr.NRMSE <- sqrt(tr.MSE) 
-    cv.results[j,"TR error"]  <- tr.se
-    cv.results[j,"TR MSE"]  <- tr.MSE
-    cv.results[j,"TR NRMSE"]  <- tr.NRMSE
+    # tr.se <- 0.5*sum((tr.pred - t)^2)
+    # tr.MSE <- mean((tr.pred - t)^2)
+    # tr.NRMSE <- sqrt(tr.MSE) 
+    # cv.results[j,"TR error"]  <- tr.se
+    # cv.results[j,"TR MSE"]  <- tr.MSE
+    # cv.results[j,"TR NRMSE"]  <- tr.NRMSE
     
     # predict VA data
     cv.pred = predict(lasso.mod, x.test, s=bestlam, type="fit" )$fit
-    cv.se <- 0.5*sum((cv.pred - t.test)^2)
-    cv.MSE <- mean((cv.pred - t.test)^2)
-    cv.NRMSE <- sqrt(cv.MSE) 
-    
-    cv.results[j,"VA error"] <- cv.se
-    cv.results[j,"VA MSE"] <- cv.MSE
-    cv.results[j,"VA NRMSE"] <- cv.NRMSE
+    error = Prediction.errors(cv.pred,t.test)
+    cv.results[j,"VA error"] <- error[["se"]]
+    cv.results[j,"VA MSE"] <- error[["mse"]]
+    cv.results[j,"VA RMSE"] <- error[["rmse"]] 
+    cv.results[j,"VA NRMSE"] <- error[["nrmse"]] 
+    cv.results[j,"VA R2"] <- error[["r2"]]  
     
     cv.results[j,"fold"] <- j
   }
   
   va.se.mean <- mean(cv.results[,"VA error"])
   va.MSE.mean <- mean(cv.results[,"VA MSE"])
+  va.RMSE.mean <- mean(cv.results[,"VA RMSE"])
   va.NRMSE.mean <- mean(cv.results[,"VA NRMSE"])
-  return(c(va.se.mean, va.MSE.mean, va.NRMSE.mean))
-  # return everything: mean training error, mean va error?
+  va.R2.mean <- mean(cv.results[,"VA R2"])
+  return(list(se=va.se.mean, mse=va.MSE.mean, 
+              rmse=va.RMSE.mean, nrmse=va.NRMSE.mean,
+              r2=va.R2.mean))
+
 }
 
 
@@ -207,21 +218,29 @@ glmnet.lasso <- function(data, dataset_id, output_results = "../Analysis Results
   
   # training, validation and test errors
   tr.pred = predict(lasso.mod, s=bestlam, newx=x)
-  tr.se <- 0.5*sum((tr.pred - t)^2)
-  tr.MSE <- mean((tr.pred - t)^2)
-  tr.NRMSE <- sqrt(tr.MSE)  
+  error = Prediction.errors(tr.pred,t)
+  tr.se <- error["se"]
+  tr.MSE <-  error["mse"]
+  tr.RMSE <-  error["rmse"]  
+  tr.NRMSE <-  error["nrmse"]  
+  tr.R2 <-  error["r2"] 
   
   # Validation error
   valist <- glmnet.lasso.CV(10,train,lasso.mod, bestlam)
-  va.se <- valist[1]
-  va.MSE <- valist[2]
-  va.NRMSE <- valist[3]
+  va.se <- valist["se"]
+  va.MSE <- valist["mse"]
+  va.RMSE <- valist["rmse"]
+  va.NRMSE <- valist["nrmse"]
+  va.R2 <- valist["e2"]
   
   # generalisation error
   te.pred = predict(lasso.mod, s=bestlam, newx=x.test)
-  te.se <- 0.5*sum((te.pred - t.test)^2)
-  te.MSE <- mean((te.pred - t.test)^2)
-  te.NRMSE <- sqrt(te.MSE)
+  error = Prediction.errors(te.pred,t.test)
+  te.se <- error["se"]
+  te.MSE <-  error["mse"]
+  te.RMSE <-  error["rmse"]  
+  te.NRMSE <-  error["nrmse"]  
+  te.R2 <-  error["r2"]
   
   # write results to results file.  
   
@@ -229,30 +248,14 @@ glmnet.lasso <- function(data, dataset_id, output_results = "../Analysis Results
   comment <- comment
   Input <- dataset_id
   Model <- "lasso regression GLMNET"
-  Training_error <- tr.se
-  Training_MSE <- tr.MSE
-  Training_NRMSE <- tr.NRMSE
-  Validation_error <- va.se
-  Validation_MSE <- va.MSE
-  Validation_NRMSE <- va.NRMSE
-  Testing_error <- te.se
-  Testing_MSE <- te.MSE
-  Testing_NRMSE <- te.NRMSE
   
   result <- cbind(
     function_script, 
-    comment, 
-    Input, 
-    Model, 
-    Training_error,
-    Training_MSE,
-    Training_NRMSE,
-    Validation_error, 
-    Validation_MSE,
-    Validation_NRMSE,
-    Testing_error,
-    Testing_MSE,
-    Testing_NRMSE)
+    comment, Input, Model, 
+    tr.se, tr.MSE, tr.RMSE, tr.NRMSE, tr.R2,
+    va.se, va.MSE, va.RMSE, va.NRMSE, va.R2,
+    te.se, te.MSE, te.RMSE, te.NRMSE, te.R2
+  )
   
   write.table(
     result, 
@@ -260,8 +263,7 @@ glmnet.lasso <- function(data, dataset_id, output_results = "../Analysis Results
     append = TRUE, 
     sep=";", 
     col.names = FALSE, 
-    row.names = FALSE)
-  
+    row.names = FALSE)  
 }
 
 
@@ -328,37 +330,37 @@ glmnet.lasso.CV <- function (k,data,lasso.mod, bestlam)
 
 
 # NRMSE ------------------
-
-compute.NRMSE <- function(model, test, typemodel="ridge"){
-  # assume test[,1] is the target
-  # assume test[,-1] are the features
-  
-  t.new <- test[,1]
-  x <- as.matrix(test[,c(-1)])
-  xdf <- test[,c(-1)]
-  N.test <- nrow(x)
-  
-  if (typemodel=="ridge"){
-    beta.ridgereg.FINAL = coef(model)
-    (pred.ridgereg <- sum((t.new - beta.ridgereg.FINAL[1] - x %*%beta.ridgereg.FINAL[-1])^2)/N.test)
-    (nrmse.ridgereg <- sqrt(pred.ridgereg/((N.test-1)*var(t.new))))
-    return(nrmse.ridgereg)
-  } else if (typemodel=="lasso1") {
-    #lasso type
-    # s¿
-    predictions <- predict(model, newx=x, s=2.7)
-    
-    (pred.lasso <- sum(( t.new - predictions$fit )^2)/N.test)
-    (nrmse.lasso <- sqrt(pred.lasso/((N.test-1)*var(t.new))))
-  } else if (typemodel=="lasso2") {
-    #lasso type
-    # s¿
-    predictions <- predict(model, newx=x, s=2.7)
-    (pred.lasso <- sum(( t.new - predictions )^2)/N.test)
-    (nrmse.lasso <- sqrt(pred.lasso/((N.test-1)*var(t.new))))
-  }
-  
-}
+# 
+# compute.NRMSE <- function(model, test, typemodel="ridge"){
+#   # assume test[,1] is the target
+#   # assume test[,-1] are the features
+#   
+#   t.new <- test[,1]
+#   x <- as.matrix(test[,c(-1)])
+#   xdf <- test[,c(-1)]
+#   N.test <- nrow(x)
+#   
+#   if (typemodel=="ridge"){
+#     beta.ridgereg.FINAL = coef(model)
+#     (pred.ridgereg <- sum((t.new - beta.ridgereg.FINAL[1] - x %*%beta.ridgereg.FINAL[-1])^2)/N.test)
+#     (nrmse.ridgereg <- sqrt(pred.ridgereg/((N.test-1)*var(t.new))))
+#     return(nrmse.ridgereg)
+#   } else if (typemodel=="lasso1") {
+#     #lasso type
+#     # s¿
+#     predictions <- predict(model, newx=x, s=2.7)
+#     
+#     (pred.lasso <- sum(( t.new - predictions$fit )^2)/N.test)
+#     (nrmse.lasso <- sqrt(pred.lasso/((N.test-1)*var(t.new))))
+#   } else if (typemodel=="lasso2") {
+#     #lasso type
+#     # s¿
+#     predictions <- predict(model, newx=x, s=2.7)
+#     (pred.lasso <- sum(( t.new - predictions )^2)/N.test)
+#     (nrmse.lasso <- sqrt(pred.lasso/((N.test-1)*var(t.new))))
+#   }
+#   
+# }
 
 
 

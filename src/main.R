@@ -182,10 +182,13 @@ rm(featureset_nocorrelation04_ratios)
 # we select the continuous variables that are not correlated
 # result: featureset_nocorrelation01
 
+source("aux_functions.R")
+source_scripts()
+load_packages()
 # perform model selection -> train all models over this data set, and select the one with smallest va error
 models.list <- c(linear_regression_fitting02,mass.ridge,glmnet.ridge, glmnet.lasso,lars.lasso)
 #models.list <- c(linear_regression_fitting02,mass.ridge,glmnet.ridge, glmnet.lasso,lars.lasso,pcr_model)
-load(file="../Dataset/featureset_nocorrelation04_ratios.Rda")
+load(file="../Dataset/featureset_nocorrelation01.Rda")
 lapply(models.list, do.call, args=list(featureset_nocorrelation01, dataset_id = "O1_model_selection", comment="featureset_nocorrelation01"))
 # result: ridge regression glmnet
 

@@ -73,18 +73,28 @@ model.selection.func <- function(func,folder=folder,id="O3_feature_selection" ){
   }
 }
 
+
+Prediction.errors <- function(pred, t){
+  tr.se <- 0.5*sum((pred - t)^2)
+  tr.MSE <- mean(2*tr.se)
+  tr.RMSE <- sqrt(tr.MSE)  
+  tr.NRMSE <- sqrt(tr.MSE/var(t))  
+  tr.R2 <- 1 - tr.NRMSE^2
+  return(list(se=tr.se, mse=tr.MSE, rmse=tr.RMSE, nrmse=tr.NRMSE, r2=tr.R2))
+}
+
 create.Latex.Table <- function(){
   options(xtable.floating = FALSE)
   options(xtable.timestamp = "")
   
   results = read.csv("../Analysis Results/model_results.csv", header = TRUE, sep = ";")
   
-  variables <- c("Input", "Model","Training.NRMSE", "Validation.NRMSE", "Testing.NRMSE")
+  variables <- c("Input", "Model","Training.RMSE", "Validation.RMSE", "Testing.RMSE")
   subset = results[,variables]
   
   subset = cbind(subset[,2], subset[,-2]) # we want to have "Model" in the first column.
   
-  colnames(subset) <- c("Model","Feature set","Training.NRMSE", "Validation.NRMSE", "Testing.NRMSE")
+  colnames(subset) <- c("Model","Feature set","Training.RMSE", "Validation.RMSE", "Testing.RMSE")
   
   tli.table <- xtable(subset)
   align(tli.table) <- rep("c", ncol(tli.table)+1)
