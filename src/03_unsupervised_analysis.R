@@ -11,19 +11,19 @@ normality_tests <- function(data)
 
 }
 
-pca_analysis <- function(output_results = "../Analysis Results/Unsupervised Analysis/", data)
+pca_analysis <- function(data, output_results = "../Analysis Results/Unsupervised Analysis/")
 {
   # remove categorical vars
-  categorical_vars <- c("id", "date", "waterfront", "view", "yr_built", "yr_renovated", "zipcode", "lat", "long")
-  removed_vars <- names(data) %in% categorical_vars
-  data <- data[,!removed_vars]
+  #categorical_vars <- c("id", "date", "waterfront", "view", "yr_built", "yr_renovated", "zipcode", "lat", "long")
+  #removed_vars <- names(data) %in% categorical_vars
+  #data <- data[,!removed_vars]
   
   
   filename <- paste(output_results, "PCA_variables_projection_first_factorial_plane.jpeg", sep = "")
   
-  jpeg(filename = filename, width = 1000, height=1000)
+  #jpeg(filename = filename, width = 1000, height=1000)
   pca_result <- PCA(data, quanti.sup = c(1))
-  dev.off()
+  #dev.off()
   
   
   filename <- paste(output_results, "results.txt", sep = "")

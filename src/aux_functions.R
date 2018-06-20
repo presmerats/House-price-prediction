@@ -280,3 +280,59 @@ create.Latex.Table5.sorted  <- function(filein = "../Analysis Results/model_resu
   legend("topright", legend=c("Validation Error", "Training Error", "Testing Error"), col=c("blue", "green", "orange"), lty=1, cex=0.8)
   
 }
+
+create.Latex.Table6.SFS  <- function(filein = "../Analysis Results/SFS/_regression_randomforest_featureset_logs_sfs.csv"){
+  results = read.csv(filein, header = TRUE, sep = ";")
+  
+  variables <- c("Input", "Model", "Validation.NRMSE")
+  subset = results[,variables]
+  
+  subsetdf = cbind(subset[,2], subset[,-2]) # we want to have "Model" in the first column.
+  
+  colnames(subsetdf) <- c("Model","Feature set", "Validation.NRMSE")
+  
+  df3 = subsetdf
+  plot(1:nrow(df3), df3$Validation.NRMSE,pch=20, col = "blue", xlab = "", ylab = "NRMSE")
+  
+  #lines(1:nrow(df3), df3$Training.NRMSE, type="l", pch=22, col="green")
+  
+  #lines(1:nrow(df3), df3$Testing.NRMSE, type="l", pch=22, col="orange")
+  
+  x = 1:nrow(df3)
+  # draw an axis on the left
+  #modelnames = paste(df3$`subset[, 2]`, df3$Comment)
+  axis(1, at=x,labels=df3$`Feature set`, col.axis="red", las=2)
+  abline(v=c(1.5,9.5,16.5,22.5, 27.5,31.5,34.5, 36.5), col=c("orange"), lty=c(2), lwd=c(2))
+  legend("topright", legend=c("Validation Error", "Training Error", "Testing Error"), col=c("blue", "green", "orange"), lty=1, cex=0.8)
+  
+}
+
+
+
+create.Latex.final  <- function(filein = "../Analysis Results/final.csv",
+                                        fileout  = "../Analysis Results/final.tex"){
+  options(xtable.floating = FALSE)
+  options(xtable.timestamp = "")
+  
+  results = read.csv(filein, header = TRUE, sep = ";")
+  
+  variables <- c("Input", "Model", "Validation.NRMSE", "Training.NRMSE","Testing.NRMSE")
+  subset = results[,variables]
+  
+  subsetdf = cbind(subset[,2], subset[,-2]) # we want to have "Model" in the first column.
+  
+  colnames(subsetdf) <- c("Model","Feature set", "Validation.NRMSE","Training.NRMSE", "Testing.NRMSE")
+  
+  # we also need to sort by Validation.NRMSE
+  df2 <- subsetdf[order(subsetdf$Validation.NRMSE),]
+  subsetdf <- df2
+  
+  
+  tli.table <- xtable(subsetdf)
+  # we need cllccc
+  align(tli.table) <- c(paste("cll",paste(rep("c", ncol(tli.table)-2), collapse = ""), sep="", collapse=""))
+  
+  print(tli.table, file = fileout)
+  
+}
+create.Latex.final()

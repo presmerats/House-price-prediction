@@ -369,9 +369,16 @@ rm(featureset_glmnet_lasso_sfs)
 ### 5.7 fitting the final model ###
 
 
+load(file = "../Dataset/featureset_glmnet_lasso_sfs.Rda", featureset_glmnet_lasso_sfs)
 
+glmnet.lasso(featureset_glmnet_lasso_sfs, dataset_id = "featureset_glmnet_lasso_sfs")
 
+load(file = "../Dataset/featureset_regression_rpart_tree_fitting_sfs.Rda")
+regression_rpart_tree_fitting(featureset_regression_rpart_tree_fitting_sfs, dataset_id = "featureset_regression_rpart_tree_fitting_sfs")
 
-
+#classification_rpart_tree_fitting(featureset_pca, dataset_id = "featureset_pca_normal")
+#regression_treelib_tree_fitting(featureset_pca, dataset_id = "featureset_pca_normal")
+load(file = "../Dataset/featureset_regression_randomforest_sfs.Rda")
+regression_randomforest(featureset_regression_randomforest_sfs, dataset_id = "featureset_regression_randomforest_sfs")
 
  
