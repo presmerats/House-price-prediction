@@ -26,7 +26,8 @@ load_packages <- function()
   load_install_packages("rpart.plot")
   load_install_packages("lars")
   load_install_packages("glmnet")
-
+  load_install_packages("xtable")
+  
 }
 
 source_scripts <- function()
@@ -55,4 +56,24 @@ get.featureset.names <- function(folderpath){
   #file.list <- dir(folderpath)
   file.list <- Filter(function(x){substring(x,nchar(x)-3,nchar(x))==".Rda"},dir(folderpath))
   return(lapply(file.list,function(x){gsub(".Rda","",x)}))
+}
+
+
+create.Latex.Table <- function(){
+  options(xtable.floating = FALSE)
+  options(xtable.timestamp = "")
+  
+  results = read.csv("../Analysis Results/model_results.csv", header = TRUE, sep = ";")
+  
+  variables <- c("Input", "Model","Training.NRMSE", "Validation.NRMSE", "Testing.NRMSE")
+  subset = results[,variables]
+  
+  subset = cbind(subset[,2], subset[,-2]) # we want to have "Model" in the first column.
+  
+  colnames(subset) <- c("Model","Feature set","Training.NRMSE", "Validation.NRMSE", "Testing.NRMSE")
+  
+  tli.table <- xtable(subset)
+  align(tli.table) <- rep("c", ncol(tli.table)+1)
+  
+  print(tli.table, file = "../Analysis Results/model_results.tex")
 }
