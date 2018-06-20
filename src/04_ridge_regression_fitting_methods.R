@@ -35,22 +35,25 @@ mass.ridge <-  function(data, dataset_id, output_results = "../Analysis Results/
 
   # The optimal lambda is given, we refit our model
   lambda.ridge <- seq(0,10,0.1)[which.min(model.ridge$GCV)]
-  # We can plot the coefficients and see how they vary as a function of lambda
-  # colors <- rainbow(8)
-  # matplot(seq(0,10,0.1), coef(model.ridge)[,-1], xlim=c(0,11), type="l",xlab=expression(lambda),
-  #         ylab=expression(hat(beta)), col=colors, lty=1, lwd=2, main="Ridge coefficients")
-  # abline(v=lambda.ridge, lty=2)
-  # abline(h=0, lty=2)
-  # text(rep(10, 9), coef(model.ridge)[length(seq(0,10,0.1)),-1], colnames(train), pos=4, col=colors)
+  gcv <- min(model.ridge$GCV)
+  print("gcv")
+  print(gcv)
+
+  # validation error
+  #valist <- mass.ridge.CV(10,train,lambda.ridge)
+  valist <- Prediction.errors2(gcv,train,train$target)
+  va.se <- valist[["se"]]
+  va.MSE <- valist[["mse"]]
+  va.RMSE <- valist[["rmse"]]
+  va.NRMSE <- valist[["nrmse"]]
+  va.R2 <- valist[["r2"]]
+  
   
   ## So we refit our final ridge regression model using the best lambda
   model.ridgereg.FINAL <- lm.ridge(target ~ ., data=train, lambda = lambda.ridge)
   beta.ridgereg.FINAL <- coef(model.ridgereg.FINAL)
   
-  ## These are the test MSEs examples
-  #(pred.linreg <- sum((t.new - predict(model.linreg.FINAL, test[,1:8]))^2)/N.test)
-  #(pred.ridgereg <- sum((t.new - beta.ridgereg.FINAL[1] - as.matrix(test[,1:8])%*%beta.ridgereg.FINAL[2:9])^2)/N.test)
-  #(pred.lasso <- sum((t.new - predict(model.lasso, as.matrix(test[,1:8]), s=4, type="fit")$fit)^2)/N.test)
+
   
   # training error
   tr.pred <- beta.ridgereg.FINAL[1] + as.matrix(train[,2:ncol(train)])%*%beta.ridgereg.FINAL[-1]
@@ -62,16 +65,7 @@ mass.ridge <-  function(data, dataset_id, output_results = "../Analysis Results/
   tr.NRMSE <-  error[["nrmse"]]  
   tr.R2 <-  error[["r2"]]
   
-  # validation error ( in ridge the Validation error is done automatically)
-  # manually repeat validation error computation for later model selection
-  #tr.pred <- beta.ridgereg.FINAL[1] + as.matrix(train[,2:ncol(train)])%*%beta.ridgereg.FINAL[-1]
-  valist <- mass.ridge.CV(10,train,lambda.ridge)
-  va.se <- valist[["se"]]
-  va.MSE <- valist[["mse"]]
-  va.RMSE <- valist[["rmse"]]
-  va.NRMSE <- valist[["nrmse"]]
-  va.R2 <- valist[["r2"]]
-  
+
   # generalization error
   te.pred <- beta.ridgereg.FINAL[1] + as.matrix(test[,2:ncol(train)])%*%beta.ridgereg.FINAL[-1]
   error = Prediction.errors(te.pred,test$target)
@@ -193,11 +187,6 @@ glmnet.ridge <- function(data, dataset_id, output_results = "../Analysis Results
   x.test = model.matrix(target ~.,test)[,-1]
   t.test = test$target
   
-  # fit
-  grid=10^seq(10 , -2 , length=100)
-  ridge.mod = glmnet(x,t, alpha=0, lambda=grid)
-  set.seed(17)
-  
   # K-fold CV, by default it is 10-fold cross validation
   # cv.out=cv.glmnet(x,t,alpha=0, lambda=seq(0,10,0.1))
   # #plot(cv.out)
@@ -214,10 +203,24 @@ glmnet.ridge <- function(data, dataset_id, output_results = "../Analysis Results
   cv.out=cv.glmnet(x,t,alpha=0)
   #plot(cv.out)
   bestlam = cv.out$lambda.min
-  # bestlam # 3.3
+  bestlam.index = match(bestlam,cv.out$lambda)
+  
+  
+  # Validation error
+  verror = cv.out$cvm[bestlam.index] 
+  # depending on the type of verror, perform different transformation
+  error = Prediction.errors2(verror,x,t)
+  va.se <- error["se"]
+  va.MSE <-  error["mse"]
+  va.RMSE <-  error["rmse"]  
+  va.NRMSE  <-  error["nrmse"]
+  va.R2 <-  error["r2"]
+  
   
   # refit
-  # there's no refit, we use predict, with ridge.mod and tell the s=bestlam
+  grid=10^seq(10 , -2 , length=100)
+  ridge.mod = glmnet(x,t, alpha=0, lambda=grid)
+  set.seed(17) 
   
   # training, validation and test errors
   tr.pred = predict(ridge.mod, s=bestlam, newx=x)
@@ -227,14 +230,6 @@ glmnet.ridge <- function(data, dataset_id, output_results = "../Analysis Results
   tr.RMSE <-  error[["rmse"]]  
   tr.NRMSE <-  error[["nrmse"]]  
   tr.R2 <-  error[["r2"]]
- 
-  # Validation error
-  valist <- glmnet.ridge.CV(10,train,ridge.mod, bestlam)
-  va.se <- valist[["se"]]
-  va.MSE <- valist[["mse"]]
-  va.RMSE <- valist[["rmse"]]
-  va.NRMSE <- valist[["nrmse"]]
-  va.R2 <- valist[["r2"]]
    
   # generalisation error
   te.pred = predict(ridge.mod, s=bestlam, newx=x.test)
@@ -271,70 +266,70 @@ glmnet.ridge <- function(data, dataset_id, output_results = "../Analysis Results
 }
 
 
-  
-# Simplified CV function version
-glmnet.ridge.CV <- function (k,data,ridge.mod, bestlam)
-{
-  set.seed(2018)
-  CV.folds <- generateCVRuns(data$target, ntimes=1, nfold=k, stratified=TRUE)
-  
-  thenames <- c("k","fold","TR error", "TR MSE", "TR NRMSE","VA error","VA MSE","VA RMSE","VA NRMSE","VA R2")
-  cv.results <- matrix (rep(0,length(thenames)*k),nrow=k)
-  colnames (cv.results) <- thenames
-  
-  cv.results[,"TR error"] <- 0
-  cv.results[,"TR MSE"] <- 0
-  cv.results[,"TR NRMSE"] <- 0
-  
-  cv.results[,"VA error"] <- 0
-  cv.results[,"VA MSE"] <- 0
-  cv.results[,"VA RMSE"] <- 0
-  cv.results[,"VA NRMSE"] <- 0
-  cv.results[,"VA R2"] <- 0
-  cv.results[,"k"] <- k
-  
-  for (j in 1:k)
-  {
-    # get VA data
-    va <- unlist(CV.folds[[1]][[j]])
-    x = model.matrix(target ~.,data[-va,])[,-1]
-    t = data$target[-va]
-    x.test = model.matrix(target ~.,data[va,])[,-1]
-    t.test = data$target[va]
-    
-    # train on TR data
-    # no need to train again the model 
-    
-    # predict TR data
-    tr.pred = predict(ridge.mod, s=bestlam, newx=x)
-    # tr.se <- 0.5*sum((tr.pred - t)^2)
-    # tr.MSE <- mean((tr.pred - t)^2)
-    # tr.NRMSE <- sqrt(tr.MSE) 
-    # cv.results[j,"TR error"]  <- tr.se
-    # cv.results[j,"TR MSE"]  <- tr.MSE
-    # cv.results[j,"TR NRMSE"]  <- tr.NRMSE
-
-    # predict VA data
-    cv.pred = predict(ridge.mod, s=bestlam, newx=x.test)
-    error = Prediction.errors(cv.pred,t.test)
-    cv.results[j,"VA error"] <- error[["se"]]
-    cv.results[j,"VA MSE"] <- error[["mse"]]
-    cv.results[j,"VA RMSE"] <- error[["rmse"]] 
-    cv.results[j,"VA NRMSE"] <- error[["nrmse"]] 
-    cv.results[j,"VA R2"] <- error[["r2"]] 
-
-    cv.results[j,"fold"] <- j
-  }
-  
-  va.se.mean <- mean(cv.results[,"VA error"])
-  va.MSE.mean <- mean(cv.results[,"VA MSE"])
-  va.RMSE.mean <- mean(cv.results[,"VA RMSE"])
-  va.NRMSE.mean <- mean(cv.results[,"VA NRMSE"])
-  va.R2.mean <- mean(cv.results[,"VA R2"])
-  return(list(se=va.se.mean, mse=va.MSE.mean, 
-              rmse=va.RMSE.mean, nrmse=va.NRMSE.mean,
-              r2=va.R2.mean))
-}
+#   
+# # Simplified CV function version
+# glmnet.ridge.CV <- function (k,data,ridge.mod, bestlam)
+# {
+#   set.seed(2018)
+#   CV.folds <- generateCVRuns(data$target, ntimes=1, nfold=k, stratified=TRUE)
+#   
+#   thenames <- c("k","fold","TR error", "TR MSE", "TR NRMSE","VA error","VA MSE","VA RMSE","VA NRMSE","VA R2")
+#   cv.results <- matrix (rep(0,length(thenames)*k),nrow=k)
+#   colnames (cv.results) <- thenames
+#   
+#   cv.results[,"TR error"] <- 0
+#   cv.results[,"TR MSE"] <- 0
+#   cv.results[,"TR NRMSE"] <- 0
+#   
+#   cv.results[,"VA error"] <- 0
+#   cv.results[,"VA MSE"] <- 0
+#   cv.results[,"VA RMSE"] <- 0
+#   cv.results[,"VA NRMSE"] <- 0
+#   cv.results[,"VA R2"] <- 0
+#   cv.results[,"k"] <- k
+#   
+#   for (j in 1:k)
+#   {
+#     # get VA data
+#     va <- unlist(CV.folds[[1]][[j]])
+#     x = model.matrix(target ~.,data[-va,])[,-1]
+#     t = data$target[-va]
+#     x.test = model.matrix(target ~.,data[va,])[,-1]
+#     t.test = data$target[va]
+#     
+#     # train on TR data
+#     # no need to train again the model 
+#     
+#     # predict TR data
+#     tr.pred = predict(ridge.mod, s=bestlam, newx=x)
+#     # tr.se <- 0.5*sum((tr.pred - t)^2)
+#     # tr.MSE <- mean((tr.pred - t)^2)
+#     # tr.NRMSE <- sqrt(tr.MSE) 
+#     # cv.results[j,"TR error"]  <- tr.se
+#     # cv.results[j,"TR MSE"]  <- tr.MSE
+#     # cv.results[j,"TR NRMSE"]  <- tr.NRMSE
+# 
+#     # predict VA data
+#     cv.pred = predict(ridge.mod, s=bestlam, newx=x.test)
+#     error = Prediction.errors(cv.pred,t.test)
+#     cv.results[j,"VA error"] <- error[["se"]]
+#     cv.results[j,"VA MSE"] <- error[["mse"]]
+#     cv.results[j,"VA RMSE"] <- error[["rmse"]] 
+#     cv.results[j,"VA NRMSE"] <- error[["nrmse"]] 
+#     cv.results[j,"VA R2"] <- error[["r2"]] 
+# 
+#     cv.results[j,"fold"] <- j
+#   }
+#   
+#   va.se.mean <- mean(cv.results[,"VA error"])
+#   va.MSE.mean <- mean(cv.results[,"VA MSE"])
+#   va.RMSE.mean <- mean(cv.results[,"VA RMSE"])
+#   va.NRMSE.mean <- mean(cv.results[,"VA NRMSE"])
+#   va.R2.mean <- mean(cv.results[,"VA R2"])
+#   return(list(se=va.se.mean, mse=va.MSE.mean, 
+#               rmse=va.RMSE.mean, nrmse=va.NRMSE.mean,
+#               r2=va.R2.mean))
+# }
 
 
 
