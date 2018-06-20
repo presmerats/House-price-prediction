@@ -88,13 +88,10 @@ classification_rpart_tree_fitting <- function(data, dataset_id, output_results =
   table(priceCat)
   data$priceCat <- as.factor(priceCat)
   
-  train = round(nrow(data)*0.7)
-  
-  trainidx = 1:train
-  testidx  = (train+1):nrow(data)
-  
-  training_data = data[trainidx,]
-  testing_data  = data[testidx,]
+  df1 <- train.test.set(data)
+  training_data = df1[[1]]
+  testing_data = df1[[2]]
+
   set.seed(2018)
   data.dt = rpart(priceCat~.-target, data = training_data, control = rpart.control(cp=0.001, xval=10))
   
@@ -133,6 +130,7 @@ classification_rpart_tree_fitting <- function(data, dataset_id, output_results =
   dev.off()
   
   #next need to prune the tree
+  set.seed(2018)
   prune.dt <- prune(data.dt,cp=CP)
 
   
@@ -169,13 +167,10 @@ classification_rpart_tree_fitting <- function(data, dataset_id, output_results =
 
 regression_rpart_tree_fitting <- function(data, dataset_id, output_results = "../Analysis Results/Trees/")
 {
-  train = round(nrow(data)*0.7)
+  df1 <- train.test.set(data)
+  training_data = df1[[1]]
+  testing_data = df1[[2]]
   
-  trainidx = 1:train
-  testidx  = (train+1):nrow(data)
-  
-  training_data = data[trainidx,]
-  testing_data  = data[testidx,]
   set.seed(2018)
   data.dt = rpart(target~., data = training_data, method = "anova", control = rpart.control(cp=0.001, xval=10))
   
@@ -215,6 +210,7 @@ regression_rpart_tree_fitting <- function(data, dataset_id, output_results = "..
   dev.off()
   
   #next need to prune the tree
+  set.seed(2018)
   prune.dt <- prune(data.dt,cp=CP)
   
   
@@ -262,13 +258,10 @@ classification_treelib_tree_fitting <- function(data, dataset_id, output_results
   table(priceCat)
   data$priceCat <- as.factor(priceCat)
   
-  train = round(nrow(data)*0.7)
+  df1 <- train.test.set(data)
+  training_data = df1[[1]]
+  testing_data = df1[[2]]
   
-  trainidx = 1:train
-  testidx  = (train+1):nrow(data)
-  
-  training_data = data[trainidx,]
-  testing_data  = data[testidx,]
   set.seed(2018)
   data.tree = tree(priceCat~.-target, data = training_data)
   
@@ -288,6 +281,7 @@ classification_treelib_tree_fitting <- function(data, dataset_id, output_results
   
   
   # Lets run cross validation on the given tree
+  set.seed(2018)
   cv.data.tree = cv.tree(data.tree, K=10, FUN = prune.misclass)
   
   cv.data.tree
@@ -298,13 +292,9 @@ classification_treelib_tree_fitting <- function(data, dataset_id, output_results
 
 regression_treelib_tree_fitting <- function(data, dataset_id, output_results = "../Analysis Results/Trees/")
 {
-  train = round(nrow(data)*0.7)
-  
-  trainidx = 1:train
-  testidx  = (train+1):nrow(data)
-  
-  training_data = data[trainidx,]
-  testing_data  = data[testidx,]
+  df1 <- train.test.set(data)
+  training_data = df1[[1]]
+  testing_data = df1[[2]]
   
   set.seed(2018)
   data.tree = tree(target~., data = training_data)
@@ -323,6 +313,7 @@ regression_treelib_tree_fitting <- function(data, dataset_id, output_results = "
   
   
   # Lets run cross validation on the given tree
+  set.seed(2018)
   cv.data.tree = cv.tree(data.tree)
   
   cv.data.tree
@@ -367,13 +358,9 @@ regression_treelib_tree_fitting <- function(data, dataset_id, output_results = "
 regression_randomforest <- function(data, dataset_id, output_results = "../Analysis Results/Trees/")
 {
   
-  train = round(nrow(data)*0.7)
-  
-  trainidx = 1:train
-  testidx  = (train+1):nrow(data)
-  
-  training_data = data[trainidx,]
-  testing_data  = data[testidx,]
+  df1 <- train.test.set(data)
+  training_data = df1[[1]]
+  testing_data = df1[[2]]
   
   set.seed(2018)
   (ntrees <- round(10^seq(1,3,by=0.2)))
@@ -387,7 +374,7 @@ regression_randomforest <- function(data, dataset_id, output_results = "../Analy
   for (nt in ntrees)
   { 
     print(nt)
-    
+    set.seed(2018)
     model.rf <- randomForest(target ~., data=training_data, ntree=nt, proximity=FALSE)
     # get the RMSE
     rf.results[ii,"RMSE"] = sqrt(model.rf$mse[nt])
@@ -403,7 +390,7 @@ regression_randomforest <- function(data, dataset_id, output_results = "../Analy
   (ntrees.best <- rf.results[lowest.mse.error,"ntrees"])
   
   ## Now refit the RF with the best value of 'ntrees'
-  
+  set.seed(2018)
   model.rf3 <- randomForest(target ~., data=training_data, ntree=ntrees.best,proximity=FALSE, importance=TRUE)
   
   # let's compute the final test error:
