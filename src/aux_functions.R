@@ -94,6 +94,34 @@ Prediction.errors2 <- function(mse,x,t){
   return(list(se=tr.se, mse=tr.MSE, rmse=tr.RMSE, nrmse=tr.NRMSE, r2=tr.R2))
 }
 
+Prediction.errors.from.mse <- function(mse,x,t){
+  tr.se <- mse*nrow(x)/2
+  tr.MSE <- mse
+  tr.RMSE <- sqrt(tr.MSE)  
+  tr.NRMSE <- sqrt(tr.MSE/var(t))  
+  tr.R2 <- 1 - tr.NRMSE^2
+  return(list(se=tr.se, mse=tr.MSE, rmse=tr.RMSE, nrmse=tr.NRMSE, r2=tr.R2))
+}
+
+Prediction.errors.from.nrmse <- function(nrmse,x,t){
+  tr.RMSE <- nrmse  
+  tr.MSE <- nrmse^2
+  tr.se <- tr.MSE*nrow(x)/2
+  tr.NRMSE <- sqrt(tr.MSE/var(t))  
+  tr.R2 <- 1 - tr.NRMSE^2
+  return(list(se=tr.se, mse=tr.MSE, rmse=tr.RMSE, nrmse=tr.NRMSE, r2=tr.R2))
+}
+
+Prediction.errors.from.r2 <- function(r2,x,t){
+  
+  tr.R2 <- r2
+  tr.NRMSE <- sqrt(1 - tr.R2)
+  tr.MSE <- tr.NRMSE^2*var(t)
+  tr.se <- tr.MSE*nrow(x)/2
+  tr.RMSE <- sqrt(tr.MSE)  
+  return(list(se=tr.se, mse=tr.MSE, rmse=tr.RMSE, nrmse=tr.NRMSE, r2=tr.R2))
+}
+
 create.Latex.Table <- function(){
   options(xtable.floating = FALSE)
   options(xtable.timestamp = "")

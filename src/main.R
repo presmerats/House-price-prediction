@@ -127,9 +127,16 @@ pcr_model(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
 regression_rpart_tree_fitting(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
 classification_rpart_tree_fitting(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
 regression_treelib_tree_fitting(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
+
+start_time = Sys.time()
 regression_randomforest(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
+end_time = Sys.time()
+print(end_time - start_time)
 rm(raw_continuous_vars)
 
+source("aux_functions.R")
+source_scripts()
+load_packages()
 
 # ----- PCA extracted features --------------------------------------------#
 load(file="../Dataset/featureset_pca.Rda")
@@ -140,9 +147,12 @@ glmnet.lasso(featureset_pca, dataset_id = "featureset_pca_normal")
 lars.lasso(featureset_pca, dataset_id = "featureset_pca_normal")
 #pcr_model(featureset_pca, dataset_id = "featureset_pca_normal")
 regression_rpart_tree_fitting(featureset_pca, dataset_id = "featureset_pca_normal")
-classification_rpart_tree_fitting(featureset_pca, dataset_id = "featureset_pca_normal")
-regression_treelib_tree_fitting(featureset_pca, dataset_id = "featureset_pca_normal")
+#classification_rpart_tree_fitting(featureset_pca, dataset_id = "featureset_pca_normal")
+#regression_treelib_tree_fitting(featureset_pca, dataset_id = "featureset_pca_normal")
+start_time = Sys.time()
 regression_randomforest(featureset_pca, dataset_id = "featureset_pca_normal")
+end_time = Sys.time()
+print(end_time - start_time)
 rm(featureset_pca)
 # load(file="../Dataset/featureset_pca.Rda")
 # linear_regression_fitting02(featureset_pca, dataset_id = "featureset_pca_nooutliers")
@@ -182,6 +192,47 @@ rm(featureset_nocorrelation04_ratios)
 #### 5 - Experiments ####
 
 ### 5.1 - Option 3) PCA feature selection , model selection, feature selection ###
+
+# select feature set based on analysis of the data set variables
+# we select the continuous variables that are not correlated
+# result: featureset_nocorrelation01
+
+# perform model selection -> train all models over this data set, and select the one with smallest va error
+models.list <- c(linear_regression_fitting02,mass.ridge,glmnet.ridge, glmnet.lasso,lars.lasso)
+#models.list <- c(linear_regression_fitting02,mass.ridge,glmnet.ridge, glmnet.lasso,lars.lasso,pcr_model)
+load(file="../Dataset/featureset_nocorrelation01.Rda")
+lapply(models.list, do.call, args=list(featureset_nocorrelation01, dataset_id = "O1_model_selection", comment="featureset_nocorrelation01"))
+# result: ridge regression glmnet
+
+# create.Latex.Table2(filein = "../Analysis Results/model_results.csv",
+#                     variables = c("Model","Training.RMSE", "Validation.RMSE", "Testing.RMSE"),
+#                     fileout  = "../Analysis Results/ap1_results.tex")
+# 
+# 
+# create.Latex.Table2(filein = "../Analysis Results/model_results.csv",
+#                     variables = c("Model","Training.RMSE", "Validation.RMSE", "Testing.RMSE","Training.NRMSE", "Validation.NRMSE", "Testing.NRMSE"),
+#                     fileout  = "../Analysis Results/ap1_results_02.tex")
+
+# create.Latex.Table2(filein = "../Analysis Results/model_results.csv",
+#                     variables = c("Model","Validation.RMSE", "Testing.RMSE","Validation.NRMSE", "Testing.NRMSE"),
+#                     fileout  = "../Analysis Results/ap1_results_03.tex")
+
+create.Latex.Table3(fileout  = "../Analysis Results/ap1_results_04.tex")
+
+### 5.2 - Option 2) for each model candidate feature selection ###
+
+# Solution space exploration
+#models.list <- c(linear_regression_fitting02,mass.ridge,glmnet.ridge, glmnet.lasso,lars.lasso)
+models.list2 <- c(linear_regression_fitting02,mass.ridge,glmnet.ridge, glmnet.lasso,lars.lasso,pcr_model)
+lapply(models.list2, model.selection.func, folder="../Dataset/",id="O2_feature_mode_exploration")
+# result: lars lasso regression , featureset_allmanual
+
+
+
+create.Latex.Table3(filein = "../Analysis Results/model_results.csv",
+                    fileout  = "../Analysis Results/ap2_results_04.tex")
+
+### 5.3 - Option 3) PCA feature selection , model selection, feature selection ###
 
 # perform PCA, -> select PC's, prepare data set
 # this is already done in the featureset
