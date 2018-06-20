@@ -7,6 +7,7 @@ normality_tests <- function(data)
   data2 <- data[,!removed_vars]
   
   mvn(data2, mvnTest = c("hz"))
+  #dwtest(price~., data = data, alternative = "two.sided")
 
 }
 
@@ -146,11 +147,32 @@ pcr_model <- function(output_results = "../Analysis Results/Unsupervised Analysi
 }
 
 
+clustering_test <- function(data){
+  
+  # remove categorical vars
+  categorical_vars <- c("id", "date", "waterfront", "view", "yr_built", "yr_renovated","condition","grade", "zipcode", "lat", "long")
+  removed_vars <- names(data) %in% categorical_vars
+  data <- data[,!removed_vars]
+  Psi <- data[,-1]
+  distance.matrix <- dist(Psi, method = "euclidean")
+  hc = hclust(distance.matrix, method = "ward.D2")
+  #jpeg(filename = "../Analysis Results/Unsupervised Analysis/HCdendogram.png", width = 1000, height=600)
+  plot(hc, hang = -1, cex = 0.6, main = "Continuance variables Cluster Dendogram")
+  #dev.off()
+  
+  pca_result <- PCA(Psi, ncp=6)
+  
+  pca.coord = pca_result$ind$coord
+  pca.distance.matrix <- dist(pca.coord, method = "euclidean")
+  pca.hc = hclust(pca.distance.matrix, method = "ward.D2")
+  #jpeg(filename = "../Analysis Results/Unsupervised Analysis/HCdendogramPCA.png", width = 1000, height=600)
+  plot(pca.hc, hang = -1, cex = 0.6, main = "PCA Cluster Dendogram")
+  #dev.off()  
+  
+}  
+
 clustering01 <- function(data) {
   
   library(cluster)
   daisy(data, metric = "gower", stand = TRUE)
-  
-  
-  
 }

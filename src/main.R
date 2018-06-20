@@ -119,6 +119,10 @@ glmnet.ridge(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
 glmnet.lasso(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
 lars.lasso(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
 pcr_model(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
+regression_rpart_tree_fitting(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
+classification_rpart_tree_fitting(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
+regression_treelib_tree_fitting(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
+regression_randomforest(raw_continuous_dataset, dataset_id = "raw_continuous_vars")
 rm(raw_continuous_vars)
 
 
@@ -130,6 +134,10 @@ glmnet.ridge(featureset_pca, dataset_id = "featureset_pca_normal")
 glmnet.lasso(featureset_pca, dataset_id = "featureset_pca_normal")
 lars.lasso(featureset_pca, dataset_id = "featureset_pca_normal")
 #pcr_model(featureset_pca, dataset_id = "featureset_pca_normal")
+regression_rpart_tree_fitting(featureset_pca, dataset_id = "featureset_pca_normal")
+classification_rpart_tree_fitting(featureset_pca, dataset_id = "featureset_pca_normal")
+regression_treelib_tree_fitting(featureset_pca, dataset_id = "featureset_pca_normal")
+regression_randomforest(featureset_pca, dataset_id = "featureset_pca_normal")
 rm(featureset_pca)
 # load(file="../Dataset/featureset_pca.Rda")
 # linear_regression_fitting02(featureset_pca, dataset_id = "featureset_pca_nooutliers")
@@ -187,9 +195,8 @@ lapply(models.list, do.call, args=list(featureset_nocorrelation01, dataset_id = 
 # Solution space exploration
 #models.list <- c(linear_regression_fitting02,mass.ridge,glmnet.ridge, glmnet.lasso,lars.lasso)
 models.list2 <- c(linear_regression_fitting02,mass.ridge,glmnet.ridge, glmnet.lasso,lars.lasso,pcr_model)
-lapply(models.list2, model.selection.func, args=list(folder="../Dataset/",id="O2_feature_mode_exploration"))
-# result: ridge regression glmnet
-
+lapply(models.list2, model.selection.func, folder="../Dataset/",id="O2_feature_mode_exploration")
+# result: lars lasso regression , featureset_allmanual
 
 
 ### 5.3 - Option 3) PCA feature selection , model selection, feature selection ###

@@ -1,9 +1,52 @@
+writeResults <- function(function_script, comment, Input, Model, Training_error, Training_MSE, Training_NRMSE, Testing_error, Testing_MSE, Testing_NRMSE){
+  #function_script <- "ridge_regressions_glmnet"
+  #comment <- "testing the workflow"
+  #Input <- dataset_id
+  #Model <- "ridge regression GLMNET"
+  #Training_error <- tr.se
+  #Training_MSE <- tr.MSE
+  #Training_NRMSE <- tr.NRMSE
+  Validation_error <- "-1"
+  Validation_MSE <- "-1"
+  Validation_NRMSE <- "-1"
+  #Testing_error <- te.se
+  #Testing_MSE <- te.MSE
+  #Testing_NRMSE <- te.NRMSE
+  
+  result <- cbind(
+    function_script, 
+    comment, 
+    Input, 
+    Model, 
+    Training_error,
+    Training_MSE,
+    Training_NRMSE,
+    Validation_error, 
+    Validation_MSE,
+    Validation_NRMSE,
+    Testing_error,
+    Testing_MSE,
+    Testing_NRMSE)
+  
+  write.table(
+    result, 
+    file="../Analysis Results/model_results.csv", 
+    append = TRUE, 
+    sep=";", 
+    col.names = FALSE, 
+    row.names = FALSE)
+
+}
+
+
+
+
 printResult <- function(method, dataset_id, learnError, predError )
 {
   writeLines(paste("Method: ", method, "\nDataset: ", dataset_id, "\nLearner RMSE: ", learnError, "\nPrediction RMSE: ", predError, "\n**********************************"))
 }
 
-
+# deprecated
 regression_tree_fitting <- function(data, dataset_id, output_results = "../Analysis Results/Trees/")
 {
   
@@ -40,9 +83,7 @@ regression_tree_fitting <- function(data, dataset_id, output_results = "../Analy
 ##
 classification_rpart_tree_fitting <- function(data, dataset_id, output_results = "../Analysis Results/Trees/")
 {
-  summary(data$price)
-  hist(data$price)
-  priceCat<-cut(data$price, c(0,250000,300000,350000,400000,450000,525000,600000,750000,1000000,7700001), right=FALSE, labels=c(1:10)) #labels=c("low", "economic", "middle-class", "high","luxury"))
+  priceCat<-cut(data$target, c(0,250000,300000,350000,400000,450000,525000,600000,750000,1000000,7700001), right=FALSE, labels=c(1:10)) #labels=c("low", "economic", "middle-class", "high","luxury"))
   
   table(priceCat)
   data$priceCat <- as.factor(priceCat)
@@ -55,7 +96,7 @@ classification_rpart_tree_fitting <- function(data, dataset_id, output_results =
   training_data = data[trainidx,]
   testing_data  = data[testidx,]
   set.seed(2018)
-  data.dt = rpart(priceCat~.-price, data = training_data, control = rpart.control(cp=0.001, xval=10))
+  data.dt = rpart(priceCat~.-target, data = training_data, control = rpart.control(cp=0.001, xval=10))
   
   printcp(data.dt)
   # The root node error is    13278/15129 = 0.87765
@@ -119,7 +160,10 @@ classification_rpart_tree_fitting <- function(data, dataset_id, output_results =
   accuracy.test <-  100*sum(diag(aa))/sum(aa)
   accuracy.test
   # 35.73411
-  printResult("Classification_tree_rpartlib\naccuracy, not RMSE\n", dataset_id , accuracy.learn, accuracy.test)
+  #printResult("Classification_tree_rpartlib\naccuracy, not RMSE\n", dataset_id , accuracy.learn, accuracy.test)
+
+  writeResults("Classification_tree_rpartlib", "accuracy, not RMSE", dataset_id, "Classification_tree_rpartlib", -1 , -1 ,accuracy.learn, -1, -1 , accuracy.test)
+  
   
 }
 
@@ -133,9 +177,9 @@ regression_rpart_tree_fitting <- function(data, dataset_id, output_results = "..
   training_data = data[trainidx,]
   testing_data  = data[testidx,]
   set.seed(2018)
-  data.dt = rpart(price~., data = training_data, method = "anova", control = rpart.control(cp=0.001, xval=10))
+  data.dt = rpart(target~., data = training_data, method = "anova", control = rpart.control(cp=0.001, xval=10))
   
-  printcp(data.dt)
+  #printcp(data.dt)
   # Root node error: 2.0312e+15/15129 = 1.3426e+11
   # Variables actually used in tree construction:
   # fbathrooms     condition     floors        grade         sqft_above    sqft_living   sqft_living15 sqft_lot     
@@ -188,14 +232,19 @@ regression_rpart_tree_fitting <- function(data, dataset_id, output_results = "..
   # Lets use the prune tree to predit the training error data
   pred_learn=predict(prune.dt, data=training_data,type="vector")
   
-  RMSE.learn = sqrt(mean((pred_learn - training_data$price)^2))
-  RMSE.learn
-  # 193091.2
+  SE.learn = 0.5*sum((pred_learn - (training_data$target))^2)
+  MSE.learn = (mean((pred_learn - (training_data$target))^2))
+  NRMSE.learn = sqrt(MSE.learn)
+  MSE.learn
   
-  RMSE.test = sqrt(mean((pred_test - testing_data$price)^2))
-  RMSE.test
-  # 216156.8
-  printResult("regression_tree_rpartlib", dataset_id , RMSE.learn, RMSE.test)
+  SE.test = 0.5*sum((pred_test - (testing_data$target))^2)
+  MSE.test = (mean((pred_test - (testing_data$target))^2))
+  NRMSE.test = sqrt(MSE.test) 
+  MSE.test
+
+  writeResults("regression_tree_rpartlib", "", dataset_id, "regression_tree_rpartlib", SE.learn, MSE.learn,NRMSE.learn, SE.test, MSE.test, NRMSE.test)
+  
+  #printResult("regression_tree_rpartlib", dataset_id , RMSE.learn, RMSE.test)
   
 }
 
@@ -208,9 +257,7 @@ regression_rpart_tree_fitting <- function(data, dataset_id, output_results = "..
 # The miss-classification error for the TRAINING data is 74%. therefore,we decided to not continue exploring this path
 classification_treelib_tree_fitting <- function(data, dataset_id, output_results = "../Analysis Results/Trees/")
 {
-  summary(data$price)
-  hist(data$price)
-  priceCat<-cut(data$price, c(0,250000,300000,350000,400000,450000,525000,600000,750000,1000000,7700001), right=FALSE, labels=c(1:10)) 
+  priceCat<-cut(data$target, c(0,250000,300000,350000,400000,450000,525000,600000,750000,1000000,7700001), right=FALSE, labels=c(1:10)) 
   
   table(priceCat)
   data$priceCat <- as.factor(priceCat)
@@ -223,7 +270,7 @@ classification_treelib_tree_fitting <- function(data, dataset_id, output_results
   training_data = data[trainidx,]
   testing_data  = data[testidx,]
   set.seed(2018)
-  data.tree = tree(priceCat~.-price-lat-long-date-id, data = training_data)
+  data.tree = tree(priceCat~.-target, data = training_data)
   
   summary(data.tree)
   # Residual mean deviance:  3.909 = 59110 / 15120
@@ -260,9 +307,9 @@ regression_treelib_tree_fitting <- function(data, dataset_id, output_results = "
   testing_data  = data[testidx,]
   
   set.seed(2018)
-  data.tree = tree(price~., data = training_data)
+  data.tree = tree(target~., data = training_data)
   
-  summary(data.tree)
+  #summary(data.tree)
   # Residual mean deviance:   5.075e+10 = 7.672e+14 / 15120
   # Variables actually used in tree construction:
   # "grade"       "yr_built"    "sqft_living" "waterfront" 
@@ -301,18 +348,19 @@ regression_treelib_tree_fitting <- function(data, dataset_id, output_results = "
   # Lets use the prune tree to predit the training error data
   pred_learn=predict(prune.data.tree, data=training_data)
   
-  RMSE.learn = sqrt(mean((pred_learn - (training_data$price))^2))
-  RMSE.learn
-  # 225192.8
-  # in case we used log10(price)
-  # 0.1512038
+  SE.learn = 0.5*sum((pred_learn - (training_data$target))^2)
+  MSE.learn = (mean((pred_learn - (training_data$target))^2))
+  NRMSE.learn = sqrt(MSE.learn)
+  #MSE.learn
+
+  SE.test = 0.5*sum((pred_test - (testing_data$target))^2)
+  MSE.test = (mean((pred_test - (testing_data$target))^2))
+  NRMSE.test = sqrt(MSE.test) 
+  #MSE.test
+  #printResult("regression_tree_treelib", dataset_id , RMSE.learn, RMSE.test)
   
-  RMSE.test = sqrt(mean((pred_test - (testing_data$price))^2))
-  RMSE.test
-  # 236536.4
-  # in case we used log10(price)
-  # 0.1494284
-  printResult("regression_tree_treelib", dataset_id , RMSE.learn, RMSE.test)
+  writeResults("regression_tree_treelib", "", dataset_id, "regression_tree_treelib", SE.learn, MSE.learn,NRMSE.learn, SE.test, MSE.test, NRMSE.test)
+  
 }
 
 
@@ -340,9 +388,9 @@ regression_randomforest <- function(data, dataset_id, output_results = "../Analy
   { 
     print(nt)
     
-    model.rf <- randomForest(price ~., data=training_data, ntree=nt, proximity=FALSE)
+    model.rf <- randomForest(target ~., data=training_data, ntree=nt, proximity=FALSE)
     # get the RMSE
-    rf.results[ii,"RMSE"] = model.rf$mse[nt]
+    rf.results[ii,"RMSE"] = sqrt(model.rf$mse[nt])
     
     ii <- ii+1
   }
@@ -353,10 +401,10 @@ regression_randomforest <- function(data, dataset_id, output_results = "../Analy
   
   lowest.mse.error <- as.integer(which.min(rf.results[,"RMSE"]))
   (ntrees.best <- rf.results[lowest.mse.error,"ntrees"])
-  sqrt(rf.results[11, "RMSE"])
+  
   ## Now refit the RF with the best value of 'ntrees'
   
-  model.rf3 <- randomForest(price ~.-id-date, data=training_data, ntree=ntrees.best,proximity=FALSE, importance=TRUE)
+  model.rf3 <- randomForest(target ~., data=training_data, ntree=ntrees.best,proximity=FALSE, importance=TRUE)
   
   # let's compute the final test error:
   
@@ -366,13 +414,19 @@ regression_randomforest <- function(data, dataset_id, output_results = "../Analy
   # Lets use the RF to predit the training error data
   pred_learn=predict(model.rf3, data=training_data)
   
-  RMSE.learn = sqrt(mean((pred_learn - (training_data$price))^2))
-  RMSE.learn
+  SE.learn = 0.5*sum((pred_learn - (training_data$target))^2)
+  MSE.learn = (mean((pred_learn - (training_data$target))^2))
+  NRMSE.learn = sqrt(MSE.learn)
+  #MSE.learn
   # 132976.3
 
-  RMSE.test = sqrt(mean((pred_test - (testing_data$price))^2))
-  RMSE.test
+  SE.test = 0.5*sum((pred_test - (testing_data$target))^2)
+  MSE.test = (mean((pred_test - (testing_data$target))^2))
+  NRMSE.test = sqrt(MSE.test) 
+  #MSE.test
   # 128273.6
-  printResult(paste("Random forest - tree size: ", ntrees.best) , dataset_id , RMSE.learn, RMSE.test)
+  #printResult(paste("Random forest - tree size: ", ntrees.best) , dataset_id , RMSE.learn, RMSE.test)
+
   
+  writeResults("Random forest", paste("tree size: ", ntrees.best), dataset_id, "Random forest", SE.learn, MSE.learn,NRMSE.learn, SE.test, MSE.test, NRMSE.test)
 }
