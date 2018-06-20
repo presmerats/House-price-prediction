@@ -367,7 +367,8 @@ rm(featureset_glmnet_lasso_sfs)
 
 ### 5.7 fitting the final model ###
 
-
+#load(file = "../Dataset/featureset_regression_randomforest_sfs.Rda")
+regression_randomforest(featureset_regression_randomforest_sfs, dataset_id = "featureset_regression_randomforest_sfs")
 
 
 
