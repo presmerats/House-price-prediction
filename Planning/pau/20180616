@@ -150,7 +150,7 @@ ok- cross validation lab review
 							ok-glmnet ridge
 							ko-mass ridge
 							ok-linear
-							-pcr
+							ok-pcr
 							-tree
 							-random forest
 						- new validation set apart from the training and just use predict over this one

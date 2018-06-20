@@ -16,10 +16,33 @@ pcr_model <- function(data, dataset_id, output_results = "../Analysis Results/PC
   test = df1[[2]]
   
   # model fit
-  pcr.fit = pcr(target ~., data=train ,scale=TRUE , validation ="CV")
+  pcr.fit = pcr(target ~., data=train ,scale=TRUE , validation ="CV", segments=10)
+  # take the min ncomp when explained variance is 90 or rmse is minimum
+  # min RMSE index
+  summary <- capture.output(summary(pcr.fit))
+  rmses <- summary[[9]]
+  pinertias <- summary[[17]]
+  # split string
+  rmses2 <- unlist(strsplit(rmses,"\\s+"))
+  rmses2 <- rmses2[-1]
+  rmses2 <- unlist(lapply(rmses2,as.double))
+  minmse.index <- which.min(rmses2)
+  pinertias <- unlist(strsplit(pinertias,"\\s+"))
+  pinertias <- pinertias[-1]
+  pinertias <- unlist(lapply(pinertias,as.double))
+  inertia.index <- pinertias[pinertias>90][1]
+  inertia.index <- match( inertia.index, pinertias)
+  final.index <- min(inertia.index, minmse.index)
   
   # Cross validation
-  # it is done internally, so later we recompute it for global model selection
+  # Validation error
+  valist <-Prediction.errors2(rmses2[final.index]^2,train,train$target)
+  va.se <- valist[["se"]]
+  va.MSE <- valist[["mse"]]
+  va.RMSE <- valist[["rmse"]]
+  va.NRMSE <- valist[["nrmse"]]
+  va.R2 <- valist[["r2"]]
+  
   
   # refit
   # so already done
@@ -33,13 +56,7 @@ pcr_model <- function(data, dataset_id, output_results = "../Analysis Results/PC
   tr.NRMSE <-  error[["nrmse"]]  
   tr.R2 <-  error[["r2"]] 
   
-  # Validation error
-  valist <- pcr.CV(10,train,pcr.fit, 6)
-  va.se <- valist[["se"]]
-  va.MSE <- valist[["mse"]]
-  va.RMSE <- valist[["rmse"]]
-  va.NRMSE <- valist[["nrmse"]]
-  va.R2 <- valist[["r2"]]
+
   
   # generalisation error
   te.pred=predict(pcr.fit ,test[ ,-which(colnames(data)=="target")], ncomp = 6)
