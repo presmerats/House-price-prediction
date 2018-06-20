@@ -32,7 +32,7 @@ linear_regression_fitting <- function(data, dataset_id, output_results = "../Ana
 
 
 
-linear_regression_fitting02 <- function(data, dataset_id, output_results = "../Analysis Results/Linear Model Fitting/", comment = "testing")
+linear_regression_fitting02 <- function(data, dataset_id, output_results = "../Analysis Results/Linear Model Fitting/", comment = "testing", filename = "../Analysis Results/model_results.csv")
 {
   
   # in each data frame, 
@@ -88,11 +88,12 @@ linear_regression_fitting02 <- function(data, dataset_id, output_results = "../A
   
   write.table(
     result, 
-    file="../Analysis Results/model_results.csv", 
+    file=filename, 
     append = TRUE, 
     sep=";", 
     col.names = FALSE, 
     row.names = FALSE)
+  return(va.NRMSE)
 }
 
 

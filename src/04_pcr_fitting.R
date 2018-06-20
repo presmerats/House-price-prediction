@@ -1,4 +1,4 @@
-pcr_model <- function(data, dataset_id, output_results = "../Analysis Results/PCR/", comment = "testing")
+pcr_model <- function(data, dataset_id, output_results = "../Analysis Results/PCR/", comment = "testing", filename = "../Analysis Results/model_results.csv")
 {
   
   set.seed(2018)
@@ -67,12 +67,12 @@ pcr_model <- function(data, dataset_id, output_results = "../Analysis Results/PC
   
   write.table(
     result, 
-    file="../Analysis Results/model_results.csv", 
+    file=filename, 
     append = TRUE, 
     sep=";", 
     col.names = FALSE, 
     row.names = FALSE)
-
+  return(va.NRMSE)
 }
 
 

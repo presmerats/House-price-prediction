@@ -20,7 +20,7 @@
 # 2. Ridge regression from MASS-------------------------------------
 
 
-mass.ridge <-  function(data, dataset_id, output_results = "../Analysis Results/Ridge/", comment = "testing"){
+mass.ridge <-  function(data, dataset_id, output_results = "../Analysis Results/Ridge/", comment = "testing", filename = "../Analysis Results/model_results.csv"){
   
   # in each data frame, 
   # assume the target is in column 1, and target is called data$target
@@ -99,11 +99,12 @@ mass.ridge <-  function(data, dataset_id, output_results = "../Analysis Results/
   
   write.table(
     result, 
-    file="../Analysis Results/model_results.csv", 
+    file=filename, 
     append = TRUE, 
     sep=";", 
     col.names = FALSE, 
     row.names = FALSE)
+  return(va.NRMSE)
 }
 
 

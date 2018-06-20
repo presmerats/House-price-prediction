@@ -2,7 +2,7 @@
 
 # 3. Lasso regression from Lars ...................................................
 
-lars.lasso <- function(data, dataset_id, output_results = "../Analysis Results/Lasso/", comment = "testing"){
+lars.lasso <- function(data, dataset_id, output_results = "../Analysis Results/Lasso/", comment = "testing", filename="../Analysis Results/model_results.csv"){
   
   # in each data frame, 
   # assume the target is in column 1, and target is called data$target
@@ -84,11 +84,12 @@ lars.lasso <- function(data, dataset_id, output_results = "../Analysis Results/L
   
   write.table(
     result, 
-    file="../Analysis Results/model_results.csv", 
+    file=filename, 
     append = TRUE, 
     sep=";", 
     col.names = FALSE, 
     row.names = FALSE)
+  return(va.NRMSE)
 }
 
 
@@ -190,7 +191,7 @@ lars.lasso.CV <- function (k,data,lasso.mod,bestlam)
 
 # 5. Lasso with glmnet...............................................
 
-glmnet.lasso <- function(data, dataset_id, output_results = "../Analysis Results/Lasso/", comment = "testing"){
+glmnet.lasso <- function(data, dataset_id, output_results = "../Analysis Results/Lasso/", comment = "testing",filename = "../Analysis Results/model_results.csv"){
   
   # in each data frame, 
   # assume the target is in column 1, dada$target
@@ -260,11 +261,12 @@ glmnet.lasso <- function(data, dataset_id, output_results = "../Analysis Results
   
   write.table(
     result, 
-    file="../Analysis Results/model_results.csv", 
+    file=filename, 
     append = TRUE, 
     sep=";", 
     col.names = FALSE, 
-    row.names = FALSE)  
+    row.names = FALSE)
+  return(va.NRMSE)
 }
 
 

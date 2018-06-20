@@ -47,6 +47,7 @@ source_scripts <- function()
   
   source("Cross_validation.R")
   source("Test_error.R")
+  source("SFS.R")
   
   
 }
@@ -142,7 +143,31 @@ create.Latex.Table3 <- function(filein = "../Analysis Results/model_results.csv"
   
   tli.table <- xtable(subset)
   # we need cllccc
-  align(tli.table) <- c("cll",rep("c", ncol(tli.table)+1-2))
+  align(tli.table) <- c(paste("cll",paste(rep("c", ncol(tli.table)-2), collapse = ""), sep="", collapse=""))
+  
+  print(tli.table, file = fileout)
+  
+}
+
+create.Latex.Table4 <- function(filein = "../Analysis Results/model_results.csv",
+                                fileout  = "../Analysis Results/model_results.tex"){
+  options(xtable.floating = FALSE)
+  options(xtable.timestamp = "")
+  
+  results = read.csv(filein, header = TRUE, sep = ";")
+  
+  variables <- c("Input" ,"Model", "Validation.NRMSE", "Testing.NRMSE")
+  subset = results[,variables]
+  
+  subset = cbind(subset[,2], subset[,-2]) # we want to have "Model" in the first column.
+  
+  colnames(subset) <- c("Model","Feature set", "Validation.NRMSE", "Testing.NRMSE")
+  
+  # we also need to sort by Validation.NRMSE
+  
+  tli.table <- xtable(subset)
+  # we need cllccc
+  align(tli.table) <- c(paste("cll",paste(rep("c", ncol(tli.table)-2), collapse = ""), sep="", collapse=""))
   
   print(tli.table, file = fileout)
   
