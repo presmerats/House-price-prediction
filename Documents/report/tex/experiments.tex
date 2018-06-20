@@ -11,13 +11,38 @@ This section exposed the selected approach to perform a sound feature and model 
 
 \subsection{Approach 1}
 
+We concluded that this approach does not make sense, unless we limit our feature space to features extracted from a PCA analysis, where we can use the percentage of exaplined inertia to select features.
+
+\input{./tables/ap1_results_04.tex}
+
+
 \subsection{Approach 2}
 
+This approach turns out to be exploration of the space of feature sets and models without any real guidance or strategy. Even if this if doable to certain extent, we decide to drop this approach as it won't be suitable in a real case with bigger data sets.
+
+
+\input{./tables/ap2_results_04.tex}
+
 \subsection{Approach 3}
+In this experimental approach, we combine PCA for feature selection, then we perform model selection on that new dataset. Once the model has been selected, we perform again feature selection over all the feature sets (including again PCA)
+ to finally select the features.\\ 
+We begin by doing a Principal Components Analysis over all continuous variables of the dataset. Within this analysis we select the significant components (by the percentage of explained inertia) and then build a new preprocessed dataset using the projections of each individual on the principal components and its target value (the price). The next step is to train all different types of models over this dataset. For each model type, we perform cross validation to select the best hyper parameters of the model. We finally compare all the validation errors of the best models of each type to select our best model. Once the model is selected, we perform again crossvalidation over each of the feature data sets that we have availabe. In the same manner, the selected feature data set will be the one that yields the minimum validation error with the chosen model.
+
+\input{./tables/ap3_results_04.tex}
 
 \subsection{Approach 4}
 
+In this experimental approach, we choose a baseline model and the train it over different feature sets in order to do feature selection. After that, all the models are trained over the selected feature set to do model selection.\\
+
+
+\input{./tables/ap4_results_04.tex}
+
 \subsection{Approach 5}
+
+The last approach consists of gathering the results of previous approaches and compare. We can select the pair feature set and model that obtain the lower validation error.
+
+
+\input{./tables/ap5_results_04.tex}
 
 \subsection{Results}
 

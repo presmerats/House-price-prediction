@@ -102,3 +102,48 @@ create.Latex.Table <- function(){
   print(tli.table, file = "../Analysis Results/model_results.tex")
 
 }
+
+create.Latex.Table2 <- function(filein = "../Analysis Results/model_results.csv",
+                                variables = c("Model","Training.RMSE", "Validation.RMSE", "Testing.RMSE"),
+                                fileout  = "../Analysis Results/model_results.tex"){
+  options(xtable.floating = FALSE)
+  options(xtable.timestamp = "")
+  
+  results = read.csv(filein, header = TRUE, sep = ";")
+  
+  subset = results[,variables]
+  
+  # subset = cbind(subset[,2], subset[,-2]) # we want to have "Model" in the first column.
+  # colnames(subset) <- c("Model","Feature set","Training.RMSE", "Validation.RMSE", "Testing.RMSE")
+  
+  tli.table <- xtable(subset)
+  align(tli.table) <- rep("c", ncol(tli.table)+1)
+  
+  print(tli.table, file = fileout)
+  
+}
+
+
+create.Latex.Table3 <- function(filein = "../Analysis Results/model_results.csv",
+                               fileout  = "../Analysis Results/model_results.tex"){
+  options(xtable.floating = FALSE)
+  options(xtable.timestamp = "")
+  
+  results = read.csv(filein, header = TRUE, sep = ";")
+  
+  variables <- c("Comment", "Model", "Validation.NRMSE", "Testing.NRMSE")
+  subset = results[,variables]
+  
+  subset = cbind(subset[,2], subset[,-2]) # we want to have "Model" in the first column.
+  
+  colnames(subset) <- c("Model","Feature set", "Validation.NRMSE", "Testing.NRMSE")
+  
+  # we also need to sort by Validation.NRMSE
+  
+  tli.table <- xtable(subset)
+  # we need cllccc
+  align(tli.table) <- c("cll",rep("c", ncol(tli.table)+1-2))
+  
+  print(tli.table, file = fileout)
+  
+}

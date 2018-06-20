@@ -233,7 +233,7 @@ glmnet.ridge <- function(data, dataset_id, output_results = "../Analysis Results
   va.MSE <- valist[["mse"]]
   va.RMSE <- valist[["rmse"]]
   va.NRMSE <- valist[["nrmse"]]
-  va.R2 <- valist[["e2"]]
+  va.R2 <- valist[["r2"]]
    
   # generalisation error
   te.pred = predict(ridge.mod, s=bestlam, newx=x.test)

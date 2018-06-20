@@ -192,6 +192,20 @@ load(file="../Dataset/featureset_nocorrelation01.Rda")
 lapply(models.list, do.call, args=list(featureset_nocorrelation01, dataset_id = "O1_model_selection", comment="featureset_nocorrelation01"))
 # result: ridge regression glmnet
 
+# create.Latex.Table2(filein = "../Analysis Results/model_results.csv",
+#                     variables = c("Model","Training.RMSE", "Validation.RMSE", "Testing.RMSE"),
+#                     fileout  = "../Analysis Results/ap1_results.tex")
+# 
+# 
+# create.Latex.Table2(filein = "../Analysis Results/model_results.csv",
+#                     variables = c("Model","Training.RMSE", "Validation.RMSE", "Testing.RMSE","Training.NRMSE", "Validation.NRMSE", "Testing.NRMSE"),
+#                     fileout  = "../Analysis Results/ap1_results_02.tex")
+
+# create.Latex.Table2(filein = "../Analysis Results/model_results.csv",
+#                     variables = c("Model","Validation.RMSE", "Testing.RMSE","Validation.NRMSE", "Testing.NRMSE"),
+#                     fileout  = "../Analysis Results/ap1_results_03.tex")
+
+create.Latex.Table3(fileout  = "../Analysis Results/ap1_results_04.tex")
 
 ### 5.2 - Option 2) for each model candidate feature selection ###
 
@@ -201,6 +215,10 @@ models.list2 <- c(linear_regression_fitting02,mass.ridge,glmnet.ridge, glmnet.la
 lapply(models.list2, model.selection.func, folder="../Dataset/",id="O2_feature_mode_exploration")
 # result: lars lasso regression , featureset_allmanual
 
+
+
+create.Latex.Table3(filein = "../Analysis Results/model_results.csv",
+                    fileout  = "../Analysis Results/ap2_results_04.tex")
 
 ### 5.3 - Option 3) PCA feature selection , model selection, feature selection ###
 
@@ -222,7 +240,8 @@ model.selection.func(glmnet.ridge,folder="../Dataset/",id="O3_feature_selection"
 
 # result is feature and model
 
-
+create.Latex.Table3(filein = "../Analysis Results/model_results.csv",
+                    fileout  = "../Analysis Results/ap3_results_04.tex")
 
 ### 5.4 - Option 4) pick BASELINE MODEL (linear regre?); feature selection; model selection ###
 
@@ -246,3 +265,9 @@ lapply(models.list, do.call, args=list(featureset_nocorrelation04_ratios, datase
 # result: lasso
 
 
+
+create.Latex.Table3(filein = "../Analysis Results/model_results.csv",
+                    fileout  = "../Analysis Results/ap4_results_04.tex")
+
+create.Latex.Table3(filein = "../Analysis Results/model_results.csv",
+                    fileout  = "../Analysis Results/ap5_results_04.tex")

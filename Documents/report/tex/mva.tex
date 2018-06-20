@@ -13,7 +13,13 @@
 
 \textbf{Plots}
 
-\textbf{Ratios}
+\textbf{Ratios}\\
+While exploring the variables in our dataset we had intuition about the ration relationship between that variable. For example, the ratio between number of bedrooms to number of bathroom may be good feature to help us predict the house price. Exploring on the Tax policy in USA\cite{tax}, we learn that tax of house also base on the characteristics of the house. Therefore we though it will be useful to check those features.
+
+need to add a bit about the trees here
+
+%"bathrooms.bedrooms.ratio"   "bedrooms.sqft.living.ratio" "bathroom.sqft.living.ratio" "sqft.ratio" "floor.sqft.living.ratio"   "floor.sqft.lot.ratio" "floor.bedrooms.ratio"       "floor.bathrooms.ratio"      "sqft.living.floors.ratio"  "bedrooms.floors.ratio"    
+
 
 \textbf{Logs}
 
@@ -24,9 +30,17 @@
 \subsection{Unsupervised analysis}
 
 \textbf{PCA}
-
-\textbf{Clustering}
-
+\begin{multicols}{2}
+\textbf{Clustering}\\
+We cluster the individuals using hierarchical clustering. We did it using only continuance variables in order to see in we have some pattern in the data. As we can see in Fig.\ref{fig:hcluster}, more than $85\%$ of the individuals are grouped in a single cluster, the rest are divided into 2-3 clusters with smaller size. therefore, we deduce that we will not split our data into cluster and we will explore it as a whole.
+% In case we will have time we would like to write something about the clustring using the projected individuals using PCA.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.48\textwidth]{img/Hclustering.png}
+\caption{Hierarchical Clustering}
+\label{fig:hcluster}
+\end{figure}
+\end{multicols}
 \subsection{Assumptions testing}
 
 % assumptions associated to different models
