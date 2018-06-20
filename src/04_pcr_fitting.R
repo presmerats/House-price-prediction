@@ -20,28 +20,40 @@ pcr_model <- function(data, dataset_id, output_results = "../Analysis Results/PC
   # take the min ncomp when explained variance is 90 or rmse is minimum
   # min RMSE index
   summary <- capture.output(summary(pcr.fit))
-  rmses <- summary[[9]]
-  pinertias <- summary[[17]]
-  # split string
-  rmses2 <- unlist(strsplit(rmses,"\\s+"))
-  rmses2 <- rmses2[-1]
-  rmses2 <- unlist(lapply(rmses2,as.double))
-  minmse.index <- which.min(rmses2)
-  pinertias <- unlist(strsplit(pinertias,"\\s+"))
-  pinertias <- pinertias[-1]
-  pinertias <- unlist(lapply(pinertias,as.double))
-  inertia.index <- pinertias[pinertias>90][1]
-  inertia.index <- match( inertia.index, pinertias)
-  final.index <- min(inertia.index, minmse.index)
+  if (length(summary)>16){
+    rmses <- summary[[9]]
+    pinertias <- summary[[17]]
+    # split string
+    rmses2 <- unlist(strsplit(rmses,"\\s+"))
+    rmses2 <- rmses2[-1]
+    rmses2 <- unlist(lapply(rmses2,as.double))
+    minmse.index <- which.min(rmses2)
+    pinertias <- unlist(strsplit(pinertias,"\\s+"))
+    pinertias <- pinertias[-1]
+    pinertias <- unlist(lapply(pinertias,as.double))
+    inertia.index <- pinertias[pinertias>90][1]
+    inertia.index <- match( inertia.index, pinertias)
+    final.index <- min(inertia.index, minmse.index)
+    # Cross validation
+    # Validation error
+    valist <-Prediction.errors2(rmses2[final.index]^2,train,train$target)
+    va.se <- valist[["se"]]
+    va.MSE <- valist[["mse"]]
+    va.RMSE <- valist[["rmse"]]
+    va.NRMSE <- valist[["nrmse"]]
+    va.R2 <- valist[["r2"]]
+  } else {
+    
+    va.se <- 1000
+    va.MSE <- 1000
+    va.RMSE <- 1000
+    va.NRMSE <- 1000
+    va.R2 <- 1000
+  }
   
-  # Cross validation
-  # Validation error
-  valist <-Prediction.errors2(rmses2[final.index]^2,train,train$target)
-  va.se <- valist[["se"]]
-  va.MSE <- valist[["mse"]]
-  va.RMSE <- valist[["rmse"]]
-  va.NRMSE <- valist[["nrmse"]]
-  va.R2 <- valist[["r2"]]
+  
+ 
+
   
   
   # refit

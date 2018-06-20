@@ -53,6 +53,18 @@ source_scripts <- function()
 }
 
 # 2. Utils--------------------
+load.models.list <- function(){
+  models.list <- c(linear_regression_fitting02,glmnet.ridge, glmnet.lasso,regression_rpart_tree_fitting,regression_randomforest)
+  #lars.lasso,
+  
+  models.list2 <- c(linear_regression_fitting02,glmnet.ridge, glmnet.lasso,pcr_model,regression_rpart_tree_fitting,regression_randomforest)
+  #lars.lasso,
+  
+  assign("models.list",models.list,.GlobalEnv)
+  assign("models.list2",models.list2,.GlobalEnv)
+
+}
+
 get.featureset.names <- function(folderpath){
   #file.list <- dir(folderpath)
   file.list <- Filter(function(x){substring(x,nchar(x)-3,nchar(x))==".Rda"},dir(folderpath))
@@ -204,6 +216,34 @@ create.Latex.Table4 <- function(filein = "../Analysis Results/model_results.csv"
   # we also need to sort by Validation.NRMSE
   
   tli.table <- xtable(subset)
+  # we need cllccc
+  align(tli.table) <- c(paste("cll",paste(rep("c", ncol(tli.table)-2), collapse = ""), sep="", collapse=""))
+  
+  print(tli.table, file = fileout)
+  
+}
+
+
+create.Latex.Table4.sorted  <- function(filein = "../Analysis Results/model_results.csv",
+                                        fileout  = "../Analysis Results/model_results.tex"){
+  options(xtable.floating = FALSE)
+  options(xtable.timestamp = "")
+  
+  results = read.csv(filein, header = TRUE, sep = ";")
+  
+  variables <- c("Comment", "Model", "Validation.NRMSE", "Testing.NRMSE")
+  subset = results[,variables]
+  
+  subsetdf = cbind(subset[,2], subset[,-2]) # we want to have "Model" in the first column.
+  
+  colnames(subset) <- c("Model","Feature set", "Validation.NRMSE", "Testing.NRMSE")
+  
+  # we also need to sort by Validation.NRMSE
+  df2 <- subsetdf[order(subsetdf$Validation.NRMSE),]
+  subsetdf <- df2
+  
+  
+  tli.table <- xtable(subsetdf)
   # we need cllccc
   align(tli.table) <- c(paste("cll",paste(rep("c", ncol(tli.table)-2), collapse = ""), sep="", collapse=""))
   

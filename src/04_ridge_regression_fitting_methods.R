@@ -36,8 +36,8 @@ mass.ridge <-  function(data, dataset_id, output_results = "../Analysis Results/
   # The optimal lambda is given, we refit our model
   lambda.ridge <- seq(0,10,0.1)[which.min(model.ridge$GCV)]
   gcv <- min(model.ridge$GCV)
-  print("gcv")
-  print(gcv)
+  #print("gcv")
+  #print(gcv)
 
   # validation error
   #valist <- mass.ridge.CV(10,train,lambda.ridge)

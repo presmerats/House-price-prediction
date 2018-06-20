@@ -10,10 +10,9 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 # source scripts
 
 source("aux_functions.R")
-
 source_scripts()
-
 load_packages()
+load.models.list()
 
 
 
@@ -193,7 +192,7 @@ rm(featureset_nocorrelation04_ratios)
 # result: featureset_nocorrelation01
 
 # perform model selection -> train all models over this data set, and select the one with smallest va error
-models.list <- c(linear_regression_fitting02,mass.ridge,glmnet.ridge, glmnet.lasso,lars.lasso)
+
 #models.list <- c(linear_regression_fitting02,mass.ridge,glmnet.ridge, glmnet.lasso,lars.lasso,pcr_model)
 load(file="../Dataset/featureset_nocorrelation01.Rda")
 lapply(models.list, do.call, args=list(featureset_nocorrelation01, dataset_id = "O1_model_selection", comment="featureset_nocorrelation01"))
@@ -212,20 +211,35 @@ lapply(models.list, do.call, args=list(featureset_nocorrelation01, dataset_id = 
 #                     variables = c("Model","Validation.RMSE", "Testing.RMSE","Validation.NRMSE", "Testing.NRMSE"),
 #                     fileout  = "../Analysis Results/ap1_results_03.tex")
 
-create.Latex.Table3(fileout  = "../Analysis Results/ap1_results_04.tex")
+source("aux_functions.R")
+source_scripts()
+load_packages()
+create.Latex.Table4.sorted(fileout  = "../Analysis Results/ap1_results_04.tex")
+
+
+
+
+
+
 
 ### 5.2 - Option 2) for each model candidate feature selection ###
 
+rm(list = ls())
+gc()
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path)) 
+source("aux_functions.R")
+source_scripts()
+load_packages()
+load.models.list()
+
 # Solution space exploration
-#models.list <- c(linear_regression_fitting02,mass.ridge,glmnet.ridge, glmnet.lasso,lars.lasso)
-models.list2 <- c(linear_regression_fitting02,mass.ridge,glmnet.ridge, glmnet.lasso,lars.lasso,pcr_model)
-lapply(models.list2, model.selection.func, folder="../Dataset/",id="O2_feature_mode_exploration")
+lapply(models.list, model.selection.func, folder="../Dataset/",id="O2_feature_mode_exploration")
 # result: lars lasso regression , featureset_allmanual
 
 
 
-create.Latex.Table3(filein = "../Analysis Results/model_results.csv",
-                    fileout  = "../Analysis Results/ap2_results_04.tex")
+create.Latex.Table4.sorted(filein = "../Analysis Results/model_results.csv",
+                    fileout  = "../Analysis Results/exp_models_vs_featuresets_all.tex")
 
 ### 5.3 - Option 3) PCA feature selection , model selection, feature selection ###
 
@@ -235,8 +249,6 @@ load(file="../Dataset/featureset_pca.Rda")
 #load(file="../Dataset/featureset_pca_nooutliers.Rda")
 
 # perform model selection -> train all models over this data set, and select the one with smallest va error
-models.list <- c(linear_regression_fitting02,mass.ridge,glmnet.ridge, glmnet.lasso,lars.lasso)
-#models.list <- c(linear_regression_fitting02,mass.ridge,glmnet.ridge, glmnet.lasso,lars.lasso,pcr_model)
 lapply(models.list, do.call, args=list(featureset_pca, dataset_id = "O3_pca_model_selection", comment="featureset_pca"))
 rm(featureset_pca)
 
@@ -262,8 +274,6 @@ model.selection.func(mass.ridge,folder="../Dataset/",id="O4_feature_selection")
 #result: featureset_ratios (with mass ridge regression)
 
 # perform model selection -> train all models over this data set, and select the one with smallest va error
-models.list <- c(linear_regression_fitting02,mass.ridge,glmnet.ridge, glmnet.lasso,lars.lasso)
-#models.list <- c(linear_regression_fitting02,mass.ridge,glmnet.ridge, glmnet.lasso,lars.lasso,pcr_model)
 load(file="../Dataset/featureset_ratios.Rda")
 lapply(models.list, do.call, args=list(featureset_ratios, dataset_id = "O4_model_selection", comment="featureset_ratios"))
 # result: mass ridge

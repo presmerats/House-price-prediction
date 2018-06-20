@@ -203,7 +203,7 @@ regression_rpart_tree_fitting <- function(data, dataset_id, output_results = "..
     return(CP)
   }
 
-  (CP = get_CP(data.dt$cptable))
+  CP = get_CP(data.dt$cptable)
   # CP = 0.001713321
   
   tree.index = match(CP,data.dt$cptable)
