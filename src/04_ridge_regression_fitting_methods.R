@@ -173,7 +173,7 @@ mass.ridge.CV <- function (k,data, lambda.ridge)
 
 # 4. Ridge with glmnet...............................................
 
-glmnet.ridge <- function(data, dataset_id, output_results = "../Analysis Results/Ridge/", comment = "testing"){
+glmnet.ridge <- function(data, dataset_id, output_results = "../Analysis Results/Ridge/", comment = "testing", filename="../Analysis Results/model_results.csv"){
   
   # in each data frame, 
   # assume the target is in column 1, dada$target
@@ -258,12 +258,12 @@ glmnet.ridge <- function(data, dataset_id, output_results = "../Analysis Results
   
   write.table(
     result, 
-    file="../Analysis Results/model_results.csv", 
+    file=filename, 
     append = TRUE, 
     sep=";", 
     col.names = FALSE, 
     row.names = FALSE)
- 
+  return(va.NRMSE)
 }
 
 
