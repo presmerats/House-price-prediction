@@ -47,6 +47,16 @@ linear_regression_fitting02 <- function(data, dataset_id, output_results = "../A
   # refit
   # no need to refit, no hyperparameters
   
+
+  # Validation error (we just compute it for later model selection)
+  valist <- linear.regression.CV(10,train)
+  va.se <- valist[["se"]]
+  va.MSE <- valist[["mse"]]
+  va.RMSE <- valist[["rmse"]]
+  va.NRMSE <- valist[["nrmse"]]
+  va.R2 <- valist[["r2"]]
+  
+  
   # training, validation and test errors
   tr.pred <- predict(my_lr_tr, data = train)
   error = Prediction.errors(tr.pred,train$target)
@@ -55,13 +65,6 @@ linear_regression_fitting02 <- function(data, dataset_id, output_results = "../A
   tr.RMSE <-  error[["rmse"]]  
   tr.NRMSE <-  error[["nrmse"]]  
   tr.R2 <-  error[["r2"]]
-  # Validation error (we just compute it for later model selection)
-  valist <- linear.regression.CV(10,train)
-  va.se <- valist[["se"]]
-  va.MSE <- valist[["mse"]]
-  va.RMSE <- valist[["rmse"]]
-  va.NRMSE <- valist[["nrmse"]]
-  va.R2 <- valist[["r2"]]
   
   # generalisation error
   te.pred <- predict.lm(my_lr_tr, newdata  = test)

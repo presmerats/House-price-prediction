@@ -105,6 +105,74 @@ ok- cross validation lab review
 			-> no need to project.. jsut build the dataset
 
 
+----------------------
+				implementation
+					ok-pca extraction
+					ok-model selection
+					ok- write model output to another file? or use another identifier
+					ok-feature selection
+
+					ok-feature selection from all datasets in a folder
+					ok-implement 3
+					ok-implement 4
+					ok-implement 1 -> makes no sense
+					ok-implement 2 -> it's like full space exploration (done for one model)
+					ok-implement 5 -> manually compare results table
+					ok-explain each of them
+
+					ok-results table from csv
+					ok-fix NRMSE	
+						ok-compute also de NRMSE?
+						ok-compute also the R^2?
+							R^2 = 1 - NRMSE^2
+							NRMSE = RMSE/sqrt(Var(t))
+						okchange name to RMSE in tables, code etc...
+							ok-codes 04
+								ok-lasso1
+								ok-lasso2
+								ok-ridge1
+								ok-ridge2
+								ok-linear1
+								ok-pcr
+							ok-table creator code
+							ok-csv file
+							ok-report
+							ok-test
+					
+					ok-apply results table to each different approach
+						GLMNET bug
+						final table version
+				
+					- linear/lasso/ridge/pcr
+						- perform training and prediction in the cv
+							ok-lars lasso 
+							ok-glmnet lasso
+							ok-glmnet ridge
+							ko-mass ridge
+							ok-linear
+							ok-pcr
+							-tree
+							-random forest
+						- new validation set apart from the training and just use predict over this one
+					-trees and random forest
+					
+
+					-other feature sets
+						PCA
+							1,2,3,4,5,6,7,8 components
+						ratios,logs, ratiologs, nocorr
+							remove/add -> all combinations?
+						use sampling to select columns and write to a file
+						EXECUTE FEATURE/MODEL SELECTION AGAIN?
+				
+					eda 
+						plots and charts (histograms, logs, ratios,)
+						write some explanation
+
+					write everything
+					
+-------------------------
+
 
 	- get to know other models
 		pcr
