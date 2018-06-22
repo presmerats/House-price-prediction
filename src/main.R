@@ -366,6 +366,32 @@ save(file = "../Dataset/featureset_glmnet_lasso_sfs.Rda", featureset_glmnet_lass
 create.Latex.Table4(filein = "../Analysis Results/SFS/_glmnet_lasso_featureset_allmanual_sfs.csv", fileout  = "../Analysis Results/SFS/_glmnet_lasso_featureset_allmanual_logs_sfs.tex")
 rm(featureset_glmnet_lasso_sfs)
 
+
+
+
+
+###  SBS
+
+load(file="../Dataset/featureset_logs.Rda")
+featureset_regression_randomforest_sbs = SBS(regression_randomforest, featureset_logs, dataset_id = "featureset_logs", baseset = c(1,7,8), extra = c(13:20), method = "regression_randomforest")
+save(file = "../Dataset/featureset_regression_randomforest_sbs.Rda", featureset_regression_randomforest_sbs)
+#(1,7,8,13,16,17,20,21,24:35)
+create.Latex.Table4(filein = "../Analysis Results/SBS/_regression_randomforest_featureset_logs_sbs.csv", fileout  = "../Analysis Results/SBS/_regression_randomforest_featureset_logs_sbs.tex")
+rm(featureset_regression_randomforest_sbs)
+
+
+load(file="../Dataset/featureset_nocorrelation03_logs.Rda")
+featureset_regression_rpart_tree_fitting_sbs = SBS(regression_rpart_tree_fitting, featureset_nocorrelation03_logs, dataset_id = "featureset_nocorrelation03_logs", baseset = c(1:8), extra = c(9:13), method = "regression_rpart_tree_fitting")
+save(file = "../Dataset/featureset_regression_rpart_tree_fitting_sbs.Rda", featureset_regression_rpart_tree_fitting_sbs)
+#c(1,7,8,13,16,17,20,21,24:35)
+create.Latex.Table4(filein = "../Analysis Results/SBS/_regression_rpart_tree_fitting_featureset_nocorrelation03_logs_sbs.csv", fileout  = "../Analysis Results/SBS/_regression_rpart_tree_fitting_featureset_nocorrelation03_logs_sbs.tex")
+rm(featureset_regression_rpart_tree_fitting_sbs)
+
+
+
+
+
+
 ### 5.7 fitting the final model ###
 
 #load(file = "../Dataset/featureset_regression_randomforest_sfs.Rda")

@@ -48,6 +48,7 @@ source_scripts <- function()
   source("Cross_validation.R")
   source("Test_error.R")
   source("SFS.R")
+  source("SBS.R")
   
   
 }
@@ -281,7 +282,7 @@ create.Latex.Table5.sorted  <- function(filein = "../Analysis Results/model_resu
   
 }
 
-create.Latex.Table6.SFS  <- function(filein = "../Analysis Results/SFS/_regression_randomforest_featureset_logs_sfs.csv"){
+create.Latex.Table6.SFS  <- function(filein = "../Analysis Results/SFS/_regression_randomforest_featureset_logs_sfs.t.csv"){
   results = read.csv(filein, header = TRUE, sep = ";")
   
   variables <- c("Input", "Model", "Validation.NRMSE")
@@ -290,8 +291,10 @@ create.Latex.Table6.SFS  <- function(filein = "../Analysis Results/SFS/_regressi
   subsetdf = cbind(subset[,2], subset[,-2]) # we want to have "Model" in the first column.
   
   colnames(subsetdf) <- c("Model","Feature set", "Validation.NRMSE")
+  op <- par(mar=c(11,4,4,2)) # the 10 allows the names.arg below the barplot
   
   df3 = subsetdf
+
   plot(1:nrow(df3), df3$Validation.NRMSE,pch=20, col = "blue", xlab = "", ylab = "NRMSE")
   
   #lines(1:nrow(df3), df3$Training.NRMSE, type="l", pch=22, col="green")
@@ -301,10 +304,13 @@ create.Latex.Table6.SFS  <- function(filein = "../Analysis Results/SFS/_regressi
   x = 1:nrow(df3)
   # draw an axis on the left
   #modelnames = paste(df3$`subset[, 2]`, df3$Comment)
-  axis(1, at=x,labels=df3$`Feature set`, col.axis="red", las=2)
+  #text(x = x, y=0 ,labels=df3$`Feature set`, col="red", las=2, srt=45)
+  axis(1, at=x,labels=df3$`Feature set`, col.axis="red", las=2, srt=45)
   abline(v=c(1.5,9.5,16.5,22.5, 27.5,31.5,34.5, 36.5), col=c("orange"), lty=c(2), lwd=c(2))
-  legend("topright", legend=c("Validation Error", "Training Error", "Testing Error"), col=c("blue", "green", "orange"), lty=1, cex=0.8)
+  #legend("topright", legend=c("Validation Error", "Training Error", "Testing Error"), col=c("blue", "green", "orange"), lty=1, cex=0.8)
   
+  
+  rm(op)
 }
 
 
@@ -335,4 +341,4 @@ create.Latex.final  <- function(filein = "../Analysis Results/final.csv",
   print(tli.table, file = fileout)
   
 }
-create.Latex.final()
+#create.Latex.final()
