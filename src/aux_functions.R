@@ -291,7 +291,7 @@ create.Latex.Table6.SFS  <- function(filein = "../Analysis Results/SFS/_regressi
   subsetdf = cbind(subset[,2], subset[,-2]) # we want to have "Model" in the first column.
   
   colnames(subsetdf) <- c("Model","Feature set", "Validation.NRMSE")
-  op <- par(mar=c(11,4,4,2)) # the 10 allows the names.arg below the barplot
+  op <- par(mar=c(12,4,4,2)) # the 10 allows the names.arg below the barplot
   
   df3 = subsetdf
 
@@ -305,12 +305,16 @@ create.Latex.Table6.SFS  <- function(filein = "../Analysis Results/SFS/_regressi
   # draw an axis on the left
   #modelnames = paste(df3$`subset[, 2]`, df3$Comment)
   #text(x = x, y=0 ,labels=df3$`Feature set`, col="red", las=2, srt=45)
-  axis(1, at=x,labels=df3$`Feature set`, col.axis="red", las=2, srt=45)
+  #axis(1, at=x,labels=df3$`Feature set`, col.axis="red", las=2, srt=45)
+  
+  lab = rep("", length(df3$`Feature set`))
+  tmp = df3$`Feature set`
+  lab[5] = (tmp[5])
+  lab[length(df3$`Feature set`)] = tmp[length(df3$`Feature set`)]
+  text(1:nrow(df3), df3$Validation.NRMSE, labels = lab, col="red")
   abline(v=c(1.5,9.5,16.5,22.5, 27.5,31.5,34.5, 36.5), col=c("orange"), lty=c(2), lwd=c(2))
   #legend("topright", legend=c("Validation Error", "Training Error", "Testing Error"), col=c("blue", "green", "orange"), lty=1, cex=0.8)
-  
-  
-  rm(op)
+
 }
 
 
